@@ -9,6 +9,12 @@ export const navItems = [
     icon: "chart-pie",
   },
   {
+    key: "candidatures",
+    title: "Candidaturas",
+    href: paths.dashboard.candidatures,
+    icon: "candidatures",
+  },
+  {
     key: "customers",
     title: "Candidatos",
     href: paths.dashboard.customers,
