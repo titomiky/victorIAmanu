@@ -1,50 +1,43 @@
 "use client";
-
-import * as React from "react";
-import Avatar from "@mui/material/Avatar";
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import Checkbox from "@mui/material/Checkbox";
-import Divider from "@mui/material/Divider";
-import Stack from "@mui/material/Stack";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
-import Typography from "@mui/material/Typography";
-import dayjs from "dayjs";
-
 import { useSelection } from "@/hooks/use-selection";
+import {
+  Box,
+  Card,
+  Checkbox,
+  Divider,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TablePagination,
+  TableRow,
+  Typography,
+} from "@mui/material";
+import dayjs from "dayjs";
+import * as React from "react";
 
-function noop(): void {
-  // do nothing
-}
-
-export interface Customer {
+export interface Candidature {
   id: string;
-  avatar: string;
-  name: string;
-  email: string;
-  address: { city: string; state: string; country: string; street: string };
-  phone: string;
+  title: string;
+  description: string;
+  tech: string[];
   createdAt: Date;
 }
 
-interface CustomersTableProps {
+interface CandidatureTableProps {
   count?: number;
   page?: number;
-  rows?: Customer[];
+  rows?: Candidature[];
   rowsPerPage?: number;
 }
 
-export function CustomersTable({
+const CandidaturesTable = ({
   count = 0,
   rows = [],
   page = 0,
   rowsPerPage = 0,
-}: CustomersTableProps): React.JSX.Element {
+}: CandidatureTableProps) => {
   const rowIds = React.useMemo(() => {
     return rows.map((customer) => customer.id);
   }, [rows]);
@@ -75,10 +68,9 @@ export function CustomersTable({
                   }}
                 />
               </TableCell>
-              <TableCell>Nombre</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Ubicación</TableCell>
-              <TableCell>Teléfono</TableCell>
+              <TableCell>Id</TableCell>
+              <TableCell>Título</TableCell>
+              <TableCell>Descripción</TableCell>
               <TableCell>Creado</TableCell>
             </TableRow>
           </TableHead>
@@ -106,16 +98,11 @@ export function CustomersTable({
                       direction="row"
                       spacing={2}
                     >
-                      <Avatar src={row.avatar} />
-                      <Typography variant="subtitle2">{row.name}</Typography>
+                      <Typography variant="subtitle2">{row.id}</Typography>
                     </Stack>
                   </TableCell>
-                  <TableCell>{row.email}</TableCell>
-                  <TableCell>
-                    {row.address.city}, {row.address.state},{" "}
-                    {row.address.country}
-                  </TableCell>
-                  <TableCell>{row.phone}</TableCell>
+                  <TableCell>{row.title}</TableCell>
+                  <TableCell>{row.description}</TableCell>
                   <TableCell>
                     {dayjs(row.createdAt).format("MMM D, YYYY")}
                   </TableCell>
@@ -129,12 +116,14 @@ export function CustomersTable({
       <TablePagination
         component="div"
         count={count}
-        onPageChange={noop}
-        onRowsPerPageChange={noop}
+        onPageChange={() => {}}
+        onRowsPerPageChange={() => {}}
         page={page}
         rowsPerPage={rowsPerPage}
         rowsPerPageOptions={[5, 10, 25]}
       />
     </Card>
   );
-}
+};
+
+export default CandidaturesTable;

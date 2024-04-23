@@ -1,10 +1,8 @@
-import * as React from "react";
-import Card from "@mui/material/Card";
-import InputAdornment from "@mui/material/InputAdornment";
-import OutlinedInput from "@mui/material/OutlinedInput";
+import { Card, InputAdornment, OutlinedInput } from "@mui/material";
+import React from "react";
 import { MagnifyingGlass as MagnifyingGlassIcon } from "@phosphor-icons/react/dist/ssr/MagnifyingGlass";
 
-export function CustomersFilters(): React.JSX.Element {
+const CandidaturesFilters = () => {
   return (
     <Card sx={{ p: 2 }}>
       <OutlinedInput
@@ -20,4 +18,6 @@ export function CustomersFilters(): React.JSX.Element {
       />
     </Card>
   );
-}
+};
+
+export default CandidaturesFilters;
