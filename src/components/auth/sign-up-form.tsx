@@ -1,5 +1,4 @@
 "use client";
-
 import * as React from "react";
 import RouterLink from "next/link";
 import { useRouter } from "next/navigation";
@@ -40,7 +39,7 @@ const schema = zod.object({
     .min(6, { message: "La contraseña debe contener al menos 6 caracteres" }),
   terms: zod
     .boolean()
-    .refine((value) => value, "You must accept the terms and conditions"),
+    .refine((value) => value, "Debes aceptar los términos y condiciones"),
 });
 
 type Values = zod.infer<typeof schema>;

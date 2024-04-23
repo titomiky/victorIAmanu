@@ -1,9 +1,6 @@
 import * as React from "react";
 import RouterLink from "next/link";
 import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
-
 import { paths } from "@/paths";
 import { DynamicLogo } from "@/components/core/logo";
 
@@ -17,8 +14,10 @@ function EmptyLayout({ children }: LayoutProps): React.JSX.Element {
       sx={{
         display: { xs: "flex" },
         flexDirection: "column",
-        gridTemplateColumns: "1fr 1fr",
         minHeight: "100%",
+        maxWidth: "1500px",
+        margin: "auto",
+        placeContent: "center",
       }}
     >
       <Box sx={{ display: "flex", flexDirection: "column" }}>

@@ -1,5 +1,4 @@
 "use client";
-
 import * as React from "react";
 import RouterLink from "next/link";
 import { useRouter } from "next/navigation";
@@ -23,8 +22,8 @@ import { authClient } from "@/lib/auth/client";
 import { useUser } from "@/hooks/use-user";
 
 const schema = zod.object({
-  email: zod.string().min(1, { message: "Email is required" }).email(),
-  password: zod.string().min(1, { message: "Password is required" }),
+  email: zod.string().min(1, { message: "El email es requerido" }).email(),
+  password: zod.string().min(1, { message: "La contraseña es requerida" }),
 });
 
 type Values = zod.infer<typeof schema>;
