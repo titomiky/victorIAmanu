@@ -1,4 +1,5 @@
 import type { Candidature } from "@/components/dashboard/candidatures/candidatures-table";
+import RouterLink from "next/link";
 import { config } from "@/config";
 import { Button, Stack } from "@mui/material";
 import dayjs from "dayjs";
@@ -9,16 +10,16 @@ import CandidaturesTable from "@/components/dashboard/candidatures/candidatures-
 import CandidaturesFilters from "@/components/dashboard/candidatures/candidatures-filters";
 
 export const metadata = {
-  title: `Candidatures | Dashboard | ${config.site.name}`,
+  title: `Candidaturas | Dashboard | ${config.site.name}`,
 } satisfies Metadata;
 
 const candidatures = [
   {
-    id: "USR-010",
+    id: "USR-011",
     title: "Alcides Antonio",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    tech: [""],
+    skills: ["javascript"],
     createdAt: dayjs().subtract(2, "hours").toDate(),
   },
   {
@@ -26,7 +27,7 @@ const candidatures = [
     title: "Alcides Antonio",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    tech: [""],
+    skills: ["python"],
     createdAt: dayjs().subtract(2, "hours").toDate(),
   },
 ] satisfies Candidature[];
@@ -44,6 +45,8 @@ const Page = () => {
           <Button
             startIcon={<PlusIcon fontSize="var(--icon-fontSize-md)" />}
             variant="contained"
+            LinkComponent={RouterLink}
+            href="/dashboard/candidatures/add"
           >
             Añadir
           </Button>

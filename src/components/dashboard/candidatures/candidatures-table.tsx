@@ -21,7 +21,7 @@ export interface Candidature {
   id: string;
   title: string;
   description: string;
-  tech: string[];
+  skills: string[];
   createdAt: Date;
 }
 
