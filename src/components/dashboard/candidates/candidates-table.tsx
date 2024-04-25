@@ -39,7 +39,7 @@ interface CustomersTableProps {
   rowsPerPage?: number;
 }
 
-export function CustomersTable({
+export function CandidatesTable({
   count = 0,
   rows = [],
   page = 0,

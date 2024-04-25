@@ -9,7 +9,7 @@ export const paths = {
     overview: "/dashboard",
     account: "/dashboard/account",
     candidatures: "/dashboard/candidatures",
-    customers: "/dashboard/customers",
+    candidates: "/dashboard/candidates",
     integrations: "/dashboard/integrations",
     settings: "/dashboard/settings",
   },

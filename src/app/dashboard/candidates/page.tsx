@@ -6,9 +6,10 @@ import { Plus as PlusIcon } from "@phosphor-icons/react/dist/ssr/Plus";
 import dayjs from "dayjs";
 
 import { config } from "@/config";
-import { CustomersFilters } from "@/components/dashboard/customer/customers-filters";
-import { CustomersTable } from "@/components/dashboard/customer/customers-table";
-import type { Customer } from "@/components/dashboard/customer/customers-table";
+import { CandidatesFilters } from "@/components/dashboard/candidates/candidates-filter";
+import { CandidatesTable } from "@/components/dashboard/candidates/candidates-table";
+import type { Customer } from "@/components/dashboard/candidates/candidates-table";
+import RouterLink from "next/link";
 
 export const metadata = {
   title: `Customers | Dashboard | ${config.site.name}`,
@@ -171,13 +172,15 @@ export default function Page(): React.JSX.Element {
           <Button
             startIcon={<PlusIcon fontSize="var(--icon-fontSize-md)" />}
             variant="contained"
+            LinkComponent={RouterLink}
+            href="/dashboard/candidates/add"
           >
             Añadir
           </Button>
         </div>
       </Stack>
-      <CustomersFilters />
-      <CustomersTable
+      <CandidatesFilters />
+      <CandidatesTable
         count={paginatedCustomers.length}
         page={page}
         rows={paginatedCustomers}

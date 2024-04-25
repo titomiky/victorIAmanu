@@ -17,7 +17,7 @@ export const navItems = [
   {
     key: "customers",
     title: "Candidatos",
-    href: paths.dashboard.customers,
+    href: paths.dashboard.candidates,
     icon: "users",
   },
   {
