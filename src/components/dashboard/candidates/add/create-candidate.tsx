@@ -23,7 +23,7 @@ const schema = zod.object({
   current_salary: zod.string().optional(),
   wished_salary: zod.string().optional(),
   more_data: zod.string(),
-  resume: zod.string().min(1, { message: "El CV es obligatorio" }),
+  resume: zod.string().min(1, { message: "El curriculum es obligatorio" }),
   password: zod
     .string()
     .min(6, { message: "La contraseña debe contener al menos 6 caracteres" }),
@@ -162,10 +162,10 @@ const CreateCandidate = () => {
             name="more_data"
             render={({ field }) => (
               <FormControl error={Boolean(errors.more_data)}>
-                <InputLabel>Datos opcionales</InputLabel>
+                <InputLabel>Datos adicionales</InputLabel>
                 <OutlinedInput
                   {...field}
-                  label="Datos opcionales"
+                  label="Datos adicionales"
                   type="text"
                 />
                 {errors.more_data ? (
@@ -179,13 +179,12 @@ const CreateCandidate = () => {
             name="resume"
             render={({ field }) => (
               <FormControl error={Boolean(errors.resume)}>
-                <TextField
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
+                <InputLabel shrink={true}>Curriculum</InputLabel>
+                <OutlinedInput
                   label="Curriculum"
                   {...field}
                   type="file"
+                  notched={true}
                 />
                 {errors.resume ? (
                   <FormHelperText>{errors.resume.message}</FormHelperText>
