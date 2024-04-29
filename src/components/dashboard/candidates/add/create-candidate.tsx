@@ -43,7 +43,7 @@ const defaultValues = {
   password: "",
 } satisfies Values;
 
-const CreateCandidate = () => {
+const CreateCandidate = ({ withTitle = true }: { withTitle?: boolean }) => {
   const [isPending, setIsPending] = React.useState<boolean>(false);
 
   const {
@@ -56,9 +56,12 @@ const CreateCandidate = () => {
 
   return (
     <Stack spacing={3}>
-      <Stack spacing={1}>
-        <Typography variant="h4">Crear candidatura</Typography>
-      </Stack>
+      {withTitle && (
+        <Stack spacing={1}>
+          <Typography variant="h4">Crear candidatura</Typography>
+        </Stack>
+      )}
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack
           spacing={2}

@@ -6,15 +6,19 @@ import Step from "@mui/material/Step";
 import StepButton from "@mui/material/StepButton";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { Checkbox, FormControlLabel } from "@mui/material";
 import { useRouter } from "next/navigation";
+import CreateCandidate from "@/components/dashboard/candidates/add/create-candidate";
 
 const steps = ["Select role", "Create user", "Finish"];
-const current_step = 0 as number;
+const current_step = 1 as number;
 
-const OnBoarding = () => {
+const Candidate = () => {
   const [userRole, setUserRole] = React.useState<string>("candidate");
   const router = useRouter();
+
+  const totalSteps = () => {
+    return steps.length;
+  };
 
   const handleChangeBox = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserRole(event.target.name);
@@ -51,31 +55,10 @@ const OnBoarding = () => {
       </Box>
 
       <Box sx={{ display: "grid", gap: "12px", justifyItems: "center" }}>
-        <Typography variant="h4">Bienvenido a nuestro Onboarding</Typography>
-
-        <Typography variant="h5">¿Que tipo de usuario quieres ser?</Typography>
+        <Typography variant="h4">Registro de candidato</Typography>
 
         <Box sx={{ display: "flex", gap: "12px" }}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={userRole === "company"}
-                name={"company"}
-                onChange={handleChangeBox}
-              />
-            }
-            label={"Empresa"}
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={userRole === "candidate"}
-                name={"candidate"}
-                onChange={handleChangeBox}
-              />
-            }
-            label={"Candidato"}
-          />
+          <CreateCandidate withTitle={false} />
         </Box>
       </Box>
       <Box
@@ -90,7 +73,7 @@ const OnBoarding = () => {
         <Button
           color="inherit"
           disabled={current_step === 0}
-          onClick={() => {}}
+          onClick={() => router.back()}
           sx={{ mr: 1 }}
         >
           Back
@@ -104,4 +87,4 @@ const OnBoarding = () => {
   );
 };
 
-export default OnBoarding;
+export default Candidate;
