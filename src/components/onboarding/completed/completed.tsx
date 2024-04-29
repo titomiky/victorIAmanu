@@ -7,25 +7,21 @@ import StepButton from "@mui/material/StepButton";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useRouter } from "next/navigation";
-import CreateCandidate from "@/components/dashboard/candidates/add/create-candidate";
+import Image from "next/image";
 
 const steps = ["Select role", "Create user", "Finish"];
-const current_step = 1 as number;
+const current_step = 2 as number;
 
-const Candidate = () => {
+const Completed = () => {
   const [userRole, setUserRole] = React.useState<string>("candidate");
   const router = useRouter();
-
-  const totalSteps = () => {
-    return steps.length;
-  };
 
   const handleChangeBox = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserRole(event.target.name);
   };
 
   const nextStepRedirect = () => {
-    router.push(`/onboarding/completed`);
+    router.push(`/onboarding/${userRole}`);
   };
 
   return (
@@ -55,12 +51,34 @@ const Candidate = () => {
       </Box>
 
       <Box sx={{ display: "grid", gap: "12px", justifyItems: "center" }}>
-        <Typography variant="h4">Registro de candidato</Typography>
+        <Box
+          sx={{
+            display: "flex",
+            gap: "12px",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Typography variant="h4">
+            Onboarding completado con exito !!
+          </Typography>
 
-        <Box sx={{ display: "flex", gap: "12px" }}>
-          <CreateCandidate withTitle={false} />
+          <Image
+            src={"/assets/success.svg"}
+            height={50}
+            width={50}
+            alt="Success Image"
+          />
         </Box>
+        <Button
+          type="submit"
+          variant="contained"
+          sx={{ height: "fit-content" }}
+        >
+          Continuar
+        </Button>
       </Box>
+
       <Box
         sx={{
           display: "flex",
@@ -87,4 +105,4 @@ const Candidate = () => {
   );
 };
 
-export default Candidate;
+export default Completed;

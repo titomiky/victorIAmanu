@@ -1,14 +1,14 @@
-import Candidate from "@/components/onboarding/canidate/canidate";
+import Completed from "@/components/onboarding/completed/completed";
 import { config } from "@/config";
 import { Metadata } from "next";
 import React from "react";
 
 export const metadata = {
-  title: `Candidato | Onboarding | ${config.site.name}`,
+  title: `Completado | Onboarding | ${config.site.name}`,
 } satisfies Metadata;
 
 const Page = () => {
-  return <Candidate />;
+  return <Completed />;
 };
 
 export default Page;
