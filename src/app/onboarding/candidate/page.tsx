@@ -1,4 +1,4 @@
-import Candidate from "@/components/onboarding/canidate/canidate";
+import Candidate from "@/components/onboarding/candidate/candidate";
 import { config } from "@/config";
 import { Metadata } from "next";
 import React from "react";
