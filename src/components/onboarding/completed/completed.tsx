@@ -36,9 +36,6 @@ const Completed = () => {
           alt="Success Image"
         />
       </Box>
-      <Button type="submit" variant="contained" sx={{ height: "fit-content" }}>
-        Continuar
-      </Button>
     </Box>
   );
 };

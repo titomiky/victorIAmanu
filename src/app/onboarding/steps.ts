@@ -5,8 +5,8 @@ export const StepsRouter = {
     3: "/onboarding/completed",
   },
   company: {
-    one: "",
-    two: "",
-    three: "",
+    1: "/onboarding",
+    2: "/onboarding/company",
+    3: "/onboarding/completed",
   },
 };

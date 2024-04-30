@@ -1,11 +1,10 @@
 "use client";
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+import CreateCompanyForm from "@/components/forms/create-company";
+import { Box, Button, Typography } from "@mui/material";
 import { useRouter, useSearchParams } from "next/navigation";
-import CreateCandidateForm from "@/components/forms/create-candidate";
+import React from "react";
 
-const Candidate = () => {
+const Company = () => {
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams.toString());
   const router = useRouter();
@@ -18,13 +17,13 @@ const Candidate = () => {
 
   return (
     <Box sx={{ display: "grid", gap: "12px", justifyItems: "center" }}>
-      <Typography variant="h4">Registro de candidato</Typography>
+      <Typography variant="h4">Registro de empresa</Typography>
 
       <Box sx={{ display: "flex", gap: "12px" }}>
-        <CreateCandidateForm />
+        <CreateCompanyForm />
       </Box>
     </Box>
   );
 };
 
-export default Candidate;
+export default Company;

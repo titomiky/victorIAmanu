@@ -15,7 +15,7 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 
-const steps = ["Select role", "Create user", "Finish"];
+const steps = ["Seleccionar Rol", "Crear usuario", "Final"];
 
 export default function Layout({ children }: LayoutProps): React.JSX.Element {
   const router = useRouter();
@@ -52,12 +52,26 @@ export default function Layout({ children }: LayoutProps): React.JSX.Element {
               </Step>
             ))}
           </Stepper>
-          <Typography sx={{ mt: 2, mb: 1, py: 1 }}>
-            Step {currentStep + 1}
+          <Typography sx={{ mt: 2, mb: 1, py: 1, paddingInline: "10px" }}>
+            Paso {currentStep}
           </Typography>
         </Box>
 
         {children}
+
+        <Button
+          onClick={handleNextStep}
+          sx={{
+            mr: 1,
+            width: "200px",
+            margin: "auto",
+            display: currentStep === 2 ? "none" : "flex",
+          }}
+          type="submit"
+          variant="contained"
+        >
+          Continuar
+        </Button>
         <Box
           sx={{
             display: "flex",
@@ -73,12 +87,9 @@ export default function Layout({ children }: LayoutProps): React.JSX.Element {
             onClick={handlePrevStep}
             sx={{ mr: 1 }}
           >
-            Back
+            Volver al paso anterior
           </Button>
           <Box sx={{ flex: "1 1 auto" }} />
-          <Button onClick={handleNextStep} sx={{ mr: 1 }}>
-            Next
-          </Button>
         </Box>
       </Box>
     </main>
