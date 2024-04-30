@@ -22,10 +22,6 @@ export default function Layout({ children }: LayoutProps): React.JSX.Element {
   const searchParams = useSearchParams();
   const currentStep = Number(searchParams.get("step")) ?? 1;
 
-  const handleNextStep = () => {
-    router.push(StepsRouter.candidate[`${(currentStep + 1) as 1 | 2 | 3}`]);
-  };
-
   const handlePrevStep = () => {
     router.push(StepsRouter.candidate[`${(currentStep - 1) as 1 | 2 | 3}`]);
   };
@@ -59,19 +55,6 @@ export default function Layout({ children }: LayoutProps): React.JSX.Element {
 
         {children}
 
-        <Button
-          onClick={handleNextStep}
-          sx={{
-            mr: 1,
-            width: "200px",
-            margin: "auto",
-            display: currentStep === 2 ? "none" : "flex",
-          }}
-          type="submit"
-          variant="contained"
-        >
-          Continuar
-        </Button>
         <Box
           sx={{
             display: "flex",
