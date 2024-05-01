@@ -18,16 +18,24 @@ const Completed = () => {
   }, []);
 
   return (
-    <Box sx={{ display: "grid", gap: "12px", justifyItems: "center" }}>
+    <Box
+      sx={{
+        display: "grid",
+        gap: "12px",
+        justifyItems: "center",
+        textAlign: "center",
+      }}
+    >
       <Box
         sx={{
           display: "flex",
           gap: "12px",
           justifyContent: "center",
           alignItems: "center",
+          flexWrap: "wrap",
         }}
       >
-        <Typography variant="h4">Onboarding completado con exito !!</Typography>
+        <Typography variant="h4">Onboarding completado con éxito !!</Typography>
 
         <Image
           src={"/assets/success.svg"}

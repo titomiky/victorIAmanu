@@ -36,8 +36,15 @@ const OnBoarding = () => {
   };
 
   return (
-    <Box sx={{ display: "grid", gap: "12px", justifyItems: "center" }}>
-      <Typography variant="h4">Bienvenido a nuestro Onboarding</Typography>
+    <Box
+      sx={{
+        display: "grid",
+        gap: "12px",
+        justifyItems: "center",
+        textAlign: "center",
+      }}
+    >
+      <Typography variant="h4">Bienvenido al Onboarding</Typography>
 
       <Typography variant="h5">¿Que tipo de usuario quieres ser?</Typography>
 

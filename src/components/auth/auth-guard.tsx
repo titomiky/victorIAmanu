@@ -1,18 +1,20 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { useRouter } from 'next/navigation';
-import Alert from '@mui/material/Alert';
+import * as React from "react";
+import { useRouter } from "next/navigation";
+import Alert from "@mui/material/Alert";
 
-import { paths } from '@/paths';
-import { logger } from '@/lib/default-logger';
-import { useUser } from '@/hooks/use-user';
+import { paths } from "@/paths";
+import { logger } from "@/lib/default-logger";
+import { useUser } from "@/hooks/use-user";
 
 export interface AuthGuardProps {
   children: React.ReactNode;
 }
 
-export function AuthGuard({ children }: AuthGuardProps): React.JSX.Element | null {
+export function AuthGuard({
+  children,
+}: AuthGuardProps): React.JSX.Element | null {
   const router = useRouter();
   const { user, error, isLoading } = useUser();
   const [isChecking, setIsChecking] = React.useState<boolean>(true);
@@ -27,8 +29,16 @@ export function AuthGuard({ children }: AuthGuardProps): React.JSX.Element | nul
       return;
     }
 
+    if (user && user.onboarding) {
+      logger.debug("[GuestGuard]: User created, redirecting to onboarding");
+      router.replace(paths.onboarding);
+      return;
+    }
+
     if (!user) {
-      logger.debug('[AuthGuard]: User is not logged in, redirecting to sign in');
+      logger.debug(
+        "[AuthGuard]: User is not logged in, redirecting to sign in"
+      );
       router.replace(paths.auth.signIn);
       return;
     }

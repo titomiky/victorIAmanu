@@ -2,7 +2,6 @@
 
 import type { User } from "@/types/user";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
 
 function generateToken(): string {
   const arr = new Uint8Array(12);
@@ -16,6 +15,7 @@ const user = {
   firstName: "Sofia",
   lastName: "Rivers",
   email: "sofia@devias.io",
+  onboarding: true,
 } satisfies User;
 
 export interface SignUpParams {
@@ -100,6 +100,10 @@ class AuthClient {
   async signOut(): Promise<{ error?: string }> {
     localStorage.removeItem("stoical-auth-token");
 
+    return {};
+  }
+
+  async createCandidate(): Promise<{ error?: string }> {
     return {};
   }
 }

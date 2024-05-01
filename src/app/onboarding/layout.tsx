@@ -15,7 +15,7 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 
-const steps = ["Seleccionar Rol", "Crear usuario", "Final"];
+const steps = ["Rol", "Registro", "Final"];
 
 export default function Layout({ children }: LayoutProps): React.JSX.Element {
   const router = useRouter();
@@ -34,6 +34,8 @@ export default function Layout({ children }: LayoutProps): React.JSX.Element {
           padding: "16px",
           minHeight: "100vh",
           display: "grid",
+          maxWidth: "1400px",
+          margin: "auto",
         }}
       >
         <Box>

@@ -78,7 +78,7 @@ export function SignUpForm(): React.JSX.Element {
           ¿Ya tienes una cuenta?{" "}
           <Link
             component={RouterLink}
-            href={paths.auth.signUp}
+            href={paths.auth.signIn}
             underline="hover"
             variant="subtitle2"
           >
@@ -147,6 +147,15 @@ export function SignUpForm(): React.JSX.Element {
           </Button>
         </Stack>
       </form>
+      <Alert color="warning">
+        Registrarse con{" "}
+        <Typography component="span" sx={{ fontWeight: 700 }} variant="inherit">
+          sofia@devias.io
+        </Typography>{" "}
+        <Typography component="span" sx={{ fontWeight: 700 }} variant="inherit">
+          Secret123
+        </Typography>
+      </Alert>
     </Stack>
   );
 }

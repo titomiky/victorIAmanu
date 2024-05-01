@@ -29,7 +29,11 @@ export function GuestGuard({
       return;
     }
 
-    if (user) {
+    if (user && user.onboarding) {
+      logger.debug("[GuestGuard]: User created, redirecting to onboarding");
+      router.replace(paths.onboarding);
+      return;
+    } else if (user) {
       logger.debug("[GuestGuard]: User is logged in, redirecting to dashboard");
       router.replace(paths.dashboard.overview);
       return;
