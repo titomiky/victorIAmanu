@@ -5,6 +5,7 @@ export const paths = {
     signUp: "/auth/sign-up",
     resetPassword: "/auth/reset-password",
   },
+  onboarding: "/onboarding",
   dashboard: {
     overview: "/dashboard",
     account: "/dashboard/account",

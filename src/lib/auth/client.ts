@@ -1,6 +1,8 @@
 "use client";
 
 import type { User } from "@/types/user";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 function generateToken(): string {
   const arr = new Uint8Array(12);
@@ -17,8 +19,6 @@ const user = {
 } satisfies User;
 
 export interface SignUpParams {
-  firstName: string;
-  lastName: string;
   email: string;
   password: string;
 }
@@ -36,13 +36,19 @@ export interface ResetPasswordParams {
   email: string;
 }
 
-class AuthClient {
-  async signUp(_: SignUpParams): Promise<{ error?: string }> {
-    // Make API request
+const url = "https://api.holaqueai.com/users";
 
-    // We do not handle the API, so we'll just generate a token and store it in localStorage.
-    const token = generateToken();
-    localStorage.setItem("custom-auth-token", token);
+class AuthClient {
+  async signUp(params: SignUpParams): Promise<{ error?: string }> {
+    const res = await axios.post(url, params, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const token = res.data;
+
+    localStorage.setItem("stoical-auth-token", token);
 
     return {};
   }
@@ -81,7 +87,8 @@ class AuthClient {
     // Make API request
 
     // We do not handle the API, so just check if we have a token in localStorage.
-    const token = localStorage.getItem("custom-auth-token");
+    const token = localStorage.getItem("stoical-auth-token") as string;
+    // console.log(jwtDecode(token));
 
     if (!token) {
       return { data: null };
@@ -91,7 +98,7 @@ class AuthClient {
   }
 
   async signOut(): Promise<{ error?: string }> {
-    localStorage.removeItem("custom-auth-token");
+    localStorage.removeItem("stoical-auth-token");
 
     return {};
   }

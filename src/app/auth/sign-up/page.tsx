@@ -2,9 +2,9 @@ import * as React from "react";
 import type { Metadata } from "next";
 
 import { config } from "@/config";
-import { GuestGuard } from "@/components/auth/guest-guard";
 import { SignUpForm } from "@/components/auth/sign-up-form";
-import EmptyLayout from "@/components/auth/empty-layout";
+import { Layout } from "@/components/auth/layout";
+import { NewUserGuard } from "@/components/auth/new-user-guard";
 
 export const metadata = {
   title: `Sign up | Auth | ${config.site.name}`,
@@ -12,10 +12,10 @@ export const metadata = {
 
 export default function Page(): React.JSX.Element {
   return (
-    <EmptyLayout>
-      <GuestGuard>
+    <Layout>
+      <NewUserGuard>
         <SignUpForm />
-      </GuestGuard>
-    </EmptyLayout>
+      </NewUserGuard>
+    </Layout>
   );
 }
