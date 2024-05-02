@@ -2,6 +2,7 @@
 
 import type { User } from "@/types/user";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 function generateToken(): string {
   const arr = new Uint8Array(12);
@@ -36,11 +37,11 @@ export interface ResetPasswordParams {
   email: string;
 }
 
-const url = "https://api.holaqueai.com/users";
+const url = "https://api.holaqueai.com";
 
 class AuthClient {
   async signUp(params: SignUpParams): Promise<{ error?: string }> {
-    const res = await axios.post(url, params, {
+    const res = await axios.post(`${url}/users`, params, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -60,17 +61,25 @@ class AuthClient {
   async signInWithPassword(
     params: SignInWithPasswordParams
   ): Promise<{ error?: string }> {
-    const { email, password } = params;
+    const res = await axios.post(`${url}/users`, params, {
+      headers: {
+        accept: "*/*",
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+    });
 
-    // Make API request
+    const token = res.data;
 
-    // We do not handle the API, so we'll check if the credentials match with the hardcoded ones.
-    if (email !== "sofia@devias.io" || password !== "Secret1") {
-      return { error: "Invalid credentials" };
-    }
+    localStorage.setItem("stoical-auth-token", token);
 
-    const token = generateToken();
-    localStorage.setItem("custom-auth-token", token);
+    //     const { email, password } = params;
+    //if (email !== "sofia@devias.io" || password !== "Secret1") {
+    //return { error: "Invalid credentials" };
+    //}
+
+    //const token = generateToken();
+    //localStorage.setItem("custom-auth-token", token);
 
     return {};
   }
@@ -88,11 +97,12 @@ class AuthClient {
 
     // We do not handle the API, so just check if we have a token in localStorage.
     const token = localStorage.getItem("stoical-auth-token") as string;
-    // console.log(jwtDecode(token));
 
     if (!token) {
       return { data: null };
     }
+
+    console.log(jwtDecode(token));
 
     return { data: user };
   }
