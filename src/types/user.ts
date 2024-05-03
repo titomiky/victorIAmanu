@@ -17,6 +17,17 @@ export interface Candidate {
   cvPdf: Object;
 }
 
+export interface Company {
+  name: string;
+  surname: string;
+  position: string;
+  phoneNumber: string;
+  companyName: string;
+  companyAddress: string;
+  numberOfEmployees: string | number;
+  companyNIF: string;
+}
+
 export interface UserToken {
   userId: string;
   email: string;

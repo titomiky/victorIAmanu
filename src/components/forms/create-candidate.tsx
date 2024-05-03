@@ -70,8 +70,6 @@ const CreateCandidateForm = () => {
 
     handleNextStep();
 
-    // UserProvider, for this case, will not refresh the router
-    // After refresh, GuestGuard will handle the redirect
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
   }, []);
 

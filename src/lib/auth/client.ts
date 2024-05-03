@@ -1,6 +1,6 @@
 "use client";
 
-import type { Candidate, User, UserToken } from "@/types/user";
+import type { Candidate, Company, User, UserToken } from "@/types/user";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
@@ -133,13 +133,34 @@ class AuthClient {
       },
     });
 
-    console.log(res.status);
+    console.log(res);
 
     if (res.status === 200) {
       return {};
     }
 
-    return { error: "Something went bad !!" };
+    return { error: "Ocurrió un error !!" };
+  }
+
+  async createCompany(params: Company): Promise<{ error?: string }> {
+    params.numberOfEmployees = Number(params.numberOfEmployees);
+
+    const token = getToken();
+
+    const res = await axios.put(`${url}/users/admin`, params, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log(res);
+
+    if (res.status === 200) {
+      return {};
+    }
+
+    return { error: "Ocurrió un error !!" };
   }
 }
 

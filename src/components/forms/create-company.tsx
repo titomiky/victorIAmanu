@@ -18,44 +18,37 @@ import { useUser } from "@/hooks/use-user";
 import { useNextStep } from "@/hooks/use-nextstep";
 
 const schema = zod.object({
-  firstName: zod.string().min(1, { message: "El nombre es requerido" }),
-  lastName: zod.string().min(1, { message: "El apellido es requerido" }),
-  phone: zod.string().min(1, { message: "El teléfono es requerido" }),
+  name: zod.string().min(1, { message: "El nombre es requerido" }),
+  surname: zod.string().min(1, { message: "El apellido es requerido" }),
+  phoneNumber: zod.string().min(1, { message: "El teléfono es requerido" }),
   email: zod.string().min(1, { message: "El email es requerido" }).email(),
-  charge: zod.string().min(1, { message: "El cargo es requerido" }),
+  position: zod.string().min(1, { message: "El cargo es requerido" }),
   companyName: zod
     .string()
     .min(1, { message: "El nombre de la empresa es requerido" }),
-  cif: zod.string().min(1, { message: "El CIF es requerido" }),
-  companyEmployees: zod
+  companyNIF: zod.string().min(1, { message: "El companyNIF es requerido" }),
+  numberOfEmployees: zod
     .string()
     .min(1, { message: "El número de empleados es requerido" }),
-  password: zod
-    .string()
-    .min(6, { message: "La contraseña debe contener al menos 6 caracteres" }),
-  terms: zod
-    .boolean()
-    .refine((value) => value, "Debes aceptar los términos y condiciones"),
+  companyAddress: zod.string().min(1, { message: "Campo requerido" }),
 });
 
 type Values = zod.infer<typeof schema>;
 
 const defaultValues = {
-  firstName: "",
-  lastName: "",
-  phone: "",
-  email: "",
-  charge: "",
-  companyName: "",
-  cif: "",
-  companyEmployees: "",
-  password: "",
-  terms: false,
+  name: "Testttt",
+  surname: "asdasdas",
+  phoneNumber: "54687486",
+  email: "test@gmail.com",
+  position: "asasd",
+  companyName: "sasdsad",
+  companyNIF: "45664",
+  numberOfEmployees: "12",
+  companyAddress: "Adress 11",
 } satisfies Values;
 
 const CreateCompanyForm = () => {
   const { handleNextStep } = useNextStep();
-  const { checkSession } = useUser();
 
   const [isPending, setIsPending] = React.useState<boolean>(false);
 
@@ -66,27 +59,20 @@ const CreateCompanyForm = () => {
     formState: { errors },
   } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
 
-  const onSubmit = React.useCallback(
-    async (values: Values): Promise<void> => {
-      setIsPending(true);
+  const onSubmit = React.useCallback(async (values: Values): Promise<void> => {
+    setIsPending(true);
 
-      const { error } = await authClient.signUp(values);
+    const { error } = await authClient.createCompany(values);
 
-      if (error) {
-        setError("root", { type: "server", message: error });
-        setIsPending(false);
-        return;
-      }
+    if (error) {
+      setError("root", { type: "server", message: error });
+      setIsPending(false);
+      return;
+    }
 
-      // Refresh the auth state
-      //await checkSession?.();
-
-      // UserProvider, for this case, will not refresh the router
-      // After refresh, GuestGuard will handle the redirect
-      handleNextStep();
-    },
-    [checkSession, setError]
-  );
+    handleNextStep();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
+  }, []);
 
   return (
     <Stack spacing={3}>
@@ -100,39 +86,39 @@ const CreateCompanyForm = () => {
         >
           <Controller
             control={control}
-            name="firstName"
+            name="name"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.firstName)}>
+              <FormControl error={Boolean(errors.name)}>
                 <InputLabel>Nombre</InputLabel>
                 <OutlinedInput {...field} label="Nombre" />
-                {errors.firstName ? (
-                  <FormHelperText>{errors.firstName.message}</FormHelperText>
+                {errors.name ? (
+                  <FormHelperText>{errors.name.message}</FormHelperText>
                 ) : null}
               </FormControl>
             )}
           />
           <Controller
             control={control}
-            name="lastName"
+            name="surname"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.lastName)}>
+              <FormControl error={Boolean(errors.surname)}>
                 <InputLabel>Apellido/s</InputLabel>
                 <OutlinedInput {...field} label="Apellido/s" />
-                {errors.lastName ? (
-                  <FormHelperText>{errors.lastName.message}</FormHelperText>
+                {errors.surname ? (
+                  <FormHelperText>{errors.surname.message}</FormHelperText>
                 ) : null}
               </FormControl>
             )}
           />
           <Controller
             control={control}
-            name="phone"
+            name="phoneNumber"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.phone)}>
+              <FormControl error={Boolean(errors.phoneNumber)}>
                 <InputLabel>Teléfono</InputLabel>
                 <OutlinedInput {...field} label="Teléfono" />
-                {errors.phone ? (
-                  <FormHelperText>{errors.phone.message}</FormHelperText>
+                {errors.phoneNumber ? (
+                  <FormHelperText>{errors.phoneNumber.message}</FormHelperText>
                 ) : null}
               </FormControl>
             )}
@@ -152,13 +138,13 @@ const CreateCompanyForm = () => {
           />
           <Controller
             control={control}
-            name="charge"
+            name="position"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.charge)}>
+              <FormControl error={Boolean(errors.position)}>
                 <InputLabel>Cargo</InputLabel>
                 <OutlinedInput {...field} label="Cargo" type="text" />
-                {errors.charge ? (
-                  <FormHelperText>{errors.charge.message}</FormHelperText>
+                {errors.position ? (
+                  <FormHelperText>{errors.position.message}</FormHelperText>
                 ) : null}
               </FormControl>
             )}
@@ -182,31 +168,18 @@ const CreateCompanyForm = () => {
           />
           <Controller
             control={control}
-            name="cif"
+            name="companyAddress"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.cif)}>
-                <InputLabel>CIF</InputLabel>
-                <OutlinedInput {...field} label="CIF" type="text" />
-                {errors.cif ? (
-                  <FormHelperText>{errors.cif.message}</FormHelperText>
-                ) : null}
-              </FormControl>
-            )}
-          />
-          <Controller
-            control={control}
-            name="companyEmployees"
-            render={({ field }) => (
-              <FormControl error={Boolean(errors.companyEmployees)}>
-                <InputLabel>Número de empleados</InputLabel>
+              <FormControl error={Boolean(errors.companyAddress)}>
+                <InputLabel>Dirección de la empresa</InputLabel>
                 <OutlinedInput
                   {...field}
-                  label="Número de empleados"
-                  type="number"
+                  label="Dirección de la empresa"
+                  type="text"
                 />
-                {errors.companyEmployees ? (
+                {errors.companyAddress ? (
                   <FormHelperText>
-                    {errors.companyEmployees.message}
+                    {errors.companyAddress.message}
                   </FormHelperText>
                 ) : null}
               </FormControl>
@@ -214,16 +187,32 @@ const CreateCompanyForm = () => {
           />
           <Controller
             control={control}
-            name="password"
+            name="companyNIF"
             render={({ field }) => (
-              <FormControl
-                error={Boolean(errors.password)}
-                sx={{ gridColumn: "1/3" }}
-              >
-                <InputLabel>Contraseña</InputLabel>
-                <OutlinedInput {...field} label="Contraseña" type="password" />
-                {errors.password ? (
-                  <FormHelperText>{errors.password.message}</FormHelperText>
+              <FormControl error={Boolean(errors.companyNIF)}>
+                <InputLabel>companyNIF</InputLabel>
+                <OutlinedInput {...field} label="companyNIF" type="text" />
+                {errors.companyNIF ? (
+                  <FormHelperText>{errors.companyNIF.message}</FormHelperText>
+                ) : null}
+              </FormControl>
+            )}
+          />
+          <Controller
+            control={control}
+            name="numberOfEmployees"
+            render={({ field }) => (
+              <FormControl error={Boolean(errors.numberOfEmployees)}>
+                <InputLabel>Número de empleados</InputLabel>
+                <OutlinedInput
+                  {...field}
+                  label="Número de empleados"
+                  type="number"
+                />
+                {errors.numberOfEmployees ? (
+                  <FormHelperText>
+                    {errors.numberOfEmployees.message}
+                  </FormHelperText>
                 ) : null}
               </FormControl>
             )}
