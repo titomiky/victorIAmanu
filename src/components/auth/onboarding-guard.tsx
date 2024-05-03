@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Alert from "@mui/material/Alert";
 
 import { paths } from "@/paths";
@@ -18,8 +18,10 @@ export function OnboardingGuard({
   const router = useRouter();
   const { user, error, isLoading } = useUser();
   const [isChecking, setIsChecking] = React.useState<boolean>(true);
+  const pathname = usePathname();
 
   const checkPermissions = async (): Promise<void> => {
+    console.log();
     if (isLoading) {
       return;
     }
@@ -30,9 +32,22 @@ export function OnboardingGuard({
     }
 
     if (user) {
-      logger.debug("[GuestGuard]: User created, redirecting to onboarding");
-      router.replace(paths.onboarding);
-      return;
+      if (user.onBoarding) {
+        // check if the actual path belong to the onboarding
+        if (pathname.includes("onboarding")) {
+          setIsChecking(false);
+          return;
+        }
+
+        logger.debug("[GuestGuard]: User created, redirecting to onboarding");
+        router.replace(paths.onboarding);
+        return;
+      }
+
+      logger.debug(
+        "[GuestGuard]: User already did the onboarding, redirecting to home"
+      );
+      router.replace(paths.home);
     }
 
     setIsChecking(false);

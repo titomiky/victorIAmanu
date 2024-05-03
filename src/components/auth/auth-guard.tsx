@@ -29,10 +29,16 @@ export function AuthGuard({
       return;
     }
 
-    if (user && user.onboarding) {
-      logger.debug("[GuestGuard]: User created, redirecting to onboarding");
-      router.replace(paths.onboarding);
-      return;
+    if (user) {
+      if (user.onBoarding) {
+        logger.debug(
+          "[GuestGuard]: User onboarding is incomplete, redirecting to onboarding"
+        );
+        router.replace(paths.onboarding);
+        return;
+      }
+
+      router.replace(paths.home);
     }
 
     if (!user) {

@@ -15,19 +15,10 @@ function getToken(): string {
   return token;
 }
 
-function getDecodedToken(): UserToken {
+function getUser(): UserToken {
   const token = localStorage.getItem("stoical-auth-token") as string;
   return jwtDecode(token);
 }
-
-const user = {
-  id: "USR-000",
-  avatar: "/assets/avatar.png",
-  firstName: "Sofia",
-  lastName: "Rivers",
-  email: "sofia@devias.io",
-  onboarding: true,
-} satisfies User;
 
 export interface SignUpParams {
   email: string;
@@ -110,8 +101,9 @@ class AuthClient {
       return { data: null };
     }
 
-    console.log(token);
-    console.log(jwtDecode(token));
+    const user = jwtDecode<User>(token);
+
+    console.log(user);
 
     return { data: user };
   }

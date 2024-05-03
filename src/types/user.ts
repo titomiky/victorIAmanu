@@ -1,10 +1,12 @@
 export interface User {
-  id: string;
-  name?: string;
-  avatar?: string;
-  email?: string;
-
-  [key: string]: unknown;
+  avatar: string;
+  email: string;
+  exp: number;
+  iat: number;
+  name: string;
+  onBoarding: boolean;
+  surname: string;
+  userId: string;
 }
 
 export interface Candidate {
