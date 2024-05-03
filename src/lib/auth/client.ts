@@ -104,12 +104,13 @@ class AuthClient {
     // Make API request
 
     // We do not handle the API, so just check if we have a token in localStorage.
-    const token = localStorage.getItem("stoical-auth-token") as string;
+    const token = getToken();
 
     if (!token) {
       return { data: null };
     }
 
+    console.log(token);
     console.log(jwtDecode(token));
 
     return { data: user };
@@ -125,7 +126,6 @@ class AuthClient {
     params.currentSalary = Number(params.currentSalary);
     params.desiredSalary = Number(params.desiredSalary);
     const token = getToken();
-
     const res = await axios.put(`${url}/users/candidate`, params, {
       headers: {
         "Content-Type": "application/json",
@@ -133,9 +133,8 @@ class AuthClient {
       },
     });
 
-    console.log(res);
-
     if (res.status === 200) {
+      localStorage.setItem("stoical-auth-token", res.data);
       return {};
     }
 
@@ -157,6 +156,7 @@ class AuthClient {
     console.log(res);
 
     if (res.status === 200) {
+      localStorage.setItem("stoical-auth-token", res.data);
       return {};
     }
 

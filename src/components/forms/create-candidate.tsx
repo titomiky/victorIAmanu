@@ -13,7 +13,6 @@ import { Controller, useForm } from "react-hook-form";
 import { z as zod } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNextStep } from "@/hooks/use-nextstep";
-import { logger } from "@/lib/default-logger";
 import { authClient } from "@/lib/auth/client";
 
 const schema = zod.object({

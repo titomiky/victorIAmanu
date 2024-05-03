@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { Box } from "@mui/material";
+import Link from "next/link";
 
 const Completed = () => {
   const searchParams = useSearchParams();
@@ -44,6 +45,15 @@ const Completed = () => {
           alt="Success Image"
         />
       </Box>
+      <Button
+        type="submit"
+        variant="contained"
+        LinkComponent={Link}
+        href="/dashboard"
+        sx={{ placeSelf: "center", width: "200px" }}
+      >
+        Ir al dashboard
+      </Button>
     </Box>
   );
 };

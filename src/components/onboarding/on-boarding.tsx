@@ -17,10 +17,6 @@ const OnBoarding = () => {
     setUserRole(event.target.name);
   };
 
-  const nextStepRedirect = () => {
-    router.push(`/onboarding/${userRole}`);
-  };
-
   React.useEffect(() => {
     params.set("step", "1");
     router.push("?" + params.toString());

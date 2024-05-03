@@ -12,7 +12,7 @@ export interface NewUserGuardProps {
   children: React.ReactNode;
 }
 
-export function NewUserGuard({
+export function OnboardingGuard({
   children,
 }: NewUserGuardProps): React.JSX.Element | null {
   const router = useRouter();

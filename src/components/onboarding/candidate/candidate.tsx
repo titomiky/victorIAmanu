@@ -13,8 +13,9 @@ const Candidate = () => {
   React.useEffect(() => {
     params.set("step", "2");
     router.push("?" + params.toString());
+    console.log(searchParams.get("step"));
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
-  }, []);
+  }, [searchParams, router]);
 
   return (
     <Box sx={{ display: "grid", gap: "12px", justifyItems: "center" }}>
