@@ -33,6 +33,7 @@ export function OnboardingGuard({
 
     if (user) {
       if (user.onBoarding) {
+        console.log("asd");
         // check if the actual path belong to the onboarding
         if (pathname.includes("onboarding")) {
           setIsChecking(false);
@@ -43,11 +44,11 @@ export function OnboardingGuard({
         router.replace(paths.onboarding);
         return;
       }
-
       logger.debug(
         "[GuestGuard]: User already did the onboarding, redirecting to home"
       );
       router.replace(paths.home);
+      return;
     }
 
     setIsChecking(false);

@@ -10,7 +10,6 @@ import {
 import { useRouter, useSearchParams } from "next/navigation";
 import * as React from "react";
 import { StepsRouter } from "./steps";
-import { OnboardingGuard } from "@/components/auth/onboarding-guard";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -29,57 +28,55 @@ export default function Layout({ children }: LayoutProps): React.JSX.Element {
 
   return (
     <main>
-      <OnboardingGuard>
+      <Box
+        sx={{
+          width: "100%",
+          padding: "16px",
+          minHeight: "100vh",
+          display: "grid",
+          maxWidth: "1400px",
+          margin: "auto",
+        }}
+      >
+        <Box>
+          <Stepper
+            nonLinear
+            activeStep={currentStep - 1}
+            sx={{ height: "fit-content" }}
+          >
+            {steps.map((label, index) => (
+              <Step key={label} completed={index < currentStep - 1}>
+                <StepButton color="inherit">{label}</StepButton>
+              </Step>
+            ))}
+          </Stepper>
+          <Typography sx={{ mt: 2, mb: 1, py: 1, paddingInline: "10px" }}>
+            Paso {currentStep}
+          </Typography>
+        </Box>
+
+        {children}
+
         <Box
           sx={{
-            width: "100%",
-            padding: "16px",
-            minHeight: "100vh",
-            display: "grid",
-            maxWidth: "1400px",
-            margin: "auto",
+            display: "flex",
+            flexDirection: "row",
+            pt: 2,
+            height: "fit-content",
+            alignSelf: "self-end",
           }}
         >
-          <Box>
-            <Stepper
-              nonLinear
-              activeStep={currentStep - 1}
-              sx={{ height: "fit-content" }}
-            >
-              {steps.map((label, index) => (
-                <Step key={label} completed={index < currentStep - 1}>
-                  <StepButton color="inherit">{label}</StepButton>
-                </Step>
-              ))}
-            </Stepper>
-            <Typography sx={{ mt: 2, mb: 1, py: 1, paddingInline: "10px" }}>
-              Paso {currentStep}
-            </Typography>
-          </Box>
-
-          {children}
-
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              pt: 2,
-              height: "fit-content",
-              alignSelf: "self-end",
-            }}
+          <Button
+            color="inherit"
+            disabled={currentStep === 1}
+            onClick={handlePrevStep}
+            sx={{ mr: 1 }}
           >
-            <Button
-              color="inherit"
-              disabled={currentStep === 1}
-              onClick={handlePrevStep}
-              sx={{ mr: 1 }}
-            >
-              Volver al paso anterior
-            </Button>
-            <Box sx={{ flex: "1 1 auto" }} />
-          </Box>
+            Volver al paso anterior
+          </Button>
+          <Box sx={{ flex: "1 1 auto" }} />
         </Box>
-      </OnboardingGuard>
+      </Box>
     </main>
   );
 }

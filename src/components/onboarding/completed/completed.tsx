@@ -6,6 +6,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { Box } from "@mui/material";
 import Link from "next/link";
+import { jwtDecode } from "jwt-decode";
+import { User } from "@/types/user";
 
 const Completed = () => {
   const searchParams = useSearchParams();
@@ -13,6 +15,12 @@ const Completed = () => {
   const router = useRouter();
 
   React.useEffect(() => {
+    const token = localStorage.getItem("stoical-auth-token") as string;
+    const user = jwtDecode<User>(token);
+
+    if (user.onBoarding) {
+      return router.back;
+    }
     params.set("step", "3");
     router.push("?" + params.toString());
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected

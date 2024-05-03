@@ -37,8 +37,6 @@ export function AuthGuard({
         router.replace(paths.onboarding);
         return;
       }
-
-      router.replace(paths.home);
     }
 
     if (!user) {

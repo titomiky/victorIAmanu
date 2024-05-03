@@ -104,6 +104,7 @@ class AuthClient {
     const user = jwtDecode<User>(token);
 
     console.log(user);
+    console.log(token);
 
     return { data: user };
   }
@@ -125,7 +126,10 @@ class AuthClient {
       },
     });
 
+    console.log(res.data);
+
     if (res.status === 200) {
+      console.log(jwtDecode(res.data));
       localStorage.setItem("stoical-auth-token", res.data);
       return {};
     }

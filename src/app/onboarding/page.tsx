@@ -1,3 +1,4 @@
+import { OnboardingGuard } from "@/components/auth/onboarding-guard";
 import OnBoarding from "@/components/onboarding/on-boarding";
 import { config } from "@/config";
 import { Metadata } from "next";
@@ -8,7 +9,11 @@ export const metadata = {
 } satisfies Metadata;
 
 const Page = () => {
-  return <OnBoarding />;
+  return (
+    <OnboardingGuard>
+      <OnBoarding />
+    </OnboardingGuard>
+  );
 };
 
 export default Page;
