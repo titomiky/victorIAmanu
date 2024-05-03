@@ -31,8 +31,8 @@ const schema = zod.object({
 type Values = zod.infer<typeof schema>;
 
 const defaultValues = {
-  email: "sofia@devias.io",
-  password: "Secret1",
+  email: "sofiaiia@devias.io",
+  password: "Secret123123",
 } satisfies Values;
 
 export function SignUpForm(): React.JSX.Element {
@@ -57,7 +57,6 @@ export function SignUpForm(): React.JSX.Element {
       const { error } = await authClient.signUp(values);
 
       if (error) {
-        console.log("asd");
         setError("root", { type: "server", message: error });
         setIsPending(false);
         return;

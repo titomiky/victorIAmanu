@@ -13,38 +13,41 @@ import { Controller, useForm } from "react-hook-form";
 import { z as zod } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNextStep } from "@/hooks/use-nextstep";
+import { logger } from "@/lib/default-logger";
+import { authClient } from "@/lib/auth/client";
 
 const schema = zod.object({
-  firstName: zod.string().min(1, { message: "El nombre es requerido" }),
-  lastName: zod.string().min(1, { message: "El apellido es requerido" }),
-  phone: zod.string().min(1, { message: "El teléfono es requerido" }),
-  email: zod.string().min(1, { message: "El email es requerido" }).email(),
-  current_salary: zod.string().optional(),
-  wished_salary: zod.string().optional(),
-  more_data: zod.string(),
-  resume: zod.string().min(1, { message: "El curriculum es obligatorio" }),
-  password: zod
-    .string()
-    .min(6, { message: "La contraseña debe contener al menos 6 caracteres" }),
+  name: zod.string().min(1, { message: "El nombre es requerido" }),
+  surname: zod.string().min(1, { message: "El apellido es requerido" }),
+  phoneNumber: zod.string().min(1, { message: "El teléfono es requerido" }),
+  currentSalary: zod.string().min(1, { message: "Salario requerido" }),
+  desiredSalary: zod.string().min(1, { message: "Salario requerido" }),
+  birthDate: zod.string().min(1, { message: "Fecha de nacimiento requerido" }),
+  cvPdf: zod
+    .object({
+      file: zod
+        .any()
+        .refine((files) => files?.length == 1, "File is required."),
+    })
+    .or(zod.string()),
 });
 
 type Values = zod.infer<typeof schema>;
 
 const defaultValues = {
-  firstName: "",
-  lastName: "",
-  phone: "",
-  current_salary: undefined,
-  wished_salary: undefined,
-  more_data: "",
-  resume: "",
-  email: "",
-  password: "",
+  name: "Test",
+  surname: "test",
+  phoneNumber: "+45616154",
+  currentSalary: "120",
+  desiredSalary: "500",
+  birthDate: "",
+  cvPdf: "",
 } satisfies Values;
 
 const CreateCandidateForm = () => {
   const { handleNextStep } = useNextStep();
   const [isPending, setIsPending] = React.useState<boolean>(false);
+  let file = { file: {} };
 
   const {
     control,
@@ -53,15 +56,23 @@ const CreateCandidateForm = () => {
     formState: { errors },
   } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
 
-  const onSubmit = React.useCallback(async (values: Values): Promise<void> => {
+  const onSubmit = React.useCallback(async (values: Values) => {
+    values.cvPdf = file;
     setIsPending(true);
 
-    // Refresh the auth state
-    //await checkSession?.();
+    const { error } = await authClient.createCandidate(values);
+
+    if (error) {
+      setError("root", { type: "server", message: error });
+      setIsPending(false);
+      return;
+    }
+
+    handleNextStep();
 
     // UserProvider, for this case, will not refresh the router
     // After refresh, GuestGuard will handle the redirect
-    handleNextStep();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
   }, []);
 
   return (
@@ -76,70 +87,58 @@ const CreateCandidateForm = () => {
         >
           <Controller
             control={control}
-            name="firstName"
+            name="name"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.firstName)}>
+              <FormControl error={Boolean(errors.name)}>
                 <InputLabel>Nombre</InputLabel>
                 <OutlinedInput {...field} label="Nombre" />
-                {errors.firstName ? (
-                  <FormHelperText>{errors.firstName.message}</FormHelperText>
+                {errors.name ? (
+                  <FormHelperText>{errors.name.message}</FormHelperText>
                 ) : null}
               </FormControl>
             )}
           />
           <Controller
             control={control}
-            name="lastName"
+            name="surname"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.lastName)}>
+              <FormControl error={Boolean(errors.surname)}>
                 <InputLabel>Apellido/s</InputLabel>
                 <OutlinedInput {...field} label="Apellido/s" />
-                {errors.lastName ? (
-                  <FormHelperText>{errors.lastName.message}</FormHelperText>
+                {errors.surname ? (
+                  <FormHelperText>{errors.surname.message}</FormHelperText>
                 ) : null}
               </FormControl>
             )}
           />
           <Controller
             control={control}
-            name="phone"
+            name="phoneNumber"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.phone)}>
+              <FormControl error={Boolean(errors.phoneNumber)}>
                 <InputLabel>Teléfono</InputLabel>
                 <OutlinedInput {...field} label="Teléfono" />
-                {errors.phone ? (
-                  <FormHelperText>{errors.phone.message}</FormHelperText>
+                {errors.phoneNumber ? (
+                  <FormHelperText>{errors.phoneNumber.message}</FormHelperText>
                 ) : null}
               </FormControl>
             )}
           />
+
           <Controller
             control={control}
-            name="email"
+            name="currentSalary"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.email)}>
-                <InputLabel>Email </InputLabel>
-                <OutlinedInput {...field} label="Email" type="email" />
-                {errors.email ? (
-                  <FormHelperText>{errors.email.message}</FormHelperText>
-                ) : null}
-              </FormControl>
-            )}
-          />
-          <Controller
-            control={control}
-            name="current_salary"
-            render={({ field }) => (
-              <FormControl error={Boolean(errors.current_salary)}>
+              <FormControl error={Boolean(errors.currentSalary)}>
                 <InputLabel>Salario actual</InputLabel>
                 <OutlinedInput
                   {...field}
                   label="Salario Actual"
                   type="number"
                 />
-                {errors.current_salary ? (
+                {errors.currentSalary ? (
                   <FormHelperText>
-                    {errors.current_salary.message}
+                    {errors.currentSalary.message}
                   </FormHelperText>
                 ) : null}
               </FormControl>
@@ -147,18 +146,18 @@ const CreateCandidateForm = () => {
           />
           <Controller
             control={control}
-            name="wished_salary"
+            name="desiredSalary"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.wished_salary)}>
+              <FormControl error={Boolean(errors.desiredSalary)}>
                 <InputLabel>Salario deseado</InputLabel>
                 <OutlinedInput
                   {...field}
                   label="Salario deseado"
                   type="number"
                 />
-                {errors.wished_salary ? (
+                {errors.desiredSalary ? (
                   <FormHelperText>
-                    {errors.wished_salary.message}
+                    {errors.desiredSalary.message}
                   </FormHelperText>
                 ) : null}
               </FormControl>
@@ -166,35 +165,38 @@ const CreateCandidateForm = () => {
           />
           <Controller
             control={control}
-            name="more_data"
+            name="birthDate"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.more_data)}>
-                <InputLabel>Datos adicionales</InputLabel>
+              <FormControl error={Boolean(errors.birthDate)}>
+                <InputLabel shrink={true}>Fecha de nacimiento</InputLabel>
                 <OutlinedInput
                   {...field}
-                  label="Datos adicionales"
-                  type="text"
+                  label="Fecha de nacimiento"
+                  type="date"
+                  notched={true}
                 />
-                {errors.more_data ? (
-                  <FormHelperText>{errors.more_data.message}</FormHelperText>
+                {errors.birthDate ? (
+                  <FormHelperText>{errors.birthDate.message}</FormHelperText>
                 ) : null}
               </FormControl>
             )}
           />
           <Controller
             control={control}
-            name="resume"
+            name="cvPdf"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.resume)}>
+              <FormControl error={Boolean(errors.cvPdf)}>
                 <InputLabel shrink={true}>Curriculum</InputLabel>
                 <OutlinedInput
                   label="Curriculum"
+                  inputProps={{ accept: ".xlsx, .xls, .pdf" }}
                   {...field}
+                  onChange={(e: any) => (file = e.target.files[0])}
                   type="file"
                   notched={true}
                 />
-                {errors.resume ? (
-                  <FormHelperText>{errors.resume.message}</FormHelperText>
+                {errors.cvPdf ? (
+                  <FormHelperText>{errors.cvPdf.message}</FormHelperText>
                 ) : null}
               </FormControl>
             )}

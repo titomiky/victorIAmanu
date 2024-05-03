@@ -1,6 +1,6 @@
 "use client";
 
-import type { User } from "@/types/user";
+import type { Candidate, User, UserToken } from "@/types/user";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
@@ -8,6 +8,16 @@ function generateToken(): string {
   const arr = new Uint8Array(12);
   window.crypto.getRandomValues(arr);
   return Array.from(arr, (v) => v.toString(16).padStart(2, "0")).join("");
+}
+
+function getToken(): string {
+  const token = localStorage.getItem("stoical-auth-token") as string;
+  return token;
+}
+
+function getDecodedToken(): UserToken {
+  const token = localStorage.getItem("stoical-auth-token") as string;
+  return jwtDecode(token);
 }
 
 const user = {
@@ -63,9 +73,7 @@ class AuthClient {
   ): Promise<{ error?: string }> {
     const res = await axios.post(`${url}/users`, params, {
       headers: {
-        accept: "*/*",
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
       },
     });
 
@@ -113,8 +121,25 @@ class AuthClient {
     return {};
   }
 
-  async createCandidate(): Promise<{ error?: string }> {
-    return {};
+  async createCandidate(params: Candidate): Promise<{ error?: string }> {
+    params.currentSalary = Number(params.currentSalary);
+    params.desiredSalary = Number(params.desiredSalary);
+    const token = getToken();
+
+    const res = await axios.put(`${url}/users/candidate`, params, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log(res.status);
+
+    if (res.status === 200) {
+      return {};
+    }
+
+    return { error: "Something went bad !!" };
   }
 }
 
