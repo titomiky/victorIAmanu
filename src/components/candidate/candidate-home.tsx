@@ -14,7 +14,7 @@ const candidatures = [
     company: "Open IA",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    techStack: ["JavaScript", "SCRUM", "Figma"],
+    techStack: ["JavaScript", "SCRUM", "Figma", "Node.Js"],
   },
   {
     title: "Desarrollador Backend Sr",
@@ -42,15 +42,18 @@ const CandidateHome = () => {
       <List
         sx={{ width: "100%", maxWidth: "1400px", bgcolor: "background.paper" }}
       >
-        {candidatures.map((candidature: any) => (
-          <>
+        {candidatures.map((candidature: any, index: number) => (
+          <article key={index}>
             <ListItem
               sx={{ display: "grid", gap: "10px" }}
               alignItems="flex-start"
             >
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <ListItemAvatar>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                  <Avatar
+                    alt={candidature.company}
+                    src="/static/images/avatar/1.jpg"
+                  />
                 </ListItemAvatar>
 
                 <Typography component="h4" variant="h5">
@@ -79,8 +82,8 @@ const CandidateHome = () => {
                 ))}
               </Stack>
             </ListItem>
-            <Divider variant="inset" component="li" />
-          </>
+            <Divider variant="inset" component="li" sx={{ margin: "0px" }} />
+          </article>
         ))}
       </List>
     </Box>
