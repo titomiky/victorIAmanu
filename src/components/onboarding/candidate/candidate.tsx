@@ -18,13 +18,16 @@ const Candidate = () => {
   }, [searchParams, router]);
 
   return (
-    <Box sx={{ display: "grid", gap: "12px", justifyItems: "center" }}>
-      <Typography variant="h4">Registro de candidato</Typography>
+    <React.Suspense fallback={<div>Loading...</div>}>
+      {" "}
+      <Box sx={{ display: "grid", gap: "12px", justifyItems: "center" }}>
+        <Typography variant="h4">Registro de candidato</Typography>
 
-      <Box sx={{ display: "flex", gap: "12px" }}>
-        <CreateCandidateForm />
+        <Box sx={{ display: "flex", gap: "12px" }}>
+          <CreateCandidateForm />
+        </Box>
       </Box>
-    </Box>
+    </React.Suspense>
   );
 };
 
