@@ -41,7 +41,7 @@ export function OnboardingGuard({
         }
 
         logger.debug("[GuestGuard]: User created, redirecting to onboarding");
-        router.replace(paths.onboarding);
+        router.replace(paths.onboarding.home);
         return;
       }
       logger.debug(

@@ -31,7 +31,7 @@ export function GuestGuard({
 
     if (user && user.onBoarding) {
       logger.debug("[GuestGuard]: User created, redirecting to onboarding");
-      router.replace(paths.onboarding);
+      router.replace(paths.onboarding.home);
       return;
     } else if (user) {
       logger.debug("[GuestGuard]: User is logged in, redirecting to dashboard");

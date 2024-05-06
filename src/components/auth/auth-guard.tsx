@@ -34,7 +34,7 @@ export function AuthGuard({
         logger.debug(
           "[GuestGuard]: User onboarding is incomplete, redirecting to onboarding"
         );
-        router.replace(paths.onboarding);
+        router.replace(paths.onboarding.home);
         return;
       }
     }

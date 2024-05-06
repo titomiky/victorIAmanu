@@ -1,11 +1,14 @@
 export const paths = {
   home: "/",
+  not_found: "/not-found",
   auth: {
     signIn: "/auth/sign-in",
     signUp: "/auth/sign-up",
     resetPassword: "/auth/reset-password",
   },
-  onboarding: "/onboarding",
+  onboarding: {
+    home: "/onboarding",
+  },
   dashboard: {
     overview: "/dashboard",
     account: "/dashboard/account",
