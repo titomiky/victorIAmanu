@@ -29,7 +29,6 @@ const NavBar = () => {
           <Typography variant="h5" component="span" sx={{ flexGrow: 1 }}>
             {config.site.name}
           </Typography>
-          <Button color="inherit"></Button>
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">

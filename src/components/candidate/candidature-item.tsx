@@ -58,7 +58,11 @@ const CandidatureItem = ({ candidature }: { candidature: any }) => {
             <Chip label={item} size="small" key={index + item} />
           ))}
         </Stack>
-        <Button color="inherit" onClick={handleToggleInfo}>
+        <Button
+          sx={{ width: "fit-content", margin: "auto" }}
+          color="inherit"
+          onClick={handleToggleInfo}
+        >
           {toggleInfo ? "Ver menos" : "Ver más"}
         </Button>
       </ListItem>
