@@ -4,6 +4,7 @@ import type { Viewport } from "next";
 import "@/styles/global.css";
 
 import { ThemeProvider } from "@/components/core/theme-provider/theme-provider";
+import NavBar from "@/components/candidate/navbar";
 
 export const viewport = {
   width: "device-width",
@@ -18,7 +19,10 @@ export default function Layout({ children }: LayoutProps): React.JSX.Element {
   return (
     <html lang="en">
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <NavBar />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

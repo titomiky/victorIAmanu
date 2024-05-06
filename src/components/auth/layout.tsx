@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 
 import { paths } from "@/paths";
 import { DynamicLogo } from "@/components/core/logo";
+import { config } from "@/config";
 
 export interface LayoutProps {
   children: React.ReactNode;
@@ -68,7 +69,7 @@ export function Layout({ children }: LayoutProps): React.JSX.Element {
             >
               Welcome to{" "}
               <Box component="span" sx={{ color: "#15b79e" }}>
-                Stoical
+                {config.site.name}
               </Box>
             </Typography>
           </Stack>
