@@ -10,7 +10,7 @@ function generateToken(): string {
   return Array.from(arr, (v) => v.toString(16).padStart(2, "0")).join("");
 }
 
-function getToken(): string {
+export function getToken(): string {
   const token = localStorage.getItem("stoical-auth-token") as string;
   return token;
 }

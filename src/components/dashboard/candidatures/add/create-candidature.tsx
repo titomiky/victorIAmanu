@@ -14,11 +14,10 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import RouterLink from "next/link";
-import { paths } from "@/paths";
 import { Controller, useForm } from "react-hook-form";
 import { z as zod } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { candidatureClient } from "@/lib/canidature/client";
 
 const skills = [
   "TypeScript",
@@ -34,6 +33,21 @@ const skills = [
 
 const CreateCandidature = () => {
   const [selectedSkills, setSelectedSkills] = React.useState<string[]>([]);
+  const [skills, setSkills] = React.useState<[]>();
+
+  React.useEffect(() => {
+    const getSkills = async () => {
+      try {
+        const res = await candidatureClient.getCompetenciesList();
+        console.log(res);
+        setSkills(res);
+      } catch (error) {
+        console.error("Error fetching skills:", error);
+      }
+    };
+
+    getSkills();
+  }, []);
 
   const schema = zod.object({
     title: zod.string().min(1, { message: "El título es requerido" }),
@@ -127,15 +141,21 @@ const CreateCandidature = () => {
                 gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))",
               }}
             >
-              {skills.map((skill: string) => (
-                <FormControlLabel
-                  key={skill}
-                  control={
-                    <Checkbox name={skill} onChange={handleSkillChange} />
-                  }
-                  label={skill}
-                />
-              ))}
+              {skills?.length ? (
+                skills.map((skill: string) => (
+                  <FormControlLabel
+                    key={skill}
+                    control={
+                      <Checkbox name={skill} onChange={handleSkillChange} />
+                    }
+                    label={skill}
+                  />
+                ))
+              ) : (
+                <span style={{ opacity: "0.7" }}>
+                  No hay competencias disponibles por el momento ...
+                </span>
+              )}
             </FormGroup>
             {errors.skills ? (
               <FormHelperText>{errors.skills.message}</FormHelperText>
