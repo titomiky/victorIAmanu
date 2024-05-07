@@ -4,8 +4,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
-import { Box } from "@mui/material";
-import Link from "next/link";
+import { Box, Link } from "@mui/material";
 import { jwtDecode } from "jwt-decode";
 import { User, UserToken } from "@/types/user";
 import { getUser } from "@/lib/auth/client";
@@ -24,8 +23,6 @@ const Completed = () => {
     if (user.onBoarding) {
       return router.back;
     }
-
-    console.log("asdsad", user);
 
     params.set("step", "3");
     router.push("?" + params.toString());

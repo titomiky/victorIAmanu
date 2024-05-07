@@ -69,16 +69,21 @@ class AuthClient {
   async signInWithPassword(
     params: SignInWithPasswordParams
   ): Promise<{ error?: string }> {
-    const res = await axios.post(`${url}/users`, params, {
+    console.log(params);
+
+    const res = await axios.post(`${url}/auth/login`, params, {
       headers: {
         "Content-Type": "application/json",
       },
     });
 
-    const token = res.data;
+    console.log(res);
 
-    localStorage.setItem("stoical-auth-token", token);
-
+    if (res.data) {
+      const token = res.data;
+      localStorage.setItem("stoical-auth-token", token);
+      return {};
+    }
     //     const { email, password } = params;
     //if (email !== "sofia@devias.io" || password !== "Secret1") {
     //return { error: "Invalid credentials" };
@@ -87,7 +92,7 @@ class AuthClient {
     //const token = generateToken();
     //localStorage.setItem("custom-auth-token", token);
 
-    return {};
+    return { error: "Problemas en nuestros servidores" };
   }
 
   async resetPassword(_: ResetPasswordParams): Promise<{ error?: string }> {
@@ -99,21 +104,14 @@ class AuthClient {
   }
 
   async getUser(): Promise<{ data?: User | null; error?: string }> {
-    // Make API request
-
-    // We do not handle the API, so just check if we have a token in localStorage.
-    const token = getToken();
+    const token = localStorage.getItem("stoical-auth-token") as string;
 
     if (!token) {
-      return { data: null };
+      return {};
     }
 
-    const user = jwtDecode<User>(token);
-
-    console.log(user);
-    console.log(token);
-
-    return { data: user };
+    const decodedToken = jwtDecode(token) as User;
+    return { data: decodedToken };
   }
 
   async signOut(): Promise<{ error?: string }> {

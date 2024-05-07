@@ -64,7 +64,6 @@ export function UserPopover({
     >
       <Box sx={{ p: "16px 20px " }}>
         <Typography variant="subtitle1">
-          {" "}
           {user && user?.name + " " + user?.surname}
         </Typography>
         <Typography color="text.secondary" variant="body2">

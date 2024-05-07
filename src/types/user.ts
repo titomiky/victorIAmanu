@@ -36,4 +36,5 @@ export interface UserToken {
   name: string;
   surname: string;
   role: string;
+  onBoarding: boolean;
 }
