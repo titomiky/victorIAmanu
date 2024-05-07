@@ -7,12 +7,15 @@ import Image from "next/image";
 import { Box } from "@mui/material";
 import Link from "next/link";
 import { jwtDecode } from "jwt-decode";
-import { User } from "@/types/user";
+import { User, UserToken } from "@/types/user";
+import { getUser } from "@/lib/auth/client";
+import { paths } from "@/paths";
 
 const Completed = () => {
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams.toString());
   const router = useRouter();
+  const user = getUser() as UserToken;
 
   React.useEffect(() => {
     const token = localStorage.getItem("stoical-auth-token") as string;
@@ -21,6 +24,9 @@ const Completed = () => {
     if (user.onBoarding) {
       return router.back;
     }
+
+    console.log("asdsad", user);
+
     params.set("step", "3");
     router.push("?" + params.toString());
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
@@ -57,7 +63,11 @@ const Completed = () => {
         type="submit"
         variant="contained"
         LinkComponent={Link}
-        href="/dashboard"
+        href={
+          user?.role === "candidate"
+            ? paths.candidate.home
+            : paths.dashboard.overview
+        }
         sx={{ placeSelf: "center", width: "200px" }}
       >
         Ir al dashboard

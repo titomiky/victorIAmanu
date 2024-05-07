@@ -13,9 +13,10 @@ import { SignOut as SignOutIcon } from "@phosphor-icons/react/dist/ssr/SignOut";
 import { User as UserIcon } from "@phosphor-icons/react/dist/ssr/User";
 
 import { paths } from "@/paths";
-import { authClient } from "@/lib/auth/client";
+import { authClient, getUser } from "@/lib/auth/client";
 import { logger } from "@/lib/default-logger";
 import { useUser } from "@/hooks/use-user";
+import { UserToken } from "@/types/user";
 
 export interface UserPopoverProps {
   anchorEl: Element | null;
@@ -29,6 +30,7 @@ export function UserPopover({
   open,
 }: UserPopoverProps): React.JSX.Element {
   const { checkSession } = useUser();
+  const user = getUser() as UserToken;
 
   const router = useRouter();
 
@@ -61,9 +63,12 @@ export function UserPopover({
       slotProps={{ paper: { sx: { width: "240px" } } }}
     >
       <Box sx={{ p: "16px 20px " }}>
-        <Typography variant="subtitle1">Sofia Rivers</Typography>
+        <Typography variant="subtitle1">
+          {" "}
+          {user && user?.name + " " + user?.surname}
+        </Typography>
         <Typography color="text.secondary" variant="body2">
-          sofia.rivers@devias.io
+          {user && user?.email}
         </Typography>
       </Box>
       <Divider />

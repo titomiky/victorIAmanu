@@ -15,9 +15,16 @@ function getToken(): string {
   return token;
 }
 
-function getUser(): UserToken {
+export function getUser(): UserToken | {} {
   const token = localStorage.getItem("stoical-auth-token") as string;
-  return jwtDecode(token);
+
+  if (!token) {
+    return {};
+  }
+
+  const decodedToken = jwtDecode(token);
+
+  return decodedToken;
 }
 
 export interface SignUpParams {

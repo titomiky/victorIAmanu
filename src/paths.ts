@@ -18,4 +18,7 @@ export const paths = {
     settings: "/dashboard/settings",
   },
   errors: { notFound: "/errors/not-found" },
+  candidate: {
+    home: "/candidate/home",
+  },
 } as const;

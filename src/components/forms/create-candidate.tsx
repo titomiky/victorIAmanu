@@ -34,11 +34,11 @@ const schema = zod.object({
 type Values = zod.infer<typeof schema>;
 
 const defaultValues = {
-  name: "Test",
-  surname: "test",
-  phoneNumber: "+45616154",
-  currentSalary: "120",
-  desiredSalary: "500",
+  name: "",
+  surname: "",
+  phoneNumber: "",
+  currentSalary: "",
+  desiredSalary: "",
   birthDate: "",
   cvPdf: "",
 } satisfies Values;
@@ -46,7 +46,7 @@ const defaultValues = {
 const CreateCandidateForm = () => {
   const { handleNextStep } = useNextStep();
   const [isPending, setIsPending] = React.useState<boolean>(false);
-  let file = { file: {} };
+  const [file, setFile] = React.useState({ file: {} }) as any;
 
   const {
     control,
@@ -188,7 +188,10 @@ const CreateCandidateForm = () => {
                   label="Curriculum"
                   inputProps={{ accept: ".xlsx, .xls, .pdf" }}
                   {...field}
-                  onChange={(e: any) => (file = e.target.files[0])}
+                  onChange={(e: any) => {
+                    setFile(e.target.files[0]);
+                    field.onChange(e);
+                  }}
                   type="file"
                   notched={true}
                 />

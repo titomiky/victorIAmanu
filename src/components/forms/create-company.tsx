@@ -4,17 +4,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import FormHelperText from "@mui/material/FormHelperText";
 import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import Stack from "@mui/material/Stack";
 import { Controller, useForm } from "react-hook-form";
 import { z as zod } from "zod";
-
-import { paths } from "@/paths";
 import { authClient } from "@/lib/auth/client";
-import { useUser } from "@/hooks/use-user";
 import { useNextStep } from "@/hooks/use-nextstep";
 
 const schema = zod.object({
@@ -36,15 +32,15 @@ const schema = zod.object({
 type Values = zod.infer<typeof schema>;
 
 const defaultValues = {
-  name: "Testttt",
-  surname: "asdasdas",
-  phoneNumber: "54687486",
-  email: "test@gmail.com",
-  position: "asasd",
-  companyName: "sasdsad",
-  companyNIF: "45664",
-  numberOfEmployees: "12",
-  companyAddress: "Adress 11",
+  name: "",
+  surname: "",
+  phoneNumber: "",
+  email: "",
+  position: "",
+  companyName: "",
+  companyNIF: "",
+  numberOfEmployees: "",
+  companyAddress: "",
 } satisfies Values;
 
 const CreateCompanyForm = () => {
