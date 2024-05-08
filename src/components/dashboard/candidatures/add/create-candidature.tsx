@@ -11,35 +11,23 @@ import {
   InputLabel,
   OutlinedInput,
   Stack,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z as zod } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { candidatureClient } from "@/lib/canidature/client";
-
-const skills = [
-  "TypeScript",
-  "Python",
-  "Next.js",
-  "Django",
-  "Docker",
-  "React",
-  "Node.js",
-  "SCRUM",
-  "Git",
-];
+import { CompetenciesType, candidatureClient } from "@/lib/canidature/client";
 
 const CreateCandidature = () => {
   const [selectedSkills, setSelectedSkills] = React.useState<string[]>([]);
-  const [skills, setSkills] = React.useState<[]>();
+  const [skills, setSkills] = React.useState<CompetenciesType[]>();
 
   React.useEffect(() => {
     const getSkills = async () => {
       try {
         const res = await candidatureClient.getCompetenciesList();
-        console.log(res);
         setSkills(res);
       } catch (error) {
         console.error("Error fetching skills:", error);
@@ -142,14 +130,18 @@ const CreateCandidature = () => {
               }}
             >
               {skills?.length ? (
-                skills.map((skill: string) => (
-                  <FormControlLabel
-                    key={skill}
-                    control={
-                      <Checkbox name={skill} onChange={handleSkillChange} />
-                    }
-                    label={skill}
-                  />
+                skills.map((skill: CompetenciesType) => (
+                  <Tooltip title={skill.description} key={skill._id}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          name={skill.name}
+                          onChange={handleSkillChange}
+                        />
+                      }
+                      label={skill.name}
+                    />
+                  </Tooltip>
                 ))
               ) : (
                 <span style={{ opacity: "0.7" }}>
@@ -190,7 +182,12 @@ const CreateCandidature = () => {
             disabled={isPending}
             type="submit"
             variant="contained"
-            sx={{ placeSelf: "center", gridColumn: "1/3", width: "200px" }}
+            sx={{
+              placeSelf: "center",
+              gridColumn: "1/3",
+              width: "200px",
+              marginTop: "14px",
+            }}
           >
             Continuar
           </Button>

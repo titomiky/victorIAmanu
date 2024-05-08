@@ -55,6 +55,10 @@ class AuthClient {
       },
     });
 
+    if (typeof res.data !== "string") {
+      return { error: "Error en nuestros servidores" };
+    }
+
     const token = res.data;
 
     localStorage.setItem("stoical-auth-token", token);
@@ -80,6 +84,10 @@ class AuthClient {
     console.log(res);
 
     if (res.data) {
+      if (typeof res.data !== "string") {
+        return { error: "Error en nuestros servidores" };
+      }
+
       const token = res.data;
       localStorage.setItem("stoical-auth-token", token);
       return {};
