@@ -1,6 +1,5 @@
 "use client";
 import { Box, Stack, Typography } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
 import { ApexOptions } from "apexcharts";
 import React from "react";
 import { Chart } from "../core/chart";
@@ -22,6 +21,41 @@ const CandidateOverview = () => {
   const names = data.map((item) => item.name);
   const values = data.map((item) => item.value);
   const options = useChartOptions(names);
+
+  function useChartOptions(labels: string[]): ApexOptions {
+    return {
+      labels: labels,
+      chart: {
+        type: "donut",
+      },
+      dataLabels: {
+        enabled: true,
+        enabledOnSeries: undefined,
+        formatter: function (val, opts) {
+          return values[opts.seriesIndex];
+        },
+        style: {
+          fontSize: "14px",
+        },
+      },
+      legend: {
+        fontSize: "18px",
+        itemMargin: {
+          vertical: 10,
+        },
+      },
+      responsive: [
+        {
+          breakpoint: 600,
+          options: {
+            legend: {
+              position: "bottom",
+            },
+          },
+        },
+      ],
+    };
+  }
 
   return (
     <Stack spacing={2} sx={{ padding: "16px" }}>
@@ -46,36 +80,5 @@ const CandidateOverview = () => {
     </Stack>
   );
 };
-
-function useChartOptions(labels: string[]): ApexOptions {
-  return {
-    labels: labels,
-    chart: {
-      type: "donut",
-    },
-    dataLabels: {
-      enabled: true,
-      style: {
-        fontSize: "14px",
-      },
-    },
-    legend: {
-      fontSize: "18px",
-      itemMargin: {
-        vertical: 10,
-      },
-    },
-    responsive: [
-      {
-        breakpoint: 600,
-        options: {
-          legend: {
-            position: "bottom",
-          },
-        },
-      },
-    ],
-  };
-}
 
 export default CandidateOverview;
