@@ -37,10 +37,10 @@ export default function Page(): React.JSX.Element {
       <Grid lg={3} sm={6} xs={12}>
         <TotalProfit sx={{ height: "100%" }} value="$15k" />
       </Grid>
-      <Grid lg={8} xs={12}>
+      <Grid lg={100} md={100} xs={100}>
         <StackedBar sx={{ height: "100%" }} />
       </Grid>
-      <Grid lg={4} md={6} xs={12}>
+      <Grid lg={100} md={100} xs={100}>
         <Traffic
           chartSeries={[63, 15, 22]}
           labels={["TypeScript", "Python", "CSS"]}
