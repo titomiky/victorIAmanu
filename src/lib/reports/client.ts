@@ -55,6 +55,29 @@ class ReportsClient {
 
     return { error: "Server error" };
   }
+
+  async candidateCandidatureReport(
+    jobOfferId: string,
+    candidateId: string
+  ): Promise<UserCompetenceReport[] | { error?: string }> {
+    const token = getToken();
+
+    const res = await axios.get(
+      `${this.url}/reports/candidates/${jobOfferId}/${candidateId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (Array.isArray(res.data)) {
+      return res.data;
+    }
+
+    return { error: "Server error" };
+  }
 }
 
 export const reportsClient = new ReportsClient();

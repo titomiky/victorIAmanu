@@ -5,6 +5,7 @@ import {
   Card,
   Checkbox,
   Divider,
+  Link,
   Stack,
   Table,
   TableBody,
@@ -15,6 +16,7 @@ import {
   Typography,
 } from "@mui/material";
 import dayjs from "dayjs";
+import RouterLink from "next/link";
 import * as React from "react";
 
 export interface Candidature {
@@ -71,7 +73,7 @@ const CandidaturesTable = ({
               <TableCell>Id</TableCell>
               <TableCell>Título</TableCell>
               <TableCell>Descripción</TableCell>
-              <TableCell>Creado</TableCell>
+              <TableCell>Acciones</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -104,7 +106,12 @@ const CandidaturesTable = ({
                   <TableCell>{row.title}</TableCell>
                   <TableCell>{row.description}</TableCell>
                   <TableCell>
-                    {dayjs(row.createdAt).format("MMM D, YYYY")}
+                    <Link
+                      component={RouterLink}
+                      href={`/dashboard/candidatures/${row.id}`}
+                    >
+                      Candidatos
+                    </Link>
                   </TableCell>
                 </TableRow>
               );

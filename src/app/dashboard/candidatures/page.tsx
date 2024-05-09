@@ -52,7 +52,6 @@ const Page = () => {
           </Button>
         </div>
       </Stack>
-      <CandidaturesFilters />
       <CandidaturesTable
         count={paginatedCustomers.length}
         page={page}
