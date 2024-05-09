@@ -6,9 +6,17 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { config } from "@/config";
-import { Avatar, IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
-
-const settings = ["Cerrar sesión"];
+import {
+  Avatar,
+  Divider,
+  IconButton,
+  Link,
+  Menu,
+  MenuItem,
+  Tooltip,
+} from "@mui/material";
+import RouterLink from "next/link";
+import { paths } from "@/paths";
 
 const NavBar = () => {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
@@ -24,14 +32,36 @@ const NavBar = () => {
   };
   return (
     <Box component={"header"}>
-      <AppBar color="secondary">
+      <AppBar
+        sx={{
+          "--SideNav-background": "var(--mui-palette-neutral-950)",
+          "--SideNav-color": "var(--mui-palette-common-white)",
+          "--NavItem-color": "var(--mui-palette-neutral-300)",
+          "--NavItem-hover-background": "rgba(255, 255, 255, 0.04)",
+          "--NavItem-active-background": "var(--mui-palette-primary-main)",
+          "--NavItem-active-color": "var(--mui-palette-primary-contrastText)",
+          "--NavItem-disabled-color": "var(--mui-palette-neutral-500)",
+          "--NavItem-icon-color": "var(--mui-palette-neutral-400)",
+          "--NavItem-icon-active-color":
+            "var(--mui-palette-primary-contrastText)",
+          "--NavItem-icon-disabled-color": "var(--mui-palette-neutral-600)",
+          bgcolor: "var(--SideNav-background)",
+          color: "var(--SideNav-color)",
+        }}
+      >
         <Toolbar>
-          <Typography variant="h5" component="span" sx={{ flexGrow: 1 }}>
+          <Link
+            href={paths.candidate.home}
+            variant="h5"
+            component={RouterLink}
+            sx={{ flexGrow: 1, color: "var(--SideNav-color)" }}
+            underline="none"
+          >
             {config.site.name}
-          </Typography>
+          </Link>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            <Tooltip title="Ajustes">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar src="/assets/avatar.png" />
               </IconButton>
@@ -52,11 +82,19 @@ const NavBar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem
+                onClick={handleCloseUserMenu}
+                component={RouterLink}
+                href={paths.candidate.overview}
+              >
+                <Typography textAlign="center">Estadísticas</Typography>
+              </MenuItem>
+
+              <Divider />
+
+              <MenuItem onClick={handleCloseUserMenu}>
+                <Typography textAlign="center">Cerrar sesión</Typography>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>

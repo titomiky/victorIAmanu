@@ -20,5 +20,6 @@ export const paths = {
   errors: { notFound: "/errors/not-found" },
   candidate: {
     home: "/candidate/home",
+    overview: "/candidate/overview",
   },
 } as const;
