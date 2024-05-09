@@ -34,6 +34,7 @@ const NavBar = () => {
     <Box component={"header"}>
       <AppBar
         sx={{
+          position: "relative",
           "--SideNav-background": "var(--mui-palette-neutral-950)",
           "--SideNav-color": "var(--mui-palette-common-white)",
           "--NavItem-color": "var(--mui-palette-neutral-300)",
@@ -60,7 +61,23 @@ const NavBar = () => {
             {config.site.name}
           </Link>
 
-          <Box sx={{ flexGrow: 0 }}>
+          <MenuItem
+            onClick={handleCloseUserMenu}
+            component={RouterLink}
+            href={paths.candidate.home}
+          >
+            <Typography textAlign="center">Inicio</Typography>
+          </MenuItem>
+
+          <MenuItem
+            onClick={handleCloseUserMenu}
+            component={RouterLink}
+            href={paths.candidate.overview}
+          >
+            <Typography textAlign="center">Estadísticas</Typography>
+          </MenuItem>
+
+          <Box sx={{ flexGrow: 0, marginLeft: "10px" }}>
             <Tooltip title="Ajustes">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar src="/assets/avatar.png" />
