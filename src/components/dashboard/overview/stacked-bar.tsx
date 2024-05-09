@@ -13,8 +13,8 @@ import type { SxProps } from "@mui/material/styles";
 import { ApexOptions } from "apexcharts";
 import {
   CandidateCompetencesReport,
-  candidatureClient,
-} from "@/lib/canidature/client";
+  reportsClient,
+} from "@/lib/reports/client";
 
 export interface StackedBarProps {
   chartSeries?: { name: string; data: number[] }[];
@@ -26,7 +26,7 @@ const StackedBar = ({ chartSeries, sx }: StackedBarProps) => {
   const [error, setError] = React.useState<{ error?: string }>();
   React.useEffect(() => {
     const getData = async () => {
-      const res = await candidatureClient.competenciesReport();
+      const res = await reportsClient.competenciesReport();
 
       if (Array.isArray(res)) {
         setData(res);

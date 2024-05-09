@@ -1,7 +1,6 @@
 "use client";
 import axios from "axios";
 import { getToken } from "../auth/client";
-import { data } from "@/components/dashboard/overview/data";
 
 interface Candidature {
   name: string;
@@ -14,14 +13,6 @@ export interface CompetenciesType {
   name: string;
   _id: string;
   description: string;
-}
-
-export interface CandidateCompetencesReport {
-  name: string;
-  surname: string;
-  email: string;
-  phoneNumber: string;
-  competences: { name: string; value: number }[];
 }
 
 class CandidatureClient {
@@ -55,25 +46,6 @@ class CandidatureClient {
     });
 
     return {};
-  }
-
-  async competenciesReport(): Promise<
-    CandidateCompetencesReport[] | { error?: string }
-  > {
-    const token = getToken();
-
-    const res = await axios.get(`${this.url}/reports/jobOffers/456`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (Array.isArray(res.data)) {
-      return res.data;
-    }
-
-    return { error: "Server error" };
   }
 }
 

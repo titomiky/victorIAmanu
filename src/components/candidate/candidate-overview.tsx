@@ -3,23 +3,29 @@ import { Box, Stack, Typography } from "@mui/material";
 import { ApexOptions } from "apexcharts";
 import React from "react";
 import { Chart } from "../core/chart";
-
-const data = [
-  { name: "competencia1", value: 33 },
-  { name: "competencia2", value: 53 },
-  { name: "competencia3", value: 59 },
-  { name: "competencia4", value: 27 },
-  { name: "competencia5", value: 12 },
-  { name: "competencia6", value: 26 },
-  { name: "competencia7", value: 38 },
-  { name: "competencia8", value: 20 },
-  { name: "competencia9", value: 29 },
-  { name: "competencia10", value: 41 },
-];
+import { UserCompetenceReport, reportsClient } from "@/lib/reports/client";
 
 const CandidateOverview = () => {
-  const names = data.map((item) => item.name);
-  const values = data.map((item) => item.value);
+  const [data, setData] = React.useState<UserCompetenceReport[]>([]);
+  const [errorMessage, setErrorMessage] = React.useState<{ error?: string }>();
+
+  React.useEffect(() => {
+    const getData = async () => {
+      const res = await reportsClient.candidateReport();
+      console.log(res);
+
+      if (Array.isArray(res)) {
+        setData(res);
+        return;
+      }
+
+      setErrorMessage(res);
+    };
+    getData();
+  }, []);
+
+  const names = data.length ? data.map((item) => item.name) : [];
+  const values = data.length ? data.map((item) => item.value) : [];
   const options = useChartOptions(names);
 
   function useChartOptions(labels: string[]): ApexOptions {
@@ -59,13 +65,15 @@ const CandidateOverview = () => {
 
   return (
     <Stack spacing={2} sx={{ padding: "16px" }}>
-      <Chart
-        height={500}
-        options={options}
-        series={values}
-        type="donut"
-        width="100%"
-      />
+      {data.length > 0 && (
+        <Chart
+          height={500}
+          options={options}
+          series={values}
+          type="donut"
+          width="100%"
+        />
+      )}
       <Stack
         direction="row"
         spacing={2}
@@ -76,7 +84,9 @@ const CandidateOverview = () => {
           flexWrap: "wrap",
           marginTop: "10px",
         }}
-      ></Stack>
+      >
+        {errorMessage?.error}
+      </Stack>
     </Stack>
   );
 };
