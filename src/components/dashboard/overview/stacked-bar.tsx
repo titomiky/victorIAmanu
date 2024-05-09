@@ -1,5 +1,11 @@
 "use client";
-import { Button, Card, CardContent, CardHeader } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Typography,
+} from "@mui/material";
 import * as React from "react";
 import { ArrowClockwise as ArrowClockwiseIcon } from "@phosphor-icons/react/dist/ssr/ArrowClockwise";
 import { Chart } from "@/components/core/chart";
@@ -9,7 +15,6 @@ import {
   CandidateCompetencesReport,
   candidatureClient,
 } from "@/lib/canidature/client";
-import { data } from "./data";
 
 export interface StackedBarProps {
   chartSeries?: { name: string; data: number[] }[];
@@ -17,6 +22,23 @@ export interface StackedBarProps {
 }
 
 const StackedBar = ({ chartSeries, sx }: StackedBarProps) => {
+  const [data, setData] = React.useState<CandidateCompetencesReport[]>();
+  const [error, setError] = React.useState<{ error?: string }>();
+  React.useEffect(() => {
+    const getData = async () => {
+      const res = await candidatureClient.competenciesReport();
+
+      if (Array.isArray(res)) {
+        setData(res);
+        return;
+      }
+
+      setError(res);
+      return;
+    };
+    getData();
+  }, []);
+
   function useChartOptions(): ApexOptions {
     return {
       chart: {
@@ -47,7 +69,8 @@ const StackedBar = ({ chartSeries, sx }: StackedBarProps) => {
         text: "Competencias",
       },
       xaxis: {
-        categories: data[0].competences.map((item) => item.name), //[2008, 2009, 2010, 2011, 2012, 2013, 2014],
+        categories:
+          Array.isArray(data) && data[0].competences.map((item) => item.name), //[2008, 2009, 2010, 2011, 2012, 2013, 2014],
         labels: {
           formatter: function (val) {
             return "";
@@ -96,18 +119,22 @@ const StackedBar = ({ chartSeries, sx }: StackedBarProps) => {
         title="Aptitudes "
       />
       <CardContent>
-        <Chart
-          height={350}
-          options={chartOptions}
-          series={data.map((item) => {
-            return {
-              name: item.name,
-              data: item.competences.map((res) => res.value),
-            };
-          })}
-          type="bar"
-          width="100%"
-        />
+        {Array.isArray(data) ? (
+          <Chart
+            height={350}
+            options={chartOptions}
+            series={data.map((item) => {
+              return {
+                name: item.name,
+                data: item.competences.map((res) => res.value),
+              };
+            })}
+            type="bar"
+            width="100%"
+          />
+        ) : (
+          <Typography>{error?.error}</Typography>
+        )}
       </CardContent>
     </Card>
   );

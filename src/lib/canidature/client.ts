@@ -1,6 +1,7 @@
 "use client";
 import axios from "axios";
 import { getToken } from "../auth/client";
+import { data } from "@/components/dashboard/overview/data";
 
 interface Candidature {
   name: string;
@@ -59,54 +60,20 @@ class CandidatureClient {
   async competenciesReport(): Promise<
     CandidateCompetencesReport[] | { error?: string }
   > {
-    //const token = getToken();
+    const token = getToken();
 
-    // const res = await axios.get(`${this.url}/reports/candidates/546/564`, {
-    //headers: {
-    //"Content-Type": "application/json",
-    //Authorization: `Bearer ${token}`,
-    //},
-    //});
+    const res = await axios.get(`${this.url}/reports/jobOffers/456`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-    return [
-      {
-        name: "Juan",
-        surname: "Perez",
-        email: "a@e.s",
-        phoneNumber: "123123123",
-        competences: [
-          { name: "competencia1", value: 71 },
-          { name: "competencia2", value: 22 },
-          { name: "competencia3", value: 20 },
-          { name: "competencia4", value: 67 },
-          { name: "competencia5", value: 20 },
-          { name: "competencia6", value: 70 },
-          { name: "competencia7", value: 20 },
-          { name: "competencia8", value: 62 },
-          { name: "competencia9", value: 9 },
-          { name: "competencia10", value: 35 },
-        ],
-      },
-      {
-        name: "Manu",
-        surname: "Ruiz",
-        email: "abasd@ese.s",
-        phoneNumber: "123123123",
-        competences: [
-          { name: "competencia1", value: 71 },
-          { name: "competencia2", value: 22 },
-          { name: "competencia3", value: 20 },
-          { name: "competencia4", value: 67 },
-          { name: "competencia5", value: 20 },
-          { name: "competencia6", value: 70 },
-          { name: "competencia7", value: 20 },
-          { name: "competencia8", value: 62 },
-          { name: "competencia9", value: 9 },
-          { name: "competencia10", value: 35 },
-        ],
-      },
-      // Other objects follow the same structure...
-    ];
+    if (Array.isArray(res.data)) {
+      return res.data;
+    }
+
+    return { error: "Server error" };
   }
 }
 
