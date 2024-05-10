@@ -21,12 +21,6 @@ export const navItems = [
     icon: "users",
   },
   {
-    key: "settings",
-    title: "Ajustes",
-    href: paths.dashboard.settings,
-    icon: "gear-six",
-  },
-  {
     key: "account",
     title: "Cuenta",
     href: paths.dashboard.account,

@@ -64,10 +64,10 @@ export function UserPopover({
     >
       <Box sx={{ p: "16px 20px " }}>
         <Typography variant="subtitle1">
-          {user && user?.name + " " + user?.surname}
+          {user?.name && user?.name + " " + user?.surname}
         </Typography>
         <Typography color="text.secondary" variant="body2">
-          {user && user?.email}
+          {user?.email && user?.email}
         </Typography>
       </Box>
       <Divider />
@@ -75,16 +75,6 @@ export function UserPopover({
         disablePadding
         sx={{ p: "8px", "& .MuiMenuItem-root": { borderRadius: 1 } }}
       >
-        <MenuItem
-          component={RouterLink}
-          href={paths.dashboard.settings}
-          onClick={onClose}
-        >
-          <ListItemIcon>
-            <GearSixIcon fontSize="var(--icon-fontSize-md)" />
-          </ListItemIcon>
-          Ajustes
-        </MenuItem>
         <MenuItem
           component={RouterLink}
           href={paths.dashboard.account}

@@ -55,7 +55,12 @@ export function AuthGuard({
     }
 
     if (isTokenExpired()) {
+      logger.debug(
+        "[AuthGuard]: User token is expired, redirecting to sign up page"
+      );
       localStorage.removeItem("stoical-auth-token");
+      router.replace(paths.auth.signIn);
+      return;
     }
 
     if (isLoading) {
