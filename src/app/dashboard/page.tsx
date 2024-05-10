@@ -6,11 +6,9 @@ import dayjs from "dayjs";
 import { config } from "@/config";
 import { Budget } from "@/components/dashboard/overview/budget";
 import { LatestOrders } from "@/components/dashboard/overview/latest-orders";
-import { Sales } from "@/components/dashboard/overview/sales";
 import { TasksProgress } from "@/components/dashboard/overview/tasks-progress";
 import { TotalCustomers } from "@/components/dashboard/overview/total-customers";
 import { TotalProfit } from "@/components/dashboard/overview/total-profit";
-import { Traffic } from "@/components/dashboard/overview/traffic";
 import StackedBar from "@/components/dashboard/overview/stacked-bar";
 
 export const metadata = {
@@ -39,13 +37,6 @@ export default function Page(): React.JSX.Element {
       </Grid>
       <Grid lg={100} md={100} xs={100}>
         <StackedBar sx={{ height: "100%" }} />
-      </Grid>
-      <Grid lg={100} md={100} xs={100}>
-        <Traffic
-          chartSeries={[63, 15, 22]}
-          labels={["TypeScript", "Python", "CSS"]}
-          sx={{ height: "100%" }}
-        />
       </Grid>
       <Grid lg={100} md={100} xs={100}>
         <LatestOrders

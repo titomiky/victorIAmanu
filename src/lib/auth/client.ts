@@ -158,7 +158,7 @@ class AuthClient {
 
       const token = getToken();
 
-      const res = await axios.put(`${url}/users/admin`, params, {
+      const res = await axios.put(`${url}/users/client`, params, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,

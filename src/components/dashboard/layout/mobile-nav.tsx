@@ -96,7 +96,7 @@ function renderNavItems({
   );
 
   return (
-    <Stack component="ul" spacing={1} sx={{ listStyle: "none", m: 0, p: 0 }}>
+    <Stack component="ul" spacing={2} sx={{ listStyle: "none", m: 0, p: 0 }}>
       {children}
     </Stack>
   );
