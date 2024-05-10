@@ -21,62 +21,77 @@ class ReportsClient {
   async competenciesReport(): Promise<
     CandidateCompetencesReport[] | { error?: string }
   > {
-    const token = getToken();
+    try {
+      const token = getToken();
 
-    const res = await axios.get(`${this.url}/reports/jobOffers/${456}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+      const res = await axios.get(`${this.url}/reports/jobOffers/${456}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    if (Array.isArray(res.data)) {
-      return res.data;
+      if (Array.isArray(res.data)) {
+        return res.data;
+      }
+
+      return { error: "Server error ..." };
+    } catch (error) {
+      console.log(error);
+      return { error: "Server error ..." };
     }
-
-    return { error: "Server error ..." };
   }
 
   async candidateReport(): Promise<
     UserCompetenceReport[] | { error?: string }
   > {
-    const token = getToken();
+    try {
+      const token = getToken();
 
-    const res = await axios.get(`${this.url}/reports/competences/${54}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+      const res = await axios.get(`${this.url}/reports/competences/${54}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    if (Array.isArray(res.data)) {
-      return res.data;
+      if (Array.isArray(res.data)) {
+        return res.data;
+      }
+
+      return { error: "Server error" };
+    } catch (error) {
+      console.log(error);
+      return { error: "Server error" };
     }
-
-    return { error: "Server error" };
   }
 
   async candidateCandidatureReport(
     jobOfferId: string,
     candidateId: string
   ): Promise<UserCompetenceReport[] | { error?: string }> {
-    const token = getToken();
+    try {
+      const token = getToken();
 
-    const res = await axios.get(
-      `${this.url}/reports/candidates/${jobOfferId}/${candidateId}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+      const res = await axios.get(
+        `${this.url}/reports/candidates/${jobOfferId}/${candidateId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (Array.isArray(res.data)) {
+        return res.data;
       }
-    );
 
-    if (Array.isArray(res.data)) {
-      return res.data;
+      return { error: "Server error" };
+    } catch (error) {
+      console.log(error);
+      return { error: "Server error" };
     }
-
-    return { error: "Server error" };
   }
 }
 

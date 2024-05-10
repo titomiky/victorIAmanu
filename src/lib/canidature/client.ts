@@ -19,20 +19,25 @@ class CandidatureClient {
   private url = "https://api.holaqueai.com";
 
   async getCompetenciesList(): Promise<CompetenciesType[] | []> {
-    const token = getToken();
+    try {
+      const token = getToken();
 
-    const res = await axios.get(`${this.url}/competencies/list`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+      const res = await axios.get(`${this.url}/competencies/list`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    if (res.data) {
-      return res.data;
+      if (res.data) {
+        return res.data;
+      }
+
+      return [];
+    } catch (error) {
+      console.log(error);
+      return [];
     }
-
-    return [];
   }
 
   async createCanidature(params: Candidature): Promise<{ error?: string }> {
