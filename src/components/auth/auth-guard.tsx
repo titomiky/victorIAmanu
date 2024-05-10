@@ -1,12 +1,13 @@
 "use client";
 
 import * as React from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Alert from "@mui/material/Alert";
 
 import { paths } from "@/paths";
 import { logger } from "@/lib/default-logger";
 import { useUser } from "@/hooks/use-user";
+import { jwtDecode } from "jwt-decode";
 
 export interface AuthGuardProps {
   children: React.ReactNode;
@@ -18,8 +19,45 @@ export function AuthGuard({
   const router = useRouter();
   const { user, error, isLoading } = useUser();
   const [isChecking, setIsChecking] = React.useState<boolean>(true);
+  const path = usePathname();
+
+  const isTokenExpired = () => {
+    const token = localStorage.getItem("stoical-auth-token") as string;
+    if (!token) return true; // Token does not exist
+    const decodedToken = jwtDecode(token) as any;
+    const currentTime = Date.now() / 1000; // Convert to seconds
+    return decodedToken.exp < currentTime;
+  };
 
   const checkPermissions = async (): Promise<void> => {
+    if (path.includes("/auth")) {
+      if (user) {
+        if (user.onBoarding) {
+          logger.debug(
+            "[AuthGuard]: User onboarding is incomplete, redirecting to onboarding"
+          );
+          router.replace(paths.onboarding.home);
+          return;
+        }
+
+        if (user.role === "candidate") {
+          logger.debug("[AuthGuard]: Redirecting user to candidates home");
+          router.replace(paths.candidate.home);
+          return;
+        }
+
+        logger.debug("[AuthGuard]: Redirecting user to candidates dashboard");
+        router.replace(paths.dashboard.overview);
+        return;
+      }
+
+      return setIsChecking(false);
+    }
+
+    if (isTokenExpired()) {
+      localStorage.removeItem("stoical-auth-token");
+    }
+
     if (isLoading) {
       return;
     }
@@ -32,7 +70,7 @@ export function AuthGuard({
     if (user) {
       if (user.onBoarding) {
         logger.debug(
-          "[GuestGuard]: User onboarding is incomplete, redirecting to onboarding"
+          "[AuthGuard]: User onboarding is incomplete, redirecting to onboarding"
         );
         router.replace(paths.onboarding.home);
         return;

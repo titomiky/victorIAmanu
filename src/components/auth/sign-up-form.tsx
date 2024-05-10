@@ -147,10 +147,6 @@ export function SignUpForm(): React.JSX.Element {
         </Stack>
       </form>
       <Alert color="warning">
-        Registrarse con{" "}
-        <Typography component="span" sx={{ fontWeight: 700 }} variant="inherit">
-          sofia@devias.io
-        </Typography>{" "}
         <Typography component="span" sx={{ fontWeight: 700 }} variant="inherit">
           Secret123
         </Typography>

@@ -157,12 +157,8 @@ export function SignInForm(): React.JSX.Element {
         </Stack>
       </form>
       <Alert color="warning">
-        Iniciar sesión con{" "}
         <Typography component="span" sx={{ fontWeight: 700 }} variant="inherit">
-          sofia@devias.io
-        </Typography>{" "}
-        <Typography component="span" sx={{ fontWeight: 700 }} variant="inherit">
-          Secret1
+          Secret123
         </Typography>
       </Alert>
     </Stack>

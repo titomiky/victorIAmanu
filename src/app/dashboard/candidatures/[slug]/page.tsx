@@ -171,14 +171,22 @@ const Page = ({ params }: { params: { slug: string } }) => {
       </Typography>
       <TableContainer component={Paper}>
         <Table aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Candidatos</TableCell>
+            </TableRow>
+          </TableHead>
           <TableBody>
             {customers.map((row) => (
-              <TableRow key={row.name}>
+              <TableRow
+                key={row.name}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
                 <Link
                   component={RouterLink}
                   href={`/dashboard/candidatures/${params.slug}/${row.id}`}
                 >
-                  <TableCell align="right">{row.name}</TableCell>
+                  <TableCell align="left">{row.name}</TableCell>
                   <TableCell align="right">{row.phone}</TableCell>
                   <TableCell align="right">{row.email}</TableCell>
                 </Link>

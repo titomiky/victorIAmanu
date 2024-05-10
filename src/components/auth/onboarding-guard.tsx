@@ -21,7 +21,6 @@ export function OnboardingGuard({
   const pathname = usePathname();
 
   const checkPermissions = async (): Promise<void> => {
-    console.log();
     if (isLoading) {
       return;
     }
@@ -33,7 +32,6 @@ export function OnboardingGuard({
 
     if (user) {
       if (user.onBoarding) {
-        console.log("asd");
         // check if the actual path belong to the onboarding
         if (pathname.includes("onboarding")) {
           setIsChecking(false);
@@ -48,6 +46,12 @@ export function OnboardingGuard({
         "[GuestGuard]: User already did the onboarding, redirecting to home"
       );
       router.replace(paths.home);
+      return;
+    }
+
+    if (pathname.includes("onboarding") && !user) {
+      logger.debug("[GuestGuard]: User is not login");
+      router.replace(paths.auth.signUp);
       return;
     }
 

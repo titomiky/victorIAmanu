@@ -7,6 +7,7 @@ export interface User {
   onBoarding: boolean;
   surname: string;
   userId: string;
+  role: string;
 }
 
 export interface Candidate {

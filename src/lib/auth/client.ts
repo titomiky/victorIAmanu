@@ -49,21 +49,26 @@ const url = "https://api.holaqueai.com";
 
 class AuthClient {
   async signUp(params: SignUpParams): Promise<{ error?: string }> {
-    const res = await axios.post(`${url}/users`, params, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    try {
+      const res = await axios.post(`${url}/users`, params, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-    if (typeof res.data !== "string") {
+      if (typeof res.data !== "string") {
+        return { error: "Error en nuestros servidores" };
+      }
+
+      const token = res.data;
+
+      localStorage.setItem("stoical-auth-token", token);
+
+      return {};
+    } catch (error) {
+      console.log(error);
       return { error: "Error en nuestros servidores" };
     }
-
-    const token = res.data;
-
-    localStorage.setItem("stoical-auth-token", token);
-
-    return {};
   }
 
   async signInWithOAuth(_: SignInWithOAuthParams): Promise<{ error?: string }> {
@@ -73,34 +78,28 @@ class AuthClient {
   async signInWithPassword(
     params: SignInWithPasswordParams
   ): Promise<{ error?: string }> {
-    console.log(params);
+    try {
+      const res = await axios.post(`${url}/auth/login`, params, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-    const res = await axios.post(`${url}/auth/login`, params, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+      if (res.data) {
+        if (typeof res.data !== "string") {
+          return { error: "Error en nuestros servidores" };
+        }
 
-    console.log(res);
-
-    if (res.data) {
-      if (typeof res.data !== "string") {
-        return { error: "Error en nuestros servidores" };
+        const token = res.data;
+        localStorage.setItem("stoical-auth-token", token);
+        return {};
       }
 
-      const token = res.data;
-      localStorage.setItem("stoical-auth-token", token);
-      return {};
+      return { error: "Error en nuestros servidores" };
+    } catch (error) {
+      console.log(error);
+      return { error: "Email o contraseña incorrectos" };
     }
-    //     const { email, password } = params;
-    //if (email !== "sofia@devias.io" || password !== "Secret1") {
-    //return { error: "Invalid credentials" };
-    //}
-
-    //const token = generateToken();
-    //localStorage.setItem("custom-auth-token", token);
-
-    return { error: "Problemas en nuestros servidores" };
   }
 
   async resetPassword(_: ResetPasswordParams): Promise<{ error?: string }> {
@@ -129,47 +128,55 @@ class AuthClient {
   }
 
   async createCandidate(params: Candidate): Promise<{ error?: string }> {
-    params.currentSalary = Number(params.currentSalary);
-    params.desiredSalary = Number(params.desiredSalary);
-    const token = getToken();
-    const res = await axios.put(`${url}/users/candidate`, params, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    try {
+      params.currentSalary = Number(params.currentSalary);
+      params.desiredSalary = Number(params.desiredSalary);
+      const token = getToken();
+      const res = await axios.put(`${url}/users/candidate`, params, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    console.log(res.data);
+      if (res.status === 200) {
+        console.log(jwtDecode(res.data));
+        localStorage.setItem("stoical-auth-token", res.data);
+        return {};
+      }
 
-    if (res.status === 200) {
-      console.log(jwtDecode(res.data));
-      localStorage.setItem("stoical-auth-token", res.data);
-      return {};
+      return { error: "Ocurrió un error !!" };
+    } catch (error) {
+      console.log(error);
+      return { error: "Ocurrió un error !!" };
     }
-
-    return { error: "Ocurrió un error !!" };
   }
 
   async createCompany(params: Company): Promise<{ error?: string }> {
-    params.numberOfEmployees = Number(params.numberOfEmployees);
+    try {
+      params.numberOfEmployees = Number(params.numberOfEmployees);
 
-    const token = getToken();
+      const token = getToken();
 
-    const res = await axios.put(`${url}/users/admin`, params, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+      const res = await axios.put(`${url}/users/admin`, params, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    console.log(res);
+      console.log(res);
 
-    if (res.status === 200) {
-      localStorage.setItem("stoical-auth-token", res.data);
-      return {};
+      if (res.status === 200) {
+        localStorage.setItem("stoical-auth-token", res.data);
+        return {};
+      }
+
+      return { error: "Ocurrió un error !!" };
+    } catch (error) {
+      console.log(error);
+      return { error: "Ocurrió un error !!" };
     }
-
-    return { error: "Ocurrió un error !!" };
   }
 }
 
