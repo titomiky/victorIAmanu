@@ -1,5 +1,6 @@
 "use client";
 import { useSelection } from "@/hooks/use-selection";
+import { CandidatureList, candidatureClient } from "@/lib/canidature/client";
 import {
   Box,
   Card,
@@ -40,16 +41,33 @@ const CandidaturesTable = ({
   page = 0,
   rowsPerPage = 0,
 }: CandidatureTableProps) => {
+  const [data, setData] = React.useState<CandidatureList[]>([]);
+  const [error, setError] = React.useState<{ error?: string }>();
+
+  React.useEffect(() => {
+    const getData = async () => {
+      const res = await candidatureClient.getCandidaturesList();
+      console.log(res);
+
+      if (Array.isArray(res)) {
+        return setData(res);
+      }
+
+      setError(res);
+    };
+    getData();
+  }, []);
+
   const rowIds = React.useMemo(() => {
-    return rows.map((customer) => customer.id);
-  }, [rows]);
+    return data.map((customer) => customer.jobOfferId);
+  }, [data]);
 
   const { selectAll, deselectAll, selectOne, deselectOne, selected } =
     useSelection(rowIds);
 
   const selectedSome =
-    (selected?.size ?? 0) > 0 && (selected?.size ?? 0) < rows.length;
-  const selectedAll = rows.length > 0 && selected?.size === rows.length;
+    (selected?.size ?? 0) > 0 && (selected?.size ?? 0) < data?.length;
+  const selectedAll = data?.length > 0 && selected?.size === data?.length;
 
   return (
     <Card>
@@ -77,19 +95,19 @@ const CandidaturesTable = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => {
-              const isSelected = selected?.has(row.id);
+            {data.map((row) => {
+              const isSelected = selected?.has(row.jobOfferId);
 
               return (
-                <TableRow hover key={row.id} selected={isSelected}>
+                <TableRow hover key={row.jobOfferId} selected={isSelected}>
                   <TableCell padding="checkbox">
                     <Checkbox
                       checked={isSelected}
                       onChange={(event) => {
                         if (event.target.checked) {
-                          selectOne(row.id);
+                          selectOne(row.jobOfferId);
                         } else {
-                          deselectOne(row.id);
+                          deselectOne(row.jobOfferId);
                         }
                       }}
                     />
@@ -100,15 +118,17 @@ const CandidaturesTable = ({
                       direction="row"
                       spacing={2}
                     >
-                      <Typography variant="subtitle2">{row.id}</Typography>
+                      <Typography variant="subtitle2">
+                        {row.jobOfferId}
+                      </Typography>
                     </Stack>
                   </TableCell>
-                  <TableCell>{row.title}</TableCell>
+                  <TableCell>{row.name}</TableCell>
                   <TableCell>{row.description}</TableCell>
                   <TableCell>
                     <Link
                       component={RouterLink}
-                      href={`/dashboard/candidatures/${row.id}`}
+                      href={`/dashboard/candidatures/${row.jobOfferId}`}
                     >
                       Candidatos
                     </Link>

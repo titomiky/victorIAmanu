@@ -9,6 +9,13 @@ interface Candidature {
   candidateIds: [{}];
 }
 
+export interface CandidatureList {
+  jobOfferId: string;
+  name: string;
+  description: string;
+  numberOfCandidates: number;
+}
+
 export interface CompetenciesType {
   name: string;
   _id: string;
@@ -17,6 +24,28 @@ export interface CompetenciesType {
 
 class CandidatureClient {
   private url = "https://api.holaqueai.com";
+
+  async getCandidaturesList(): Promise<CandidatureList[] | { error?: string }> {
+    try {
+      const token = getToken();
+
+      const res = await axios.get(`${this.url}/users/jobOffers`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (res.data) {
+        return res.data;
+      }
+
+      return [];
+    } catch (error) {
+      console.log(error);
+      return { error: "Error en nuestros servidores..." };
+    }
+  }
 
   async getCompetenciesList(): Promise<CompetenciesType[] | []> {
     try {
