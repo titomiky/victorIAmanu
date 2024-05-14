@@ -38,4 +38,5 @@ export interface UserToken {
   surname: string;
   role: string;
   onBoarding: boolean;
+  clientId: string;
 }

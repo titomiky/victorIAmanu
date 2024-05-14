@@ -6,7 +6,7 @@ import RouterLink from "next/link";
 import * as React from "react";
 
 export interface Candidature {
-  id: string;
+  _id: string;
   title: string;
   description: string;
   skills: string[];
@@ -31,7 +31,7 @@ const CandidaturesTable = () => {
   }, []);
 
   const columns: GridColDef<(typeof data)[number]>[] = [
-    { field: "candidateUserId", headerName: "ID", width: 90 },
+    { field: "_id", headerName: "ID", width: 90 },
     {
       field: "name",
       headerName: "Título",
@@ -46,7 +46,7 @@ const CandidaturesTable = () => {
       editable: true,
     },
     {
-      field: "numberOfCandidates",
+      field: "numCandidates",
       headerName: "Candidatos",
       description: "This column has a value getter and is not sortable.",
       sortable: false,
@@ -66,7 +66,7 @@ const CandidaturesTable = () => {
       <Box sx={{ overflowX: "auto" }}>
         <DataGrid
           rows={data}
-          getRowId={(row: CandidatureList) => row.jobOfferId}
+          getRowId={(row: CandidatureList) => row._id}
           columns={columns}
           initialState={{
             pagination: {

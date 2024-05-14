@@ -1,6 +1,8 @@
 "use client";
 import axios from "axios";
 import { getToken } from "../auth/client";
+import { jwtDecode } from "jwt-decode";
+import { UserToken } from "@/types/user";
 
 interface Candidature {
   name: string;
@@ -10,10 +12,11 @@ interface Candidature {
 }
 
 export interface CandidatureList {
+  _id: string;
   jobOfferId: string;
   name: string;
   description: string;
-  numberOfCandidates: number;
+  numCandidates: number;
 }
 
 export interface CompetenciesType {
@@ -56,13 +59,17 @@ class CandidatureClient {
   async getCandidaturesList(): Promise<CandidatureList[] | { error?: string }> {
     try {
       const token = getToken();
+      const decodedToken = jwtDecode(token) as UserToken;
 
-      const res = await axios.get(`${this.url}/users/jobOffers`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await axios.get(
+        `${this.url}/users/jobOffersByClient/${decodedToken.clientId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (res.data) {
         return res.data;
