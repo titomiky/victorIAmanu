@@ -16,6 +16,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import dayjs from "dayjs";
 import RouterLink from "next/link";
 import * as React from "react";
@@ -47,7 +48,6 @@ const CandidaturesTable = ({
   React.useEffect(() => {
     const getData = async () => {
       const res = await candidatureClient.getCandidaturesList();
-      console.log(res);
 
       if (Array.isArray(res)) {
         return setData(res);
@@ -69,86 +69,56 @@ const CandidaturesTable = ({
     (selected?.size ?? 0) > 0 && (selected?.size ?? 0) < data?.length;
   const selectedAll = data?.length > 0 && selected?.size === data?.length;
 
+  const columns: GridColDef<(typeof data)[number]>[] = [
+    { field: "candidateUserId", headerName: "ID", width: 90 },
+    {
+      field: "name",
+      headerName: "Título",
+      width: 150,
+      editable: true,
+    },
+    {
+      field: "description",
+      headerName: "Descripción",
+      minWidth: 150,
+      flex: 1,
+      editable: true,
+    },
+    {
+      field: "numberOfCandidates",
+      headerName: "Candidatos",
+      description: "This column has a value getter and is not sortable.",
+      sortable: false,
+      width: 160,
+      renderCell: (params) => {
+        return (
+          <RouterLink href={`/dashboard/candidatures/${params.row.jobOfferId}`}>
+            {params.value}
+          </RouterLink>
+        );
+      },
+    },
+  ];
+
   return (
     <Card>
       <Box sx={{ overflowX: "auto" }}>
-        <Table sx={{ minWidth: "800px" }}>
-          <TableHead>
-            <TableRow>
-              <TableCell padding="checkbox">
-                <Checkbox
-                  checked={selectedAll}
-                  indeterminate={selectedSome}
-                  onChange={(event) => {
-                    if (event.target.checked) {
-                      selectAll();
-                    } else {
-                      deselectAll();
-                    }
-                  }}
-                />
-              </TableCell>
-              <TableCell>Id</TableCell>
-              <TableCell>Título</TableCell>
-              <TableCell>Descripción</TableCell>
-              <TableCell>Acciones</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data.map((row) => {
-              const isSelected = selected?.has(row.jobOfferId);
-
-              return (
-                <TableRow hover key={row.jobOfferId} selected={isSelected}>
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={isSelected}
-                      onChange={(event) => {
-                        if (event.target.checked) {
-                          selectOne(row.jobOfferId);
-                        } else {
-                          deselectOne(row.jobOfferId);
-                        }
-                      }}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Stack
-                      sx={{ alignItems: "center" }}
-                      direction="row"
-                      spacing={2}
-                    >
-                      <Typography variant="subtitle2">
-                        {row.jobOfferId}
-                      </Typography>
-                    </Stack>
-                  </TableCell>
-                  <TableCell>{row.name}</TableCell>
-                  <TableCell>{row.description}</TableCell>
-                  <TableCell>
-                    <Link
-                      component={RouterLink}
-                      href={`/dashboard/candidatures/${row.jobOfferId}`}
-                    >
-                      Candidatos
-                    </Link>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
+        <DataGrid
+          rows={data}
+          getRowId={(row: CandidatureList) => row.jobOfferId}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 15,
+              },
+            },
+          }}
+          pageSizeOptions={[15]}
+          checkboxSelection
+          disableRowSelectionOnClick
+        />
       </Box>
-      <Divider />
-      <TablePagination
-        component="div"
-        count={count}
-        onPageChange={() => {}}
-        onRowsPerPageChange={() => {}}
-        page={page}
-        rowsPerPage={rowsPerPage}
-        rowsPerPageOptions={[5, 10, 25]}
-      />
     </Card>
   );
 };
