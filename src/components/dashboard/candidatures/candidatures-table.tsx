@@ -1,23 +1,7 @@
 "use client";
-import { useSelection } from "@/hooks/use-selection";
 import { CandidatureList, candidatureClient } from "@/lib/canidature/client";
-import {
-  Box,
-  Card,
-  Checkbox,
-  Divider,
-  Link,
-  Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TablePagination,
-  TableRow,
-  Typography,
-} from "@mui/material";
+import { Box, Card } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import dayjs from "dayjs";
 import RouterLink from "next/link";
 import * as React from "react";
 
@@ -29,19 +13,7 @@ export interface Candidature {
   createdAt: Date;
 }
 
-interface CandidatureTableProps {
-  count?: number;
-  page?: number;
-  rows?: Candidature[];
-  rowsPerPage?: number;
-}
-
-const CandidaturesTable = ({
-  count = 0,
-  rows = [],
-  page = 0,
-  rowsPerPage = 0,
-}: CandidatureTableProps) => {
+const CandidaturesTable = () => {
   const [data, setData] = React.useState<CandidatureList[]>([]);
   const [error, setError] = React.useState<{ error?: string }>();
 
@@ -57,17 +29,6 @@ const CandidaturesTable = ({
     };
     getData();
   }, []);
-
-  const rowIds = React.useMemo(() => {
-    return data.map((customer) => customer.jobOfferId);
-  }, [data]);
-
-  const { selectAll, deselectAll, selectOne, deselectOne, selected } =
-    useSelection(rowIds);
-
-  const selectedSome =
-    (selected?.size ?? 0) > 0 && (selected?.size ?? 0) < data?.length;
-  const selectedAll = data?.length > 0 && selected?.size === data?.length;
 
   const columns: GridColDef<(typeof data)[number]>[] = [
     { field: "candidateUserId", headerName: "ID", width: 90 },
@@ -118,6 +79,7 @@ const CandidaturesTable = ({
           checkboxSelection
           disableRowSelectionOnClick
         />
+        {error?.error && error.error}
       </Box>
     </Card>
   );
