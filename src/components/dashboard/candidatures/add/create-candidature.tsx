@@ -19,10 +19,15 @@ import { Controller, useForm } from "react-hook-form";
 import { z as zod } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CompetenciesType, candidatureClient } from "@/lib/canidature/client";
+import SelectCandidate from "./select-candidates";
+import { useRouter } from "next/navigation";
+import { paths } from "@/paths";
 
 const CreateCandidature = () => {
   const [selectedSkills, setSelectedSkills] = React.useState<string[]>([]);
   const [skills, setSkills] = React.useState<CompetenciesType[]>();
+  const [selectCandidates, setSelected] = React.useState<string[]>([]);
+  const router = useRouter();
 
   React.useEffect(() => {
     const getSkills = async () => {
@@ -38,22 +43,24 @@ const CreateCandidature = () => {
   }, []);
 
   const schema = zod.object({
-    title: zod.string().min(1, { message: "El título es requerido" }),
+    name: zod.string().min(1, { message: "El título es requerido" }),
     description: zod
       .string()
       .min(1, { message: "La descripción es requerida" }),
-    skills: zod.custom<string[]>(
+    competenceIds: zod.custom<string[]>(
       () => selectedSkills.length >= 3,
       "Debes seleccionar al menos tres competencias"
     ),
+    candidateIds: zod.custom<string[]>(),
   });
 
   type Values = zod.infer<typeof schema>;
 
   const defaultValues = {
-    title: "",
+    name: "",
     description: "",
-    skills: selectedSkills,
+    competenceIds: [],
+    candidateIds: [],
   } satisfies Values;
 
   const [isPending, setIsPending] = React.useState<boolean>(false);
@@ -61,17 +68,35 @@ const CreateCandidature = () => {
   const {
     control,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
 
-  const onSubmit = () => {}; // api request to create a new candidature
+  const onSubmit = async (values: Values) => {
+    //setIsPending(true);
+
+    values.competenceIds = selectedSkills as string[];
+    values.candidateIds = selectCandidates;
+    console.log(values);
+    console.log("asd");
+    const { error } = await candidatureClient.createCandidature(values);
+
+    if (error) {
+      setError("root", { type: "server", message: error });
+      setIsPending(false);
+      return;
+    }
+
+    router.replace(paths.dashboard.candidatures);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
+  };
 
   const handleSkillChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedSkills((prevSkills) => {
+    setSelectedSkills((prevSkills: any) => {
       if (event.target.checked) {
-        return [...prevSkills, event.target.name];
+        return [...prevSkills, event.target.value];
       } else {
-        return prevSkills.filter((skill) => skill !== event.target.name);
+        return prevSkills.filter((skill: any) => skill !== event.target.value);
       }
     });
   };
@@ -83,20 +108,20 @@ const CreateCandidature = () => {
       </Stack>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack
-          spacing={2}
+          spacing={4}
           sx={{
             display: { xs: "flex" },
           }}
         >
           <Controller
             control={control}
-            name="title"
+            name="name"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.title)}>
+              <FormControl error={Boolean(errors.name)}>
                 <InputLabel>Título</InputLabel>
                 <OutlinedInput {...field} label="Título" />
-                {errors.title ? (
-                  <FormHelperText>{errors.title.message}</FormHelperText>
+                {errors.name ? (
+                  <FormHelperText>{errors.name.message}</FormHelperText>
                 ) : null}
               </FormControl>
             )}
@@ -122,7 +147,7 @@ const CreateCandidature = () => {
 
           <FormLabel component="legend">Selecionar Competencias</FormLabel>
 
-          <FormControl error={Boolean(errors.skills)}>
+          <FormControl error={Boolean(errors.competenceIds)}>
             <FormGroup
               sx={{
                 display: "grid",
@@ -137,6 +162,7 @@ const CreateCandidature = () => {
                         <Checkbox
                           name={skill.name}
                           onChange={handleSkillChange}
+                          value={skill._id}
                         />
                       }
                       label={skill.name}
@@ -149,8 +175,8 @@ const CreateCandidature = () => {
                 </span>
               )}
             </FormGroup>
-            {errors.skills ? (
-              <FormHelperText>{errors.skills.message}</FormHelperText>
+            {errors.competenceIds ? (
+              <FormHelperText>{errors.competenceIds.message}</FormHelperText>
             ) : null}
           </FormControl>
 
@@ -175,6 +201,8 @@ const CreateCandidature = () => {
             )}
           /> */}
 
+          <SelectCandidate setSelected={setSelected} />
+
           {errors.root ? (
             <Alert color="error">{errors.root.message}</Alert>
           ) : null}
@@ -196,5 +224,4 @@ const CreateCandidature = () => {
     </Stack>
   );
 };
-
 export default CreateCandidature;

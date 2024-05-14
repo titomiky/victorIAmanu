@@ -22,8 +22,36 @@ export interface CompetenciesType {
   description: string;
 }
 
+interface CreateCandidatureProps {
+  name: string;
+  description: string;
+  competenceIds: string[];
+  candidateIds: string[];
+}
+
 class CandidatureClient {
   private url = "https://api.holaqueai.com";
+
+  async createCandidature(
+    params: CreateCandidatureProps
+  ): Promise<{ error?: string }> {
+    try {
+      const token = getToken();
+      const res = await axios.post(`${this.url}/users/jobOffer`, params, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      console.log(res);
+
+      return {};
+    } catch (error) {
+      console.log(error);
+      return { error: "Server error ..." };
+    }
+  }
 
   async getCandidaturesList(): Promise<CandidatureList[] | { error?: string }> {
     try {
