@@ -126,7 +126,7 @@ export const colorSchemes = {
       success: {
         ...kepple,
         light: kepple[400],
-        main: kepple[500],
+        main: kepple[950],
         dark: kepple[600],
         contrastText: "var(--mui-palette-common-white)",
       },

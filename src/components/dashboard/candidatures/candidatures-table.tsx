@@ -1,7 +1,8 @@
 "use client";
 import { CandidatureList, candidatureClient } from "@/lib/canidature/client";
-import { Box, Card } from "@mui/material";
+import { Box, Button, Card } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { Pencil, Trash } from "@phosphor-icons/react";
 import RouterLink from "next/link";
 import * as React from "react";
 
@@ -53,9 +54,42 @@ const CandidaturesTable = () => {
       width: 160,
       renderCell: (params) => {
         return (
-          <RouterLink href={`/dashboard/candidatures/${params.row.jobOfferId}`}>
+          <RouterLink
+            style={{ marginLeft: "10px" }}
+            href={`/dashboard/candidatures/${params.row.jobOfferId}`}
+          >
             {params.value}
           </RouterLink>
+        );
+      },
+    },
+    {
+      field: "actions",
+      headerName: "Acciones",
+      sortable: false,
+      width: 200,
+      renderCell: (params) => {
+        return (
+          <Box sx={{ display: "flex", gap: "10px", height: "100%" }}>
+            <Button
+              LinkComponent={RouterLink}
+              href={`/dashboard/candidatures/${params.row._id}/edit`}
+              sx={{ width: "fit-content", margin: "auto 0", padding: "4px" }}
+              color="success"
+              variant="contained"
+            >
+              Editar
+            </Button>
+            <Button
+              variant="outlined"
+              LinkComponent={RouterLink}
+              href="/dashboard/candidates/add"
+              sx={{ width: "fit-content", margin: "auto 0", padding: "4px" }}
+              color="error"
+            >
+              <Trash size={20} />
+            </Button>
+          </Box>
         );
       },
     },

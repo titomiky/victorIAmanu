@@ -4,11 +4,14 @@ import { getToken } from "../auth/client";
 import { jwtDecode } from "jwt-decode";
 import { UserToken } from "@/types/user";
 
-interface Candidature {
+export interface Candidature {
   name: string;
   description: string;
-  competenceIds: [{}];
-  candidateIds: [{}];
+  competenceIds: string[];
+  candidateIds: string[];
+  createdAt?: string;
+  updatedAt?: string;
+  _id?: string;
 }
 
 export interface CandidatureList {
@@ -104,17 +107,42 @@ class CandidatureClient {
     }
   }
 
-  async createCanidature(params: Candidature): Promise<{ error?: string }> {
-    const token = getToken();
+  async editCandidature(
+    params: CreateCandidatureProps
+  ): Promise<{ error?: string }> {
+    try {
+      return {};
+    } catch (error) {
+      console.log(error);
+      return { error: "Server error" };
+    }
+  }
 
-    const res = await axios.post(`${this.url}`, params, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+  async getCandidature(id: string): Promise<Candidature> {
+    try {
+      const token = getToken();
 
-    return {};
+      const res = await axios.get<Candidature>(
+        `${this.url}/users/jobOffer/${id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log(res.data);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+      return {
+        name: "",
+        description: "",
+        competenceIds: [],
+        candidateIds: [],
+      };
+    }
   }
 }
 

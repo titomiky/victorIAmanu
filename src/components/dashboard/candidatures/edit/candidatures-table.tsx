@@ -3,10 +3,12 @@ import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { CandidatesList, candidateClient } from "@/lib/candidates/client";
 
-export default function SelectCandidate({
+export default function CandidatesTable({
   setSelected,
+  preSelectedItems,
 }: {
   setSelected: Function;
+  preSelectedItems: string[];
 }) {
   const [error, setError] = React.useState<{ error?: string }>();
   const [data, setData] = React.useState<CandidatesList[]>([]);
@@ -67,6 +69,7 @@ export default function SelectCandidate({
           checkboxSelection
           disableRowSelectionOnClick
           onRowSelectionModelChange={handleRowSelection}
+          rowSelectionModel={preSelectedItems}
         />
       )}
       {error?.error && error?.error}
