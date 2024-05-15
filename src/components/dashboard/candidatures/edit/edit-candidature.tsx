@@ -25,6 +25,7 @@ import {
 } from "@/lib/canidature/client";
 import SelectCandidate from "./candidatures-table";
 import { useRouter } from "next/navigation";
+import { paths } from "@/paths";
 
 const EditCandidature = ({
   candidatureId,
@@ -42,35 +43,30 @@ const EditCandidature = ({
     const getSkills = async () => {
       try {
         const res = await candidatureClient.getCompetenciesList();
-        console.log(skills);
         setSkills(res);
       } catch (error) {
         console.error("Error fetching skills:", error);
       }
     };
 
+    setSelectedSkills(candidature.competenceIds);
     getSkills();
   }, []);
 
   const schema = zod.object({
     name: zod.string().min(1, { message: "El título es requerido" }),
-    description: zod
-      .string()
-      .min(1, { message: "La descripción es requerida" }),
-    competenceIds: zod.custom<string[]>(
-      () => selectedSkills.length >= 3,
-      "Debes seleccionar al menos tres competencias"
-    ),
+    description: zod.string(),
+    competenceIds: zod.custom<string[]>(),
     candidateIds: zod.custom<string[]>(),
   });
 
   type Values = zod.infer<typeof schema>;
 
   const defaultValues = {
-    name: candidature?.name || "",
-    description: candidature?.description || "",
-    competenceIds: candidature?.competenceIds || [],
-    candidateIds: candidature?.candidateIds || [],
+    name: candidature.name,
+    description: candidature.description,
+    competenceIds: candidature.competenceIds,
+    candidateIds: candidature.candidateIds,
   } satisfies Values;
 
   const [isPending, setIsPending] = React.useState<boolean>(false);
@@ -83,19 +79,20 @@ const EditCandidature = ({
   } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
 
   const onSubmit = async (values: Values) => {
-    //setIsPending(true);
-    //values.competenceIds = selectedSkills as string[];
-    //values.candidateIds = selectCandidates;
-    //console.log(values);
-    //console.log("asd");
-    //const { error } = await candidatureClient.editCandidature(values);
-    //if (error) {
-    //setError("root", { type: "server", message: error });
-    //setIsPending(false);
-    //return;
-    //}
-    //router.replace(paths.dashboard.candidatures);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
+    setIsPending(true);
+    values.competenceIds = selectedSkills as string[];
+    values.candidateIds = selectCandidates;
+    const { error } = await candidatureClient.editCandidature(
+      candidatureId,
+      values
+    );
+    if (error) {
+      setError("root", { type: "server", message: error });
+      setIsPending(false);
+      return;
+    }
+    router.replace(paths.dashboard.candidatures);
+    //eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
   };
 
   const handleSkillChange = (event: React.ChangeEvent<HTMLInputElement>) => {

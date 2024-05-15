@@ -61,9 +61,7 @@ export default function CandidatesTable({
         getRowId={(row) => row.candidateUserId}
         checkboxSelection
         rowSelectionModel={selectCandidates}
-        onRowSelectionModelChange={(e: any) => {
-          setSelected(e.selectionModel);
-        }}
+        onRowSelectionModelChange={(value: any[]) => setSelected(value)}
         {...data}
       />
       {error?.error && error?.error}

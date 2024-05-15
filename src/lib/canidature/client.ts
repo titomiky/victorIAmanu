@@ -108,9 +108,21 @@ class CandidatureClient {
   }
 
   async editCandidature(
+    id: string,
     params: CreateCandidatureProps
   ): Promise<{ error?: string }> {
     try {
+      const token = getToken();
+
+      const res = await axios.put(`${this.url}/users/jobOffer/${id}`, params, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      console.log(res);
+
       return {};
     } catch (error) {
       console.log(error);
