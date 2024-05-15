@@ -5,6 +5,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Pencil, Trash } from "@phosphor-icons/react";
 import RouterLink from "next/link";
 import * as React from "react";
+import DeleteCandidature from "./delete-candidature";
 
 export interface Candidature {
   _id: string;
@@ -80,15 +81,7 @@ const CandidaturesTable = () => {
             >
               Editar
             </Button>
-            <Button
-              variant="outlined"
-              LinkComponent={RouterLink}
-              href="/dashboard/candidates/add"
-              sx={{ width: "fit-content", margin: "auto 0", padding: "4px" }}
-              color="error"
-            >
-              <Trash size={20} />
-            </Button>
+            <DeleteCandidature candidatureId={params.row._id} />
           </Box>
         );
       },

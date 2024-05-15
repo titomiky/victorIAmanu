@@ -121,8 +121,6 @@ class CandidatureClient {
         },
       });
 
-      console.log(res);
-
       return {};
     } catch (error) {
       console.log(error);
@@ -154,6 +152,29 @@ class CandidatureClient {
         competenceIds: [],
         candidateIds: [],
       };
+    }
+  }
+
+  async deleteCandidature(id: string): Promise<{ error?: string }> {
+    try {
+      const token = getToken();
+
+      const res = await axios.delete<Candidature>(
+        `${this.url}/users/jobOffer/${id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log(res);
+
+      return {};
+    } catch (error) {
+      console.log(error);
+      return { error: "Server error ...." };
     }
   }
 }
