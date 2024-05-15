@@ -16,7 +16,6 @@ export const paths = {
     candidates: "/dashboard/candidates",
     integrations: "/dashboard/integrations",
   },
-  errors: { notFound: "/errors/not-found" },
   candidate: {
     home: "/candidate/home",
     overview: "/candidate/overview",

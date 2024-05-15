@@ -26,10 +26,4 @@ export const navItems = [
     href: paths.dashboard.account,
     icon: "user",
   },
-  {
-    key: "error",
-    title: "Error",
-    href: paths.errors.notFound,
-    icon: "x-square",
-  },
 ] satisfies NavItemConfig[];
