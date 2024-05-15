@@ -33,7 +33,7 @@ const AccountInfo = () => {
       <Divider />
       <CardActions>
         <Button fullWidth variant="text">
-          Editor avatar
+          Editar avatar
         </Button>
       </CardActions>
     </Card>
