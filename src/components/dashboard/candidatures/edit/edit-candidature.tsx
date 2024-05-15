@@ -35,7 +35,7 @@ const EditCandidature = ({
 }) => {
   const [selectedSkills, setSelectedSkills] = React.useState<string[]>([]);
   const [skills, setSkills] = React.useState<CompetenciesType[]>();
-  const [selectCandidates, setSelected] = React.useState<string[]>([]);
+  const [selectCandidates, setSelected] = React.useState<any[]>([]);
   const router = useRouter();
 
   React.useEffect(() => {
@@ -170,7 +170,7 @@ const EditCandidature = ({
                           name={skill.name}
                           onChange={handleSkillChange}
                           value={skill._id}
-                          checked={
+                          defaultChecked={
                             candidature.competenceIds.includes(skill._id)
                               ? true
                               : false
@@ -194,6 +194,7 @@ const EditCandidature = ({
 
           <FormLabel component="legend">Selecionar Candidatos</FormLabel>
           <SelectCandidate
+            selectCandidates={selectCandidates}
             setSelected={setSelected}
             preSelectedItems={candidature.candidateIds}
           />

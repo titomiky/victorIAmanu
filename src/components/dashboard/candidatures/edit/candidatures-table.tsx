@@ -4,9 +4,11 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { CandidatesList, candidateClient } from "@/lib/candidates/client";
 
 export default function CandidatesTable({
+  selectCandidates,
   setSelected,
   preSelectedItems,
 }: {
+  selectCandidates: any[];
   setSelected: Function;
   preSelectedItems: string[];
 }) {
@@ -23,10 +25,6 @@ export default function CandidatesTable({
     };
     getData();
   }, []);
-
-  const handleRowSelection = (value: any[]) => {
-    setSelected(value);
-  };
 
   const columns: GridColDef<(typeof data)[number]>[] = [
     { field: "candidateUserId", headerName: "ID", width: 90 },
@@ -51,27 +49,23 @@ export default function CandidatesTable({
     },
   ];
 
+  React.useEffect(() => {
+    setSelected(preSelectedItems);
+  }, [preSelectedItems]);
+
   return (
     <Box sx={{ height: 400, width: "100%" }}>
-      {data.length > 0 && (
-        <DataGrid
-          rows={data}
-          getRowId={(row) => row.candidateUserId}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 5,
-              },
-            },
-          }}
-          pageSizeOptions={[5]}
-          checkboxSelection
-          disableRowSelectionOnClick
-          onRowSelectionModelChange={handleRowSelection}
-          rowSelectionModel={preSelectedItems}
-        />
-      )}
+      <DataGrid
+        rows={data}
+        columns={columns}
+        getRowId={(row) => row.candidateUserId}
+        checkboxSelection
+        rowSelectionModel={selectCandidates}
+        onRowSelectionModelChange={(e: any) => {
+          setSelected(e.selectionModel);
+        }}
+        {...data}
+      />
       {error?.error && error?.error}
     </Box>
   );
