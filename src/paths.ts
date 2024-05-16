@@ -20,4 +20,7 @@ export const paths = {
     home: "/candidate/home",
     overview: "/candidate/overview",
   },
+  admin: {
+    home: "/admin",
+  },
 } as const;

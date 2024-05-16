@@ -15,6 +15,11 @@ export interface UserCompetenceReport {
   value: number;
 }
 
+export interface YearClientReport {
+  companyName: string;
+  statistics: { name: string; value: number }[];
+}
+
 class ReportsClient {
   private url = "https://api.holaqueai.com";
 
@@ -91,6 +96,32 @@ class ReportsClient {
     } catch (error) {
       console.log(error);
       return { error: "Server error" };
+    }
+  }
+
+  async getYearReport(
+    year: number
+  ): Promise<YearClientReport[] | { error?: string }> {
+    try {
+      const token = getToken();
+
+      const res = await axios.get(
+        `${this.url}/reports/clientActivity/${year}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (Array.isArray(res.data)) {
+        return res.data;
+      }
+
+      return [];
+    } catch (error) {
+      return { error: "Server error ..." };
     }
   }
 }
