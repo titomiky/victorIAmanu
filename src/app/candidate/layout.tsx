@@ -4,6 +4,7 @@ import "@/styles/global.css";
 
 import { ThemeProvider } from "@/components/core/theme-provider/theme-provider";
 import NavBar from "@/components/candidate/navbar";
+import { Container } from "@mui/material";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -15,7 +16,9 @@ export default function Layout({ children }: LayoutProps): React.JSX.Element {
       <body>
         <ThemeProvider>
           <NavBar />
-          {children}
+          <Container maxWidth="xl" sx={{ py: "24px" }}>
+            {children}
+          </Container>
         </ThemeProvider>
       </body>
     </html>

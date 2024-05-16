@@ -1,4 +1,5 @@
 "use client";
+import { CandidateOffer } from "@/lib/candidates/client";
 import {
   Avatar,
   Box,
@@ -20,7 +21,7 @@ const text_hidden_style = {
   textOverflow: "ellipsis",
 };
 
-const CandidatureItem = ({ candidature }: { candidature: any }) => {
+const CandidatureItem = ({ candidature }: { candidature: CandidateOffer }) => {
   const [toggleInfo, setToggleInfo] = React.useState<boolean>(false);
 
   const handleToggleInfo = (): void => {
@@ -31,14 +32,11 @@ const CandidatureItem = ({ candidature }: { candidature: any }) => {
       <ListItem sx={{ display: "grid", gap: "10px" }} alignItems="flex-start">
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <ListItemAvatar>
-            <Avatar
-              alt={candidature.company}
-              src="/static/images/avatar/1.jpg"
-            />
+            <Avatar alt={candidature.name} src="/static/images/avatar/1.jpg" />
           </ListItemAvatar>
 
           <Typography component="h4" variant="h5">
-            {candidature.title}
+            {candidature.name}
           </Typography>
         </Box>
         <Box sx={{ display: "grid" }}>
@@ -48,15 +46,16 @@ const CandidatureItem = ({ candidature }: { candidature: any }) => {
             sx={toggleInfo ? {} : text_hidden_style}
           >
             <Typography component="span" variant="body2" color="text.primary">
-              {candidature.company} {" - "}
+              {candidature.clientUser} {" - "}
             </Typography>
             {candidature.description}
           </Typography>
         </Box>
         <Stack direction="row" spacing={1}>
-          {candidature.techStack.map((item: string, index: number) => (
+          {/*
+         {candidature.techStack.map((item: string, index: number) => (
             <Chip label={item} size="small" key={index + item} />
-          ))}
+          ))} */}
         </Stack>
         <Button
           sx={{ width: "fit-content", margin: "auto" }}
