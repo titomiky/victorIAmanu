@@ -4,6 +4,8 @@ import Container from "@mui/material/Container";
 import NavBar from "@/components/admin/navbar";
 import { getUser } from "@/lib/auth/client";
 import { UserToken } from "@/types/user";
+import { useRouter } from "next/navigation";
+import { paths } from "@/paths";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -11,6 +13,7 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps): React.JSX.Element {
   const [isChecking, setIsChecking] = React.useState<boolean>(true);
+  const router = useRouter();
 
   React.useEffect(() => {
     const token = getUser() as UserToken;
@@ -20,6 +23,7 @@ export default function Layout({ children }: LayoutProps): React.JSX.Element {
       return;
     }
 
+    router.replace(paths.auth.signIn);
     return;
   }, []);
 

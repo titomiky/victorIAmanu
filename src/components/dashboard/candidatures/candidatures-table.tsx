@@ -57,7 +57,7 @@ const CandidaturesTable = () => {
         return (
           <RouterLink
             style={{ marginLeft: "10px" }}
-            href={`/dashboard/candidatures/${params.row.jobOfferId}`}
+            href={`/dashboard/candidatures/${params.row._id}`}
           >
             {params.value}
           </RouterLink>
