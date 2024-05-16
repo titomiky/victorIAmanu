@@ -51,6 +51,7 @@ const EditCandidature = ({
 
     setSelectedSkills(candidature.competenceIds);
     getSkills();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
   }, []);
 
   const schema = zod.object({

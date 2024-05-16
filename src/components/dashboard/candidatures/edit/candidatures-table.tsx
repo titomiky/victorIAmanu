@@ -24,6 +24,7 @@ export default function CandidatesTable({
       setError(res);
     };
     getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
   }, []);
 
   const columns: GridColDef<(typeof data)[number]>[] = [

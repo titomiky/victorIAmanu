@@ -20,6 +20,7 @@ export default function SelectCandidate({
       setError(res);
     };
     getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
   }, []);
 
   const handleRowSelection = (value: any[]) => {

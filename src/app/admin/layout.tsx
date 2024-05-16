@@ -24,7 +24,7 @@ export default function Layout({ children }: LayoutProps): React.JSX.Element {
     }
 
     router.replace(paths.auth.signIn);
-    return;
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
   }, []);
 
   return (

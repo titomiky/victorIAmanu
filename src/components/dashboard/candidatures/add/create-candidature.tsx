@@ -40,6 +40,7 @@ const CreateCandidature = () => {
     };
 
     getSkills();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
   }, []);
 
   const schema = zod.object({

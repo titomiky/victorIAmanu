@@ -29,6 +29,7 @@ const CandidateOverview = ({
       setErrorMessage(res);
     };
     getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
   }, []);
 
   const names = data.length ? data.map((item) => item.name) : [];

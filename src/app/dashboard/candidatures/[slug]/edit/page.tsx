@@ -16,6 +16,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
     };
 
     getDefaultValues();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
   }, []);
 
   if (candidature) {
