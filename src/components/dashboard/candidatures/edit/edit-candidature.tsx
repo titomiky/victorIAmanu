@@ -197,7 +197,9 @@ const EditCandidature = ({
           />
 
           {errors.root ? (
-            <Alert color="error">{errors.root.message}</Alert>
+            <Alert color="error" severity="error">
+              {errors.root.message}
+            </Alert>
           ) : null}
           <Button
             disabled={isPending}

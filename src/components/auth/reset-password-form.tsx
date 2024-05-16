@@ -1,25 +1,27 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Alert from '@mui/material/Alert';
-import Button from '@mui/material/Button';
-import FormControl from '@mui/material/FormControl';
-import FormHelperText from '@mui/material/FormHelperText';
-import InputLabel from '@mui/material/InputLabel';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import { Controller, useForm } from 'react-hook-form';
-import { z as zod } from 'zod';
+import * as React from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Alert from "@mui/material/Alert";
+import Button from "@mui/material/Button";
+import FormControl from "@mui/material/FormControl";
+import FormHelperText from "@mui/material/FormHelperText";
+import InputLabel from "@mui/material/InputLabel";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
+import { Controller, useForm } from "react-hook-form";
+import { z as zod } from "zod";
 
-import { authClient } from '@/lib/auth/client';
+import { authClient } from "@/lib/auth/client";
 
-const schema = zod.object({ email: zod.string().min(1, { message: 'Email is required' }).email() });
+const schema = zod.object({
+  email: zod.string().min(1, { message: "Email is required" }).email(),
+});
 
 type Values = zod.infer<typeof schema>;
 
-const defaultValues = { email: '' } satisfies Values;
+const defaultValues = { email: "" } satisfies Values;
 
 export function ResetPasswordForm(): React.JSX.Element {
   const [isPending, setIsPending] = React.useState<boolean>(false);
@@ -38,7 +40,7 @@ export function ResetPasswordForm(): React.JSX.Element {
       const { error } = await authClient.resetPassword(values);
 
       if (error) {
-        setError('root', { type: 'server', message: error });
+        setError("root", { type: "server", message: error });
         setIsPending(false);
         return;
       }
@@ -62,11 +64,17 @@ export function ResetPasswordForm(): React.JSX.Element {
               <FormControl error={Boolean(errors.email)}>
                 <InputLabel>Email address</InputLabel>
                 <OutlinedInput {...field} label="Email address" type="email" />
-                {errors.email ? <FormHelperText>{errors.email.message}</FormHelperText> : null}
+                {errors.email ? (
+                  <FormHelperText>{errors.email.message}</FormHelperText>
+                ) : null}
               </FormControl>
             )}
           />
-          {errors.root ? <Alert color="error">{errors.root.message}</Alert> : null}
+          {errors.root ? (
+            <Alert color="error" severity="error">
+              {errors.root.message}
+            </Alert>
+          ) : null}
           <Button disabled={isPending} type="submit" variant="contained">
             Send recovery link
           </Button>

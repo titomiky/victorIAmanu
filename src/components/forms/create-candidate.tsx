@@ -8,7 +8,7 @@ import {
   OutlinedInput,
   Stack,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z as zod } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -46,7 +46,7 @@ const defaultValues = {
 const CreateCandidateForm = () => {
   const { handleNextStep } = useNextStep();
   const [isPending, setIsPending] = React.useState<boolean>(false);
-  const [file, setFile] = React.useState({ file: {} }) as any;
+  let file = "";
 
   const {
     control,
@@ -56,6 +56,9 @@ const CreateCandidateForm = () => {
   } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
 
   const onSubmit = React.useCallback(async (values: Values) => {
+    if (!values.cvPdf) {
+      return setError("root", { type: "client", message: "Debes subir tu cv" });
+    }
     values.cvPdf = file;
     setIsPending(true);
 
@@ -189,7 +192,7 @@ const CreateCandidateForm = () => {
                   inputProps={{ accept: ".xlsx, .xls, .pdf" }}
                   {...field}
                   onChange={(e: any) => {
-                    setFile(e.target.files[0]);
+                    file = e.target.files[0];
                     field.onChange(e);
                   }}
                   type="file"
@@ -202,7 +205,9 @@ const CreateCandidateForm = () => {
             )}
           />
           {errors.root ? (
-            <Alert color="error">{errors.root.message}</Alert>
+            <Alert severity="error" color="error">
+              {errors.root.message}
+            </Alert>
           ) : null}
           <Button
             disabled={isPending}

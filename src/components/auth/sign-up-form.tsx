@@ -139,7 +139,9 @@ export function SignUpForm(): React.JSX.Element {
           />
 
           {errors.root ? (
-            <Alert color="error">{errors.root.message}</Alert>
+            <Alert color="error" severity="error">
+              {errors.root.message}
+            </Alert>
           ) : null}
           <Button disabled={isPending} type="submit" variant="contained">
             Continuar
