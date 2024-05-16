@@ -5,7 +5,6 @@ import { usePathname, useRouter } from "next/navigation";
 import Alert from "@mui/material/Alert";
 
 import { paths } from "@/paths";
-import { logger } from "@/lib/default-logger";
 import { useUser } from "@/hooks/use-user";
 
 export interface NewUserGuardProps {
@@ -38,11 +37,11 @@ export function OnboardingGuard({
           return;
         }
 
-        logger.debug("[GuestGuard]: User created, redirecting to onboarding");
+        console.log("[GuestGuard]: User created, redirecting to onboarding");
         router.replace(paths.onboarding.home);
         return;
       }
-      logger.debug(
+      console.log(
         "[GuestGuard]: User already did the onboarding, redirecting to home"
       );
       router.replace(paths.home);
@@ -50,7 +49,7 @@ export function OnboardingGuard({
     }
 
     if (pathname.includes("onboarding") && !user) {
-      logger.debug("[GuestGuard]: User is not login");
+      console.log("[GuestGuard]: User is not login");
       router.replace(paths.auth.signUp);
       return;
     }

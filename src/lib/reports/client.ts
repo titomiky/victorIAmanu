@@ -40,10 +40,10 @@ class ReportsClient {
         return res.data;
       }
 
-      return { error: "Server error ..." };
+      return { error: "Error en el servidor ..." };
     } catch (error) {
       console.log(error);
-      return { error: "Server error ..." };
+      return { error: "Error en el servidor ..." };
     }
   }
 
@@ -64,10 +64,10 @@ class ReportsClient {
         return res.data;
       }
 
-      return { error: "Server error" };
+      return { error: "Error en el servidor" };
     } catch (error) {
       console.log(error);
-      return { error: "Server error" };
+      return { error: "Error en el servidor" };
     }
   }
 
@@ -92,10 +92,10 @@ class ReportsClient {
         return res.data;
       }
 
-      return { error: "Server error" };
+      return { error: "Error en el servidor" };
     } catch (error) {
       console.log(error);
-      return { error: "Server error" };
+      return { error: "Error en el servidor" };
     }
   }
 
@@ -121,7 +121,7 @@ class ReportsClient {
 
       return [];
     } catch (error) {
-      return { error: "Server error ..." };
+      return { error: "Error en el servidor ..." };
     }
   }
 }

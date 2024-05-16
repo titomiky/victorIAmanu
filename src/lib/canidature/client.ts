@@ -55,7 +55,7 @@ class CandidatureClient {
       return {};
     } catch (error) {
       console.log(error);
-      return { error: "Server error ..." };
+      return { error: "Error en el servidor ..." };
     }
   }
 
@@ -124,7 +124,7 @@ class CandidatureClient {
       return {};
     } catch (error) {
       console.log(error);
-      return { error: "Server error" };
+      return { error: "Error en el servidor" };
     }
   }
 
@@ -174,7 +174,7 @@ class CandidatureClient {
       return {};
     } catch (error) {
       console.log(error);
-      return { error: "Server error ...." };
+      return { error: "Error en el servidor ...." };
     }
   }
 }

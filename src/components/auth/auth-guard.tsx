@@ -5,7 +5,6 @@ import { usePathname, useRouter } from "next/navigation";
 import Alert from "@mui/material/Alert";
 
 import { paths } from "@/paths";
-import { logger } from "@/lib/default-logger";
 import { useUser } from "@/hooks/use-user";
 import { jwtDecode } from "jwt-decode";
 
@@ -30,11 +29,10 @@ export function AuthGuard({
   };
 
   const checkPermissions = async (): Promise<void> => {
-    console.log(user);
     if (path.includes("/auth")) {
       if (user) {
         if (user.onBoarding) {
-          logger.debug(
+          console.log(
             "[AuthGuard]: User onboarding is incomplete, redirecting to onboarding"
           );
           router.replace(paths.onboarding.home);
@@ -42,12 +40,12 @@ export function AuthGuard({
         }
 
         if (user.role === "candidate") {
-          logger.debug("[AuthGuard]: Redirecting user to candidates home");
+          console.log("[AuthGuard]: Redirecting user to candidates home");
           router.replace(paths.candidate.home);
           return;
         }
 
-        logger.debug("[AuthGuard]: Redirecting user to candidates dashboard");
+        console.log("[AuthGuard]: Redirecting user to candidates dashboard");
         router.replace(paths.dashboard.overview);
         return;
       }
@@ -56,7 +54,7 @@ export function AuthGuard({
     }
 
     if (isTokenExpired()) {
-      logger.debug(
+      console.log(
         "[AuthGuard]: User token is expired, redirecting to sign up page"
       );
       localStorage.removeItem("stoical-auth-token");
@@ -75,7 +73,7 @@ export function AuthGuard({
 
     if (user) {
       if (user.onBoarding) {
-        logger.debug(
+        console.log(
           "[AuthGuard]: User onboarding is incomplete, redirecting to onboarding"
         );
         router.replace(paths.onboarding.home);
@@ -84,9 +82,7 @@ export function AuthGuard({
     }
 
     if (!user) {
-      logger.debug(
-        "[AuthGuard]: User is not logged in, redirecting to sign in"
-      );
+      console.log("[AuthGuard]: User is not logged in, redirecting to sign in");
       router.replace(paths.auth.signIn);
       return;
     }

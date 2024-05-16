@@ -1,11 +1,8 @@
 import React from "react";
-
 import type { Metadata } from "next";
 import Stack from "@mui/material/Stack";
 import dayjs from "dayjs";
-
 import { config } from "@/config";
-import type { Customer } from "@/components/dashboard/candidates/candidates-table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
@@ -161,7 +158,7 @@ const customers = [
     },
     createdAt: dayjs().subtract(2, "hours").toDate(),
   },
-] satisfies Customer[];
+] satisfies any[];
 
 const Page = ({ params }: { params: { slug: string } }) => {
   return (
@@ -200,10 +197,10 @@ const Page = ({ params }: { params: { slug: string } }) => {
 };
 
 function applyPagination(
-  rows: Customer[],
+  rows: any[],
   page: number,
   rowsPerPage: number
-): Customer[] {
+): any[] {
   return rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 }
 

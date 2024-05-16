@@ -8,13 +8,10 @@ import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
 import Popover from "@mui/material/Popover";
 import Typography from "@mui/material/Typography";
-import { GearSix as GearSixIcon } from "@phosphor-icons/react/dist/ssr/GearSix";
 import { SignOut as SignOutIcon } from "@phosphor-icons/react/dist/ssr/SignOut";
 import { User as UserIcon } from "@phosphor-icons/react/dist/ssr/User";
-
 import { paths } from "@/paths";
 import { authClient, getUser } from "@/lib/auth/client";
-import { logger } from "@/lib/default-logger";
 import { useUser } from "@/hooks/use-user";
 import { UserToken } from "@/types/user";
 
@@ -39,7 +36,7 @@ export function UserPopover({
       const { error } = await authClient.signOut();
 
       if (error) {
-        logger.error("Sign out error", error);
+        console.log("Sign out error", error);
         return;
       }
 
@@ -50,7 +47,7 @@ export function UserPopover({
       router.refresh();
       // After refresh, AuthGuard will handle the redirect
     } catch (err) {
-      logger.error("Sign out error", err);
+      console.log("Sign out error", err);
     }
   }, [checkSession, router]);
 

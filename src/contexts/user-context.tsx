@@ -1,10 +1,7 @@
 "use client";
-
 import * as React from "react";
-
 import type { User } from "@/types/user";
 import { authClient } from "@/lib/auth/client";
-import { logger } from "@/lib/default-logger";
 
 export interface UserContextValue {
   user: User | null;
@@ -39,7 +36,7 @@ export function UserProvider({
       const { data, error } = await authClient.getUser();
 
       if (error) {
-        logger.error(error);
+        console.log(error);
         setState((prev) => ({
           ...prev,
           user: null,
@@ -56,7 +53,7 @@ export function UserProvider({
         isLoading: false,
       }));
     } catch (err) {
-      logger.error(err);
+      console.log(err);
       setState((prev) => ({
         ...prev,
         user: null,
@@ -68,7 +65,7 @@ export function UserProvider({
 
   React.useEffect(() => {
     checkSession().catch((err) => {
-      logger.error(err);
+      console.log(err);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
   }, []);
