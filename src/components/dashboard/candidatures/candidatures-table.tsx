@@ -1,11 +1,11 @@
 "use client";
 import { CandidatureList, candidatureClient } from "@/lib/canidature/client";
-import { Box, Button, Card } from "@mui/material";
+import { Box, Button, Card, dividerClasses } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Pencil, Trash } from "@phosphor-icons/react";
 import RouterLink from "next/link";
 import * as React from "react";
 import DeleteCandidature from "./delete-candidature";
+import NoResults from "@/components/core/no-results";
 
 export interface Candidature {
   _id: string;
@@ -21,13 +21,15 @@ const CandidaturesTable = () => {
 
   React.useEffect(() => {
     const getData = async () => {
-      const res = await candidatureClient.getCandidaturesList();
+      return [];
+      //const res = await candidatureClient.getCandidaturesList();
 
-      if (Array.isArray(res)) {
-        return setData(res);
-      }
+      //if (Array.isArray(res)) {
+      ////return setData(res);
+      //return;
+      //}
 
-      setError(res);
+      //setError(res);
     };
     getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
@@ -90,26 +92,30 @@ const CandidaturesTable = () => {
   ];
 
   return (
-    <Card>
-      <Box sx={{ overflowX: "auto" }}>
-        <DataGrid
-          rows={data}
-          getRowId={(row: CandidatureList) => row._id}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 15,
-              },
+    <div style={{ height: 400, width: "100%" }}>
+      <DataGrid
+        rows={data}
+        getRowId={(row: CandidatureList) => row._id}
+        columns={columns}
+        initialState={{
+          pagination: {
+            paginationModel: {
+              pageSize: 15,
             },
-          }}
-          pageSizeOptions={[15]}
-          checkboxSelection
-          disableRowSelectionOnClick
-        />
-        {error?.error && error.error}
-      </Box>
-    </Card>
+          },
+        }}
+        localeText={{ noRowsLabel: "This is a custom message :)" }}
+        slots={{
+          noRowsOverlay: () => (
+            <NoResults text="No tienes ninguna candidatura creada" />
+          ),
+        }}
+        pageSizeOptions={[15]}
+        checkboxSelection
+        disableRowSelectionOnClick
+      />
+      {error?.error && error.error}
+    </div>
   );
 };
 

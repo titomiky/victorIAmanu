@@ -2,6 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { CandidatesList, candidateClient } from "@/lib/candidates/client";
+import NoResults from "@/components/core/no-results";
 
 export default function CandidatesTable({
   selectCandidates,
@@ -64,6 +65,9 @@ export default function CandidatesTable({
         rowSelectionModel={selectCandidates}
         onRowSelectionModelChange={(value: any[]) => setSelected(value)}
         {...data}
+        slots={{
+          noRowsOverlay: () => <NoResults />,
+        }}
       />
       {error?.error && error?.error}
     </Box>

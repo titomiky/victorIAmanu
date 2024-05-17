@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { CandidatesList, candidateClient } from "@/lib/candidates/client";
+import NoResults from "@/components/core/no-results";
 
 const CandidatesTable = () => {
   const [data, setData] = React.useState<CandidatesList[]>([]);
@@ -60,6 +61,11 @@ const CandidatesTable = () => {
                 pageSize: 15,
               },
             },
+          }}
+          slots={{
+            noRowsOverlay: () => (
+              <NoResults text="No hay candidatos por el momento ... " />
+            ),
           }}
           pageSizeOptions={[15]}
           checkboxSelection

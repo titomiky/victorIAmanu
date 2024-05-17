@@ -2,6 +2,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { CandidatesList, candidateClient } from "@/lib/candidates/client";
+import NoResults from "@/components/core/no-results";
 
 export default function SelectCandidate({
   setSelected,
@@ -63,6 +64,9 @@ export default function SelectCandidate({
                 pageSize: 5,
               },
             },
+          }}
+          slots={{
+            noRowsOverlay: () => <NoResults />,
           }}
           pageSizeOptions={[5]}
           checkboxSelection
