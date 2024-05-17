@@ -16,7 +16,7 @@ export interface BudgetProps {
   value: string;
 }
 
-export function Budget({
+export function NumberOfCandidates({
   diff,
   trend,
   sx,
@@ -39,7 +39,7 @@ export function Budget({
           >
             <Stack spacing={1}>
               <Typography color="text.secondary" variant="overline">
-                Presupuesto
+                Candidaturas
               </Typography>
               <Typography variant="h4">{value}</Typography>
             </Stack>

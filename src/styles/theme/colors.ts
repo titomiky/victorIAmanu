@@ -29,17 +29,17 @@ export const kepple = {
 } satisfies PaletteRange;
 
 export const neonBlue = {
-  50: "#ecf0ff",
-  100: "#dde3ff",
-  200: "#c2cbff",
-  300: "#9ca7ff",
-  400: "#7578ff",
-  500: "#635bff",
-  600: "#4e36f5",
-  700: "#432ad8",
-  800: "#3725ae",
-  900: "#302689",
-  950: "#1e1650",
+  50: "#e8eef6",
+  100: "#cfdbee",
+  200: "#a9c1e2",
+  300: "#799dcf",
+  400: "#517fbb",
+  500: "#3F72AF", // Base color
+  600: "#36649b",
+  700: "#2e5682",
+  800: "#254569",
+  900: "#1c3653",
+  950: "#121e30",
 } satisfies PaletteRange;
 
 export const nevada = {

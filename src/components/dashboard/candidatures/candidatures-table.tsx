@@ -77,8 +77,8 @@ const CandidaturesTable = () => {
               LinkComponent={RouterLink}
               href={`/dashboard/candidatures/${params.row._id}/edit`}
               sx={{ width: "fit-content", margin: "auto 0", padding: "4px" }}
-              color="success"
               variant="contained"
+              color="success"
             >
               Editar
             </Button>

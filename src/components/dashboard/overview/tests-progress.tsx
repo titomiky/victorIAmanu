@@ -13,7 +13,7 @@ export interface TasksProgressProps {
   value: number;
 }
 
-export function TasksProgress({
+export function TestsProgress({
   value,
   sx,
 }: TasksProgressProps): React.JSX.Element {
@@ -32,7 +32,7 @@ export function TasksProgress({
                 gutterBottom
                 variant="overline"
               >
-                Tareas Completadas
+                Pruebas completadas
               </Typography>
               <Typography variant="h4">{value}%</Typography>
             </Stack>

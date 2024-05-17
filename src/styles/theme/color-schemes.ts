@@ -123,13 +123,7 @@ export const colorSchemes = {
         dark: nevada[800],
         contrastText: "var(--mui-palette-common-white)",
       },
-      success: {
-        ...kepple,
-        light: kepple[400],
-        main: kepple[950],
-        dark: kepple[600],
-        contrastText: "var(--mui-palette-common-white)",
-      },
+
       text: {
         primary: "var(--mui-palette-neutral-900)",
         primaryChannel: "33 38 54",

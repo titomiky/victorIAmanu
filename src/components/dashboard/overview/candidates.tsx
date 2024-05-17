@@ -16,7 +16,7 @@ export interface TotalCustomersProps {
   value: string;
 }
 
-export function TotalCustomers({
+export function CandidatesOverview({
   diff,
   trend,
   sx,
@@ -39,7 +39,7 @@ export function TotalCustomers({
           >
             <Stack spacing={1}>
               <Typography color="text.secondary" variant="overline">
-                Consumidores
+                Candidatos
               </Typography>
               <Typography variant="h4">{value}</Typography>
             </Stack>
