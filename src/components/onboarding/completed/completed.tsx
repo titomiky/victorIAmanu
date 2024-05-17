@@ -21,7 +21,7 @@ const Completed = () => {
     const user = jwtDecode<User>(token);
 
     if (user.onBoarding) {
-      return router.back;
+      return router.back();
     }
 
     params.set("step", "3");
