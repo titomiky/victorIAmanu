@@ -49,36 +49,34 @@ const CandidatesTable = () => {
   ];
 
   return (
-    <Card>
-      <Box sx={{ overflowX: "auto" }}>
-        <DataGrid
-          rows={data}
-          getRowId={(row: CandidatesList) => row.candidateUserId}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 15,
-              },
+    <div style={{ height: 400, width: "100%" }}>
+      <DataGrid
+        rows={data}
+        getRowId={(row: CandidatesList) => row.candidateUserId}
+        columns={columns}
+        initialState={{
+          pagination: {
+            paginationModel: {
+              pageSize: 15,
             },
-          }}
-          slots={{
-            noRowsOverlay: () => (
-              <NoResults
-                text={
-                  error?.error
-                    ? error.error
-                    : "No hay candidatos por el momento ... "
-                }
-              />
-            ),
-          }}
-          pageSizeOptions={[15]}
-          checkboxSelection
-          disableRowSelectionOnClick
-        />
-      </Box>
-    </Card>
+          },
+        }}
+        slots={{
+          noRowsOverlay: () => (
+            <NoResults
+              text={
+                error?.error
+                  ? error.error
+                  : "No hay candidatos por el momento ... "
+              }
+            />
+          ),
+        }}
+        pageSizeOptions={[15]}
+        checkboxSelection
+        disableRowSelectionOnClick
+      />
+    </div>
   );
 };
 

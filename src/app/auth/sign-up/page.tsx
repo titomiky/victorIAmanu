@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { config } from "@/config";
 import { SignUpForm } from "@/components/auth/sign-up-form";
 import { OnboardingGuard } from "@/components/auth/onboarding-guard";
-import AlternativeLayout from "@/components/auth/alternative-layout";
+import Layout from "@/components/auth/card-layout";
 
 export const metadata = {
   title: `Sign up | Auth | ${config.site.name}`,
@@ -12,10 +12,10 @@ export const metadata = {
 
 export default function Page(): React.JSX.Element {
   return (
-    <AlternativeLayout>
+    <Layout>
       <OnboardingGuard>
         <SignUpForm />
       </OnboardingGuard>
-    </AlternativeLayout>
+    </Layout>
   );
 }

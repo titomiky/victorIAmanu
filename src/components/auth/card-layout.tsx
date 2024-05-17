@@ -1,17 +1,15 @@
 import React from "react";
 import RouterLink from "next/link";
 import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
 import { paths } from "@/paths";
 import { DynamicLogo } from "@/components/core/logo";
-import { config } from "@/config";
+import { Card } from "@mui/material";
 
 export interface LayoutProps {
   children: React.ReactNode;
 }
 
-const AlternativeLayout = ({ children }: LayoutProps) => {
+const CardLayout = ({ children }: LayoutProps) => {
   return (
     <Box
       sx={{
@@ -41,14 +39,15 @@ const AlternativeLayout = ({ children }: LayoutProps) => {
             display: "flex",
             flex: "1 1 auto",
             justifyContent: "center",
-            p: 3,
           }}
         >
-          <Box sx={{ maxWidth: "450px", width: "100%" }}>{children}</Box>
+          <Card sx={{ maxWidth: "700px", width: "100%", p: 5 }}>
+            {children}
+          </Card>
         </Box>
       </Box>
     </Box>
   );
 };
 
-export default AlternativeLayout;
+export default CardLayout;

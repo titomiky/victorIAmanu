@@ -52,7 +52,7 @@ export default function SelectCandidate({
   ];
 
   return (
-    <Box sx={{ height: 400, width: "100%" }}>
+    <div style={{ height: 400, width: "100%" }}>
       {data.length > 0 && (
         <DataGrid
           rows={data}
@@ -82,6 +82,6 @@ export default function SelectCandidate({
           onRowSelectionModelChange={handleRowSelection}
         />
       )}
-    </Box>
+    </div>
   );
 }

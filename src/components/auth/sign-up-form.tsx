@@ -26,6 +26,9 @@ const schema = zod.object({
   password: zod
     .string()
     .min(6, { message: "La contraseña debe contener al menos 6 caracteres" }),
+  confirmPassword: zod
+    .string()
+    .min(6, { message: "La contraseña debe contener al menos 6 caracteres" }),
 });
 
 type Values = zod.infer<typeof schema>;
@@ -33,6 +36,7 @@ type Values = zod.infer<typeof schema>;
 const defaultValues = {
   email: "",
   password: "",
+  confirmPassword: "",
 } satisfies Values;
 
 export function SignUpForm(): React.JSX.Element {
@@ -52,6 +56,13 @@ export function SignUpForm(): React.JSX.Element {
 
   const onSubmit = React.useCallback(
     async (values: Values): Promise<void> => {
+      if (values.password !== values.confirmPassword) {
+        return setError("root", {
+          type: "client",
+          message: "Las contraseñas deben ser iguales",
+        });
+      }
+
       setIsPending(true);
 
       const { error } = await authClient.signUp(values);
@@ -133,6 +144,45 @@ export function SignUpForm(): React.JSX.Element {
                 />
                 {errors.password ? (
                   <FormHelperText>{errors.password.message}</FormHelperText>
+                ) : null}
+              </FormControl>
+            )}
+          />
+
+          <Controller
+            control={control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormControl error={Boolean(errors.confirmPassword)}>
+                <InputLabel>Repetir la Contraseña</InputLabel>
+                <OutlinedInput
+                  {...field}
+                  endAdornment={
+                    showPassword ? (
+                      <EyeIcon
+                        cursor="pointer"
+                        fontSize="var(--icon-fontSize-md)"
+                        onClick={(): void => {
+                          setShowPassword(false);
+                        }}
+                      />
+                    ) : (
+                      <EyeSlashIcon
+                        cursor="pointer"
+                        fontSize="var(--icon-fontSize-md)"
+                        onClick={(): void => {
+                          setShowPassword(true);
+                        }}
+                      />
+                    )
+                  }
+                  label="Repetir la Contraseña"
+                  type={showPassword ? "text" : "password"}
+                />
+                {errors.confirmPassword ? (
+                  <FormHelperText>
+                    {errors.confirmPassword.message}
+                  </FormHelperText>
                 ) : null}
               </FormControl>
             )}
