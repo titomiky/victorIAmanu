@@ -65,16 +65,23 @@ export default function SelectCandidate({
               },
             },
           }}
-          slots={{
-            noRowsOverlay: () => <NoResults />,
-          }}
           pageSizeOptions={[5]}
           checkboxSelection
+          slots={{
+            noRowsOverlay: () => (
+              <NoResults
+                text={
+                  error?.error
+                    ? error.error
+                    : "No hay candidatos por el momento ... "
+                }
+              />
+            ),
+          }}
           disableRowSelectionOnClick
           onRowSelectionModelChange={handleRowSelection}
         />
       )}
-      {error?.error && error?.error}
     </Box>
   );
 }

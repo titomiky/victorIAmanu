@@ -66,10 +66,17 @@ export default function CandidatesTable({
         onRowSelectionModelChange={(value: any[]) => setSelected(value)}
         {...data}
         slots={{
-          noRowsOverlay: () => <NoResults />,
+          noRowsOverlay: () => (
+            <NoResults
+              text={
+                error?.error
+                  ? error.error
+                  : "No tienes ninguna candidatura creada"
+              }
+            />
+          ),
         }}
       />
-      {error?.error && error?.error}
     </Box>
   );
 }

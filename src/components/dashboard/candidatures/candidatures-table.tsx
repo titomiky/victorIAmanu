@@ -21,15 +21,13 @@ const CandidaturesTable = () => {
 
   React.useEffect(() => {
     const getData = async () => {
-      return [];
-      //const res = await candidatureClient.getCandidaturesList();
+      const res = await candidatureClient.getCandidaturesList();
 
-      //if (Array.isArray(res)) {
-      ////return setData(res);
-      //return;
-      //}
+      if (Array.isArray(res)) {
+        return setData(res);
+      }
 
-      //setError(res);
+      setError(res);
     };
     getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
@@ -107,14 +105,19 @@ const CandidaturesTable = () => {
         localeText={{ noRowsLabel: "This is a custom message :)" }}
         slots={{
           noRowsOverlay: () => (
-            <NoResults text="No tienes ninguna candidatura creada" />
+            <NoResults
+              text={
+                error?.error
+                  ? error.error
+                  : "No tienes ninguna candidatura creada"
+              }
+            />
           ),
         }}
         pageSizeOptions={[15]}
         checkboxSelection
         disableRowSelectionOnClick
       />
-      {error?.error && error.error}
     </div>
   );
 };

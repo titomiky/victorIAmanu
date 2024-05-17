@@ -64,14 +64,19 @@ const CandidatesTable = () => {
           }}
           slots={{
             noRowsOverlay: () => (
-              <NoResults text="No hay candidatos por el momento ... " />
+              <NoResults
+                text={
+                  error?.error
+                    ? error.error
+                    : "No hay candidatos por el momento ... "
+                }
+              />
             ),
           }}
           pageSizeOptions={[15]}
           checkboxSelection
           disableRowSelectionOnClick
         />
-        {error?.error && error.error}
       </Box>
     </Card>
   );
