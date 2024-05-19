@@ -90,7 +90,7 @@ const CandidaturesTable = () => {
   ];
 
   return (
-    <div style={{ height: 400, width: "100%" }}>
+    <div style={{ minHeight: 400, width: "100%" }}>
       <DataGrid
         rows={data}
         getRowId={(row: CandidatureList) => row._id}

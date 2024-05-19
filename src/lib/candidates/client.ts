@@ -32,6 +32,8 @@ class CandidatesClient {
         },
       });
 
+      console.log(res);
+
       if (Array.isArray(res.data)) {
         return res.data;
       }
@@ -63,6 +65,30 @@ class CandidatesClient {
     } catch (error) {
       console.log(error);
       return { error: "Error en el servidor" };
+    }
+  }
+
+  async generateCandidateTest(
+    candidateId: string,
+    jobOfferId: string
+  ): Promise<{ error?: string } | string> {
+    try {
+      const token = getToken();
+
+      const res = await axios.get<string>(
+        `${this.url}/users/linkToSession/${candidateId}/${jobOfferId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      return res.data;
+    } catch (error) {
+      console.log(error);
+      return { error: "Error en nuestros servidores" };
     }
   }
 }

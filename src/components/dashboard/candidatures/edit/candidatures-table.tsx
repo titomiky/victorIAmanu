@@ -56,7 +56,7 @@ export default function CandidatesTable({
   }, [preSelectedItems]);
 
   return (
-    <div style={{ height: 400, width: "100%" }}>
+    <div style={{ minHeight: 400, width: "100%" }}>
       <DataGrid
         rows={data}
         columns={columns}

@@ -52,7 +52,7 @@ export default function SelectCandidate({
   ];
 
   return (
-    <div style={{ height: 400, width: "100%" }}>
+    <div style={{ minHeight: 400, width: "100%" }}>
       {data.length > 0 && (
         <DataGrid
           rows={data}

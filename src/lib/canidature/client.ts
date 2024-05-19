@@ -169,8 +169,6 @@ class CandidatureClient {
         }
       );
 
-      console.log(res);
-
       return {};
     } catch (error) {
       console.log(error);
