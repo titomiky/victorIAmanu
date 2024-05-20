@@ -1,6 +1,6 @@
 "use client";
 import { CandidatureList, candidatureClient } from "@/lib/canidature/client";
-import { Box, Button, Card, dividerClasses } from "@mui/material";
+import { Box, Button, Card, Link, dividerClasses } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import RouterLink from "next/link";
 import * as React from "react";
@@ -61,12 +61,13 @@ const CandidaturesTable = () => {
 
       renderCell: (params) => {
         return (
-          <RouterLink
+          <Link
+            component={RouterLink}
             style={{ marginLeft: "10px" }}
             href={`/dashboard/candidatures/${params.row._id}`}
           >
             Ver candidatos ( {params.value} )
-          </RouterLink>
+          </Link>
         );
       },
     },
@@ -83,7 +84,6 @@ const CandidaturesTable = () => {
               href={`/dashboard/candidatures/${params.row._id}/edit`}
               sx={{ width: "fit-content", margin: "auto 0", padding: "4px" }}
               variant="outlined"
-              color="success"
             >
               Editar
             </Button>

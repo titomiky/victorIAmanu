@@ -21,6 +21,7 @@ const Page = () => {
             variant="contained"
             LinkComponent={RouterLink}
             href="/dashboard/candidates/add"
+            color="success"
           >
             Crear candidato
           </Button>
