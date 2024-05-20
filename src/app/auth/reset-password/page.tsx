@@ -1,17 +1,19 @@
-import * as React from "react";
-import type { Metadata } from "next";
-import Layout from "@/components/auth/card-layout";
 import { config } from "@/config";
-import { ResetPasswordForm } from "@/components/auth/reset-password-form";
+import { Metadata } from "next";
+import React from "react";
+import Layout from "@/components/auth/card-layout";
+import { EmailLinkForm } from "@/components/auth/email-link-form";
 
 export const metadata = {
   title: `Reset password | Auth | ${config.site.name}`,
 } satisfies Metadata;
 
-export default function Page(): React.JSX.Element {
+const page = () => {
   return (
     <Layout>
-      <ResetPasswordForm />
+      <EmailLinkForm />
     </Layout>
   );
-}
+};
+
+export default page;
