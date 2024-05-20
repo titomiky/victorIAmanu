@@ -102,7 +102,7 @@ export function AccountDetailsForm(): React.JSX.Element {
                 control={control}
                 name="phoneNumber"
                 render={({ field }) => (
-                  <FormControl fullWidth required>
+                  <FormControl fullWidth>
                     <InputLabel>Teléfono</InputLabel>
                     <OutlinedInput {...field} label="Teléfono" />
                   </FormControl>
@@ -176,7 +176,7 @@ export function AccountDetailsForm(): React.JSX.Element {
           </Grid>
         </CardContent>
         <Divider />
-        <CardActions sx={{ justifyContent: "flex-end" }}>
+        <CardActions sx={{ justifyContent: "flex-end", padding: "10px" }}>
           <Button variant="contained">Guardar cambios</Button>
         </CardActions>
       </Card>

@@ -89,7 +89,7 @@ const CreateCandidateForm = () => {
             control={control}
             name="name"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.name)}>
+              <FormControl error={Boolean(errors.name)} required>
                 <InputLabel>Nombre</InputLabel>
                 <OutlinedInput {...field} label="Nombre" />
                 {errors.name ? (
@@ -102,7 +102,7 @@ const CreateCandidateForm = () => {
             control={control}
             name="surname"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.surname)}>
+              <FormControl error={Boolean(errors.surname)} required>
                 <InputLabel>Apellido/s</InputLabel>
                 <OutlinedInput {...field} label="Apellido/s" />
                 {errors.surname ? (
@@ -115,7 +115,7 @@ const CreateCandidateForm = () => {
             control={control}
             name="phoneNumber"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.phoneNumber)}>
+              <FormControl error={Boolean(errors.phoneNumber)} required>
                 <InputLabel>Teléfono</InputLabel>
                 <OutlinedInput {...field} label="Teléfono" />
                 {errors.phoneNumber ? (
@@ -129,7 +129,7 @@ const CreateCandidateForm = () => {
             control={control}
             name="currentSalary"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.currentSalary)}>
+              <FormControl error={Boolean(errors.currentSalary)} required>
                 <InputLabel>Salario actual</InputLabel>
                 <OutlinedInput
                   {...field}
@@ -148,7 +148,7 @@ const CreateCandidateForm = () => {
             control={control}
             name="desiredSalary"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.desiredSalary)}>
+              <FormControl error={Boolean(errors.desiredSalary)} required>
                 <InputLabel>Salario deseado</InputLabel>
                 <OutlinedInput
                   {...field}
@@ -167,7 +167,7 @@ const CreateCandidateForm = () => {
             control={control}
             name="birthDate"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.birthDate)}>
+              <FormControl error={Boolean(errors.birthDate)} required>
                 <InputLabel shrink={true}>Fecha de nacimiento</InputLabel>
                 <OutlinedInput
                   {...field}
@@ -185,7 +185,7 @@ const CreateCandidateForm = () => {
             control={control}
             name="cvPdf"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.cvPdf)}>
+              <FormControl error={Boolean(errors.cvPdf)} required>
                 <InputLabel shrink={true}>Curriculum</InputLabel>
                 <OutlinedInput
                   label="Curriculum"

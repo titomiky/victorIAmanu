@@ -84,7 +84,7 @@ const CreateCompanyForm = () => {
             control={control}
             name="name"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.name)}>
+              <FormControl error={Boolean(errors.name)} required>
                 <InputLabel>Nombre</InputLabel>
                 <OutlinedInput {...field} label="Nombre" />
                 {errors.name ? (
@@ -97,7 +97,7 @@ const CreateCompanyForm = () => {
             control={control}
             name="surname"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.surname)}>
+              <FormControl error={Boolean(errors.surname)} required>
                 <InputLabel>Apellido/s</InputLabel>
                 <OutlinedInput {...field} label="Apellido/s" />
                 {errors.surname ? (
@@ -110,7 +110,7 @@ const CreateCompanyForm = () => {
             control={control}
             name="phoneNumber"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.phoneNumber)}>
+              <FormControl error={Boolean(errors.phoneNumber)} required>
                 <InputLabel>Teléfono</InputLabel>
                 <OutlinedInput {...field} label="Teléfono" />
                 {errors.phoneNumber ? (
@@ -123,7 +123,7 @@ const CreateCompanyForm = () => {
             control={control}
             name="email"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.email)}>
+              <FormControl error={Boolean(errors.email)} required>
                 <InputLabel>Email </InputLabel>
                 <OutlinedInput {...field} label="Email" type="email" />
                 {errors.email ? (
@@ -136,7 +136,7 @@ const CreateCompanyForm = () => {
             control={control}
             name="position"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.position)}>
+              <FormControl error={Boolean(errors.position)} required>
                 <InputLabel>Cargo</InputLabel>
                 <OutlinedInput {...field} label="Cargo" type="text" />
                 {errors.position ? (
@@ -149,7 +149,7 @@ const CreateCompanyForm = () => {
             control={control}
             name="companyName"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.companyName)}>
+              <FormControl error={Boolean(errors.companyName)} required>
                 <InputLabel>Nombre de la empresa</InputLabel>
                 <OutlinedInput
                   {...field}
@@ -166,7 +166,7 @@ const CreateCompanyForm = () => {
             control={control}
             name="companyAddress"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.companyAddress)}>
+              <FormControl error={Boolean(errors.companyAddress)} required>
                 <InputLabel>Dirección de la empresa</InputLabel>
                 <OutlinedInput
                   {...field}
@@ -185,7 +185,7 @@ const CreateCompanyForm = () => {
             control={control}
             name="companyNIF"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.companyNIF)}>
+              <FormControl error={Boolean(errors.companyNIF)} required>
                 <InputLabel>companyNIF</InputLabel>
                 <OutlinedInput {...field} label="companyNIF" type="text" />
                 {errors.companyNIF ? (
@@ -198,7 +198,7 @@ const CreateCompanyForm = () => {
             control={control}
             name="numberOfEmployees"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.numberOfEmployees)}>
+              <FormControl error={Boolean(errors.numberOfEmployees)} required>
                 <InputLabel>Número de empleados</InputLabel>
                 <OutlinedInput
                   {...field}
