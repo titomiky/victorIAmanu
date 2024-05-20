@@ -39,13 +39,13 @@ const CandidaturesTable = () => {
       field: "name",
       headerName: "Título",
       width: 150,
+      flex: 1,
       editable: true,
     },
     {
       field: "description",
       headerName: "Descripción",
-      minWidth: 150,
-      flex: 1,
+      width: 200,
       editable: true,
     },
     {
@@ -53,14 +53,16 @@ const CandidaturesTable = () => {
       headerName: "Candidatos",
       description: "This column has a value getter and is not sortable.",
       sortable: false,
-      width: 160,
+      minWidth: 180,
+      flex: 1,
+
       renderCell: (params) => {
         return (
           <RouterLink
             style={{ marginLeft: "10px" }}
             href={`/dashboard/candidatures/${params.row._id}`}
           >
-            {params.value}
+            Ver candidatos ( {params.value} )
           </RouterLink>
         );
       },
@@ -103,6 +105,7 @@ const CandidaturesTable = () => {
           },
         }}
         localeText={{ noRowsLabel: "This is a custom message :)" }}
+        sx={data.length ? {} : { height: "400px" }}
         slots={{
           noRowsOverlay: () => (
             <NoResults

@@ -1,5 +1,5 @@
 "use client";
-import { Box, Stack, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { ApexOptions } from "apexcharts";
 import React from "react";
 import { Chart } from "../../core/chart";

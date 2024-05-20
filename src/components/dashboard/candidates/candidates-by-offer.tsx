@@ -35,15 +35,13 @@ const CandidatesByOffer = ({ candidatureId }: { candidatureId: string }) => {
     const getData = async () => {
       const res = await candidateClient.getCandidatesByOffer(candidatureId);
       console.log(res);
-
       if (Array.isArray(res)) {
         return setData(res);
       }
-
       setError(res);
     };
-
     getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
   }, []);
 
   const handleGenerateTest = async () => {
@@ -55,10 +53,12 @@ const CandidatesByOffer = ({ candidatureId }: { candidatureId: string }) => {
         candidatureId
       );
 
+      if (typeof res !== "string" && res?.error) {
+        setUrlError(res);
+      }
+
       if (typeof res === "string") {
         setSessionUrl(res);
-      } else if (res.error) {
-        setUrlError(res);
       }
     }
 
@@ -76,14 +76,14 @@ const CandidatesByOffer = ({ candidatureId }: { candidatureId: string }) => {
     {
       field: "surname",
       headerName: "Apellido",
-      minWidth: 150,
-      flex: 1,
+      width: 150,
       editable: true,
     },
     {
       field: "email",
       headerName: "Email",
-      width: 160,
+      minWidth: 160,
+      flex: 1,
     },
     {
       field: "actions",
@@ -111,7 +111,7 @@ const CandidatesByOffer = ({ candidatureId }: { candidatureId: string }) => {
 
   return (
     <>
-      <div style={{ minHeight: 400, width: "100%" }}>
+      <div style={{ minHeight: "400px", width: "100%" }}>
         <DataGrid
           rows={data}
           getRowId={(row: CandidatesList) => row.candidateUserId}
@@ -123,6 +123,7 @@ const CandidatesByOffer = ({ candidatureId }: { candidatureId: string }) => {
               },
             },
           }}
+          sx={data.length ? {} : { height: "400px" }}
           slots={{
             noRowsOverlay: () => (
               <NoResults
@@ -160,11 +161,12 @@ const CandidatesByOffer = ({ candidatureId }: { candidatureId: string }) => {
           }}
         >
           <Stack spacing={5}>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              Seleccione la candidatura que desea evaluar para :{" "}
-              {candidate?.name + " " + candidate?.surname}
-            </Typography>
-
+            {!sessionUrl && (
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                Desea crear un link para evaluar al candidato :{" "}
+                {candidate?.name + " " + candidate?.surname} ?
+              </Typography>
+            )}
             {isPending ? (
               <CircularProgress sx={{ margin: "16px auto" }} />
             ) : sessionUrl ? (
@@ -189,10 +191,18 @@ const CandidatesByOffer = ({ candidatureId }: { candidatureId: string }) => {
                 justifyContent: "space-between",
               }}
             >
-              <Button sx={{ p: 0 }} onClick={handleClose}>
+              <Button sx={{ p: 0 }} onClick={() => console.log(sessionUrl)}>
                 Cancelar
               </Button>
-              <Button onClick={handleGenerateTest}>Continuar</Button>
+              {sessionUrl ? (
+                <Button onClick={handleClose}>Continuar</Button>
+              ) : (
+                <Button
+                  onClick={isPending ? () => {} : () => handleGenerateTest()}
+                >
+                  Continuar
+                </Button>
+              )}
             </Box>
           </Stack>
         </Box>

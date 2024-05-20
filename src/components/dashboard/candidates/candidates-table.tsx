@@ -33,20 +33,14 @@ const CandidatesTable = () => {
     {
       field: "surname",
       headerName: "Apellido",
-      minWidth: 150,
-      flex: 1,
+      width: 150,
       editable: true,
     },
     {
       field: "email",
       headerName: "Email",
-      width: 160,
-    },
-    {
-      field: "actions",
-      headerName: "Acciones",
-      width: 150,
-      sortable: false,
+      minWidth: 160,
+      flex: 1,
     },
   ];
 
@@ -63,6 +57,7 @@ const CandidatesTable = () => {
             },
           },
         }}
+        sx={data.length ? {} : { height: "400px" }}
         slots={{
           noRowsOverlay: () => (
             <NoResults

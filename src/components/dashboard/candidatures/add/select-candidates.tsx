@@ -65,6 +65,7 @@ export default function SelectCandidate({
               },
             },
           }}
+          sx={data.length ? {} : { height: "400px" }}
           pageSizeOptions={[5]}
           checkboxSelection
           slots={{

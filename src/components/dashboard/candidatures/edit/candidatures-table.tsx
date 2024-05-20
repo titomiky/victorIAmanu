@@ -65,6 +65,7 @@ export default function CandidatesTable({
         rowSelectionModel={selectCandidates}
         onRowSelectionModelChange={(value: any[]) => setSelected(value)}
         {...data}
+        sx={data.length ? {} : { height: "400px" }}
         slots={{
           noRowsOverlay: () => (
             <NoResults
