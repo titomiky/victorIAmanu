@@ -14,15 +14,15 @@ export const metadata = {
 
 const Page = () => {
   return (
-    <Stack spacing={3}>
+    <Stack spacing={5}>
       <div>
         <Typography variant="h4">Cuenta</Typography>
       </div>
       <Grid container spacing={3}>
-        <Grid lg={4} md={6} xs={12}>
+        <Grid sx={{ width: "100%" }}>
           <AccountInfo />
         </Grid>
-        <Grid lg={8} md={6} xs={12}>
+        <Grid sx={{ width: "100%" }}>
           <AccountDetailsForm />
         </Grid>
       </Grid>

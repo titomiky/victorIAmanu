@@ -24,9 +24,11 @@ const AccountInfo = () => {
             />
           </div>
           <Stack spacing={1} sx={{ textAlign: "center" }}>
-            <Typography variant="h5">
+            <Typography component="h2" variant="h5">
               {user.name + " " + user.surname}
             </Typography>
+
+            <Typography component="p">{user.email}</Typography>
           </Stack>
         </Stack>
       </CardContent>
