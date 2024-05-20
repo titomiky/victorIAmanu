@@ -1,9 +1,7 @@
 "use client";
-
 import * as React from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Alert from "@mui/material/Alert";
-
 import { paths } from "@/paths";
 import { useUser } from "@/hooks/use-user";
 import { jwtDecode } from "jwt-decode";
@@ -22,14 +20,13 @@ export function AuthGuard({
 
   const isTokenExpired = () => {
     const token = localStorage.getItem("stoical-auth-token") as string;
-    if (!token) return true; // Token does not exist
+    if (!token) return true;
     const decodedToken = jwtDecode(token) as any;
-    const currentTime = Date.now() / 1000; // Convert to seconds
+    const currentTime = Date.now() / 1000;
     return decodedToken.exp < currentTime;
   };
 
   const checkPermissions = async (): Promise<void> => {
-    console.log(user);
     if (path.includes("/auth")) {
       if (user) {
         if (user.onBoarding) {
@@ -96,9 +93,7 @@ export function AuthGuard({
   };
 
   React.useEffect(() => {
-    checkPermissions().catch(() => {
-      // noop
-    });
+    checkPermissions().catch(() => {});
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
   }, [user, error, isLoading]);
 
