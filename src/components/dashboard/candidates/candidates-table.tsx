@@ -3,15 +3,19 @@ import * as React from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { CandidatesList, candidateClient } from "@/lib/candidates/client";
 import NoResults from "@/components/core/no-results";
+import { Box } from "@mui/material";
+import Loading from "@/components/core/loading";
 
 const CandidatesTable = () => {
   const [data, setData] = React.useState<CandidatesList[]>([]);
   const [error, setError] = React.useState<{ error?: string }>();
+  const [isDataPending, setIsDataPending] = React.useState<boolean>(true);
 
   React.useEffect(() => {
     const getData = async () => {
       const res = await candidateClient.getCandidatesList();
 
+      setIsDataPending(false);
       if (Array.isArray(res)) {
         return setData(res);
       }
@@ -60,13 +64,13 @@ const CandidatesTable = () => {
         sx={data.length ? {} : { height: "400px" }}
         slots={{
           noRowsOverlay: () => (
-            <NoResults
-              text={
-                error?.error
-                  ? error.error
-                  : "No hay candidatos por el momento ... "
-              }
-            />
+            <Box sx={{ display: "flex", margin: "auto" }}>
+              {error?.error ? (
+                <NoResults text={error.error} />
+              ) : (
+                <Loading variable={isDataPending} />
+              )}
+            </Box>
           ),
         }}
         pageSizeOptions={[15]}

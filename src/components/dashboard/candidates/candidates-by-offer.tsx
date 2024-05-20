@@ -13,6 +13,7 @@ import { CandidatesList, candidateClient } from "@/lib/candidates/client";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import NoResults from "@/components/core/no-results";
 import { CheckCircle } from "@phosphor-icons/react";
+import Loading from "@/components/core/loading";
 
 const CandidatesByOffer = ({ candidatureId }: { candidatureId: string }) => {
   const [open, setOpen] = React.useState(false);
@@ -22,6 +23,7 @@ const CandidatesByOffer = ({ candidatureId }: { candidatureId: string }) => {
   const [candidate, setCandidate] = React.useState<CandidatesList>();
   const [isPending, setIsPending] = React.useState<boolean>(false);
   const [sessionUrl, setSessionUrl] = React.useState<string | undefined>();
+  const [isDataPending, setIsDataPending] = React.useState<boolean>(true);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
@@ -34,7 +36,8 @@ const CandidatesByOffer = ({ candidatureId }: { candidatureId: string }) => {
   React.useEffect(() => {
     const getData = async () => {
       const res = await candidateClient.getCandidatesByOffer(candidatureId);
-      console.log(res);
+
+      setIsDataPending(false);
       if (Array.isArray(res)) {
         return setData(res);
       }
@@ -126,13 +129,13 @@ const CandidatesByOffer = ({ candidatureId }: { candidatureId: string }) => {
           sx={data.length ? {} : { height: "400px" }}
           slots={{
             noRowsOverlay: () => (
-              <NoResults
-                text={
-                  error?.error
-                    ? error.error
-                    : "No hay candidatos por el momento ... "
-                }
-              />
+              <Box sx={{ display: "flex", margin: "auto" }}>
+                {error?.error ? (
+                  <NoResults text={error.error} />
+                ) : (
+                  <Loading variable={isDataPending} />
+                )}
+              </Box>
             ),
           }}
           pageSizeOptions={[15]}

@@ -6,6 +6,7 @@ import RouterLink from "next/link";
 import * as React from "react";
 import DeleteCandidature from "./delete-candidature";
 import NoResults from "@/components/core/no-results";
+import Loading from "@/components/core/loading";
 
 export interface Candidature {
   _id: string;
@@ -18,6 +19,7 @@ export interface Candidature {
 const CandidaturesTable = () => {
   const [data, setData] = React.useState<CandidatureList[]>([]);
   const [error, setError] = React.useState<{ error?: string }>();
+  const [isDataPending, setIsDataPending] = React.useState<boolean>(true);
 
   React.useEffect(() => {
     const getData = async () => {
@@ -28,6 +30,7 @@ const CandidaturesTable = () => {
       }
 
       setError(res);
+      setIsDataPending(false);
     };
     getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
@@ -79,7 +82,7 @@ const CandidaturesTable = () => {
               LinkComponent={RouterLink}
               href={`/dashboard/candidatures/${params.row._id}/edit`}
               sx={{ width: "fit-content", margin: "auto 0", padding: "4px" }}
-              variant="contained"
+              variant="outlined"
               color="success"
             >
               Editar
@@ -104,17 +107,16 @@ const CandidaturesTable = () => {
             },
           },
         }}
-        localeText={{ noRowsLabel: "This is a custom message :)" }}
         sx={data.length ? {} : { height: "400px" }}
         slots={{
           noRowsOverlay: () => (
-            <NoResults
-              text={
-                error?.error
-                  ? error.error
-                  : "No tienes ninguna candidatura creada"
-              }
-            />
+            <Box sx={{ display: "flex", margin: "auto" }}>
+              {error?.error ? (
+                <NoResults text={error.error} />
+              ) : (
+                <Loading variable={isDataPending} />
+              )}
+            </Box>
           ),
         }}
         pageSizeOptions={[15]}

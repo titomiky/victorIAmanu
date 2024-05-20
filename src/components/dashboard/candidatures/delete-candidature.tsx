@@ -23,7 +23,7 @@ const DeleteCandidature = ({ candidatureId }: { candidatureId: string }) => {
   return (
     <>
       <Button
-        variant="outlined"
+        variant="contained"
         sx={{ width: "fit-content", margin: "auto 0", padding: "4px" }}
         color="error"
         onClick={handleOpen}
