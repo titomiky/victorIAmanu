@@ -40,12 +40,7 @@ export function UserPopover({
         return;
       }
 
-      // Refresh the auth state
-      await checkSession?.();
-
-      // UserProvider, for this case, will not refresh the router and we need to do it manually
-      router.refresh();
-      // After refresh, AuthGuard will handle the redirect
+      router.replace(paths.auth.signIn);
     } catch (err) {
       console.log("Sign out error", err);
     }

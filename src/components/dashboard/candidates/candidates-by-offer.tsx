@@ -56,6 +56,8 @@ const CandidatesByOffer = ({ candidatureId }: { candidatureId: string }) => {
         candidatureId
       );
 
+      console.log(res);
+
       if (typeof res !== "string" && res?.error) {
         setUrlError(res);
       }

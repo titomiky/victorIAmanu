@@ -1,8 +1,7 @@
 import * as React from "react";
 import type { Metadata } from "next";
-
+import Layout from "@/components/auth/card-layout";
 import { config } from "@/config";
-import { Layout } from "@/components/auth/layout";
 import { ResetPasswordForm } from "@/components/auth/reset-password-form";
 
 export const metadata = {

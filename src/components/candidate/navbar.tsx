@@ -69,14 +69,6 @@ const NavBar = () => {
             <Typography textAlign="center">Inicio</Typography>
           </MenuItem>
 
-          <MenuItem
-            onClick={handleCloseUserMenu}
-            component={RouterLink}
-            href={paths.candidate.overview}
-          >
-            <Typography textAlign="center">Estadísticas</Typography>
-          </MenuItem>
-
           <Box sx={{ flexGrow: 0, marginLeft: "10px" }}>
             <Tooltip title="Ajustes">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
