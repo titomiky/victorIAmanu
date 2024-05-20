@@ -29,6 +29,7 @@ export function AuthGuard({
   };
 
   const checkPermissions = async (): Promise<void> => {
+    console.log(user);
     if (path.includes("/auth")) {
       if (user) {
         if (user.onBoarding) {

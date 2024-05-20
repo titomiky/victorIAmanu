@@ -40,6 +40,8 @@ export function UserPopover({
         return;
       }
 
+      await checkSession?.();
+
       router.replace(paths.auth.signIn);
     } catch (err) {
       console.log("Sign out error", err);

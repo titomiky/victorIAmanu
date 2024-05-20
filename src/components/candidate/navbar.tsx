@@ -4,7 +4,6 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import { config } from "@/config";
 import {
   Avatar,
@@ -17,8 +16,13 @@ import {
 } from "@mui/material";
 import RouterLink from "next/link";
 import { paths } from "@/paths";
+import { authClient } from "@/lib/auth/client";
+import { useRouter } from "next/navigation";
+import { useUser } from "@/hooks/use-user";
 
 const NavBar = () => {
+  const { checkSession } = useUser();
+  const router = useRouter();
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
@@ -30,6 +34,24 @@ const NavBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleSignOut = React.useCallback(async (): Promise<void> => {
+    try {
+      const { error } = await authClient.signOut();
+
+      if (error) {
+        console.log("Sign out error", error);
+        return;
+      }
+
+      await checkSession?.();
+
+      router.replace(paths.auth.signIn);
+    } catch (err) {
+      console.log("Sign out error", err);
+    }
+  }, [checkSession, router]);
+
   return (
     <Box component={"header"}>
       <AppBar
@@ -101,7 +123,7 @@ const NavBar = () => {
 
               <Divider />
 
-              <MenuItem onClick={handleCloseUserMenu}>
+              <MenuItem onClick={handleSignOut}>
                 <Typography textAlign="center">Cerrar sesión</Typography>
               </MenuItem>
             </Menu>
