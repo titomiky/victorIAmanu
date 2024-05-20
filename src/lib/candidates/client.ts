@@ -9,6 +9,7 @@ export interface CandidatesList {
   name: string;
   surname: string;
   email: string;
+  phoneNumber?: string;
 }
 
 export interface CandidateOffer {
@@ -31,8 +32,6 @@ class CandidatesClient {
           Authorization: `Bearer ${token}`,
         },
       });
-
-      console.log(res);
 
       if (Array.isArray(res.data)) {
         return res.data;
@@ -76,7 +75,30 @@ class CandidatesClient {
       const token = getToken();
 
       const res = await axios.get<string>(
-        `${this.url}/users/linkToSession/${candidateId}/${jobOfferId}`,
+        `${this.url}/users/linktosession/${candidateId}/${jobOfferId}`,
+        {
+          headers: {
+            "content-type": "application/json",
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      return res.data;
+    } catch (error) {
+      console.log(error);
+      return { error: "error en nuestros servidores" };
+    }
+  }
+
+  async getCandidatesByOffer(
+    id: string
+  ): Promise<{ error: string } | CandidatesList[]> {
+    try {
+      const token = getToken();
+
+      const res = await axios.get<CandidatesList[]>(
+        `${this.url}/users/candidatesByJobOffer/${id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -85,7 +107,11 @@ class CandidatesClient {
         }
       );
 
-      return res.data;
+      if (Array.isArray(res.data)) {
+        return res.data;
+      }
+
+      return [];
     } catch (error) {
       console.log(error);
       return { error: "Error en nuestros servidores" };
