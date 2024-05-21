@@ -13,6 +13,7 @@ import { getUser } from "@/lib/auth/client";
 
 const AccountInfo = () => {
   const user = getUser() as UserToken;
+
   return (
     <Card>
       <CardContent>

@@ -47,29 +47,30 @@ export function ResetPasswordForm({
     formState: { errors },
   } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
 
-  const onSubmit = React.useCallback(async (values: Values): Promise<void> => {
-    setIsPending(true);
+  const onSubmit = React.useCallback(
+    async (values: Values): Promise<void> => {
+      setIsPending(true);
 
-    if (values.password !== values.confirmPassword) {
-      setError("root", {
-        type: "client",
-        message: "Las contraseñas deben ser iguales",
-      });
-    }
+      if (values.password !== values.confirmPassword) {
+        setError("root", {
+          type: "client",
+          message: "Las contraseñas deben ser iguales",
+        });
+      }
 
-    //const { error } = await authClient.resetPassword(values);
+      const { error } = await authClient.resetPassword(values.password);
 
-    //if (error) {
-    //setError("root", { type: "server", message: error });
-    //setIsPending(false);
-    //return;
-    //}
+      if (error) {
+        setError("root", { type: "server", message: error });
+        setIsPending(false);
+        return;
+      }
 
-    setSuccess(true);
-    setIsPending(false);
-
-    // Redirect to confirm password reset
-  }, []);
+      setSuccess(true);
+      setIsPending(false);
+    },
+    [setError]
+  );
 
   return (
     <Stack spacing={4}>

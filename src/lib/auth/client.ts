@@ -102,14 +102,6 @@ class AuthClient {
     }
   }
 
-  async resetPassword(_: ResetPasswordParams): Promise<{ error?: string }> {
-    return { error: "Password reset not implemented" };
-  }
-
-  async updatePassword(_: ResetPasswordParams): Promise<{ error?: string }> {
-    return { error: "Update reset not implemented" };
-  }
-
   async getUser(): Promise<{ data?: User | null; error?: string }> {
     const token = localStorage.getItem("stoical-auth-token") as string;
 
@@ -176,6 +168,65 @@ class AuthClient {
     } catch (error) {
       console.log(error);
       return { error: "Ocurrió un error !!" };
+    }
+  }
+
+  async editClientDetails(params: Company): Promise<{ error?: string }> {
+    try {
+      params.numberOfEmployees = Number(params.numberOfEmployees);
+      const token = getToken();
+
+      const res = await axios.put(`${url}/users/client`, params, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      console.log(res);
+
+      if (typeof res.data === "string") {
+        localStorage.setItem("stoical-auth-token", res.data);
+      }
+
+      return {};
+    } catch (error) {
+      return { error: "Ocurrió un error !!" };
+    }
+  }
+
+  async sendRecoveryLink(email: string): Promise<{ error?: string }> {
+    try {
+      return {};
+    } catch (error) {
+      return { error: "Error en nuestros servidores" };
+    }
+  }
+
+  async resetPassword(password: string): Promise<{ error?: string }> {
+    try {
+      return {};
+    } catch (error) {
+      return { error: "Error en nuestros servidores" };
+    }
+  }
+
+  async getClientDetails(
+    userId: string
+  ): Promise<{ error?: string } | Company> {
+    try {
+      const token = getToken();
+
+      const res = await axios.get(`${url}/users/${userId}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return res.data.clientUser;
+    } catch (error) {
+      return { error: "Error en nuestros servidores" };
     }
   }
 }

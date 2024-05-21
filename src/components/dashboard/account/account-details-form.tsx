@@ -10,11 +10,13 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import Grid from "@mui/material/Unstable_Grid2";
-import { getUser } from "@/lib/auth/client";
-import { UserToken } from "@/types/user";
+import { authClient, getUser } from "@/lib/auth/client";
+import { Company, UserToken } from "@/types/user";
 import { z as zod } from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Alert } from "@mui/material";
+import { useRouter } from "next/navigation";
 
 const schema = zod.object({
   name: zod.string().min(1, { message: "El nombre es requerido" }),
@@ -33,18 +35,24 @@ const schema = zod.object({
 
 type Values = zod.infer<typeof schema>;
 
-export function AccountDetailsForm(): React.JSX.Element {
+export function AccountDetailsForm({
+  client,
+}: {
+  client: Company;
+}): React.JSX.Element {
   const user = getUser() as UserToken;
+  const [isPending, setIsPending] = React.useState<boolean>(false);
+  const router = useRouter();
 
   const defaultValues = {
-    name: user.name,
-    surname: user.surname,
-    position: "",
-    phoneNumber: "",
-    companyAddress: "",
-    companyName: "",
-    companyNIF: "",
-    numberOfEmployees: "",
+    name: client.name,
+    surname: client.surname ?? "",
+    position: client.position ?? "",
+    phoneNumber: client.phoneNumber ?? "",
+    companyAddress: client.companyAddress ?? "",
+    companyName: client.companyName ?? "",
+    companyNIF: client.companyNIF ?? "",
+    numberOfEmployees: client.numberOfEmployees.toString() ?? "",
   } satisfies Values;
 
   const {
@@ -54,12 +62,24 @@ export function AccountDetailsForm(): React.JSX.Element {
     formState: { errors },
   } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
 
+  const onSubmit = React.useCallback(async (values: Values): Promise<void> => {
+    console.log(values);
+    setIsPending(true);
+
+    const { error } = await authClient.editClientDetails(values);
+
+    if (error) {
+      setError("root", { type: "server", message: error });
+      setIsPending(false);
+      return;
+    }
+
+    window.location.reload();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
+  }, []);
+
   return (
-    <form
-      onSubmit={(event) => {
-        event.preventDefault();
-      }}
-    >
+    <form onSubmit={handleSubmit(onSubmit)}>
       <Card>
         <CardHeader subheader="" title="Datos editables de la cuenta" />
         <Divider />
@@ -177,7 +197,15 @@ export function AccountDetailsForm(): React.JSX.Element {
         </CardContent>
         <Divider />
         <CardActions sx={{ justifyContent: "flex-end", padding: "10px" }}>
-          <Button variant="contained">Guardar cambios</Button>
+          {errors.root ? (
+            <Alert color="error" severity="error">
+              {errors.root.message}
+            </Alert>
+          ) : null}
+
+          <Button variant="contained" disabled={isPending} type="submit">
+            Guardar cambios
+          </Button>
         </CardActions>
       </Card>
     </form>

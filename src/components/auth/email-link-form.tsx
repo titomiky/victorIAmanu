@@ -37,18 +37,16 @@ export function EmailLinkForm(): React.JSX.Element {
     async (values: Values): Promise<void> => {
       setIsPending(true);
 
-      //const { error } = await authClient.resetPassword(values);
+      const { error } = await authClient.sendRecoveryLink(values.email);
 
-      //if (error) {
-      //setError("root", { type: "server", message: error });
-      //setIsPending(false);
-      //return;
-      //}
+      if (error) {
+        setError("root", { type: "server", message: error });
+        setIsPending(false);
+        return;
+      }
 
       setSuccess(true);
       setIsPending(false);
-
-      // Redirect to confirm password reset
     },
     [setError]
   );
