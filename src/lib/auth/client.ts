@@ -188,14 +188,42 @@ class AuthClient {
 
   async sendRecoveryLink(email: string): Promise<{ error?: string }> {
     try {
+      const res = await axios.post(
+        `${url}/users/sendEmailToChangePassword`,
+        {
+          email: email,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
       return {};
     } catch (error) {
-      return { error: "Error en nuestros servidores" };
+      return { error: "Cuenta no encontrada" };
     }
   }
 
-  async resetPassword(password: string): Promise<{ error?: string }> {
+  async resetPassword(
+    password: string,
+    userId: string
+  ): Promise<{ error?: string }> {
     try {
+      const res = await axios.put(
+        `${url}/users/changePasswordFromEmail`,
+        {
+          password: password,
+          userId: userId,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
       return {};
     } catch (error) {
       return { error: "Error en nuestros servidores" };

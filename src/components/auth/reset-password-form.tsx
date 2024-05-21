@@ -58,7 +58,7 @@ export function ResetPasswordForm({
         });
       }
 
-      const { error } = await authClient.resetPassword(values.password);
+      const { error } = await authClient.resetPassword(values.password, userId);
 
       if (error) {
         setError("root", { type: "server", message: error });
