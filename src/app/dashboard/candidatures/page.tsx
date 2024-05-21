@@ -1,13 +1,10 @@
-import type { Candidature } from "@/components/dashboard/candidatures/candidatures-table";
 import RouterLink from "next/link";
 import { config } from "@/config";
 import { Button, Stack } from "@mui/material";
-import dayjs from "dayjs";
 import { Metadata } from "next";
 import React from "react";
 import { Plus as PlusIcon } from "@phosphor-icons/react/dist/ssr/Plus";
 import CandidaturesTable from "@/components/dashboard/candidatures/candidatures-table";
-import CandidaturesFilters from "@/components/dashboard/candidatures/candidatures-filters";
 
 export const metadata = {
   title: `Candidaturas | Dashboard | ${config.site.name}`,

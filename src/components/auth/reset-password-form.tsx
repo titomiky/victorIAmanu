@@ -44,24 +44,21 @@ export function ResetPasswordForm({
     formState: { errors },
   } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
 
-  const onSubmit = React.useCallback(
-    async (values: Values): Promise<void> => {
-      setIsPending(true);
+  const onSubmit = React.useCallback(async (values: Values): Promise<void> => {
+    setIsPending(true);
 
-      //const { error } = await authClient.resetPassword(values);
+    //const { error } = await authClient.resetPassword(values);
 
-      //if (error) {
-      //setError("root", { type: "server", message: error });
-      //setIsPending(false);
-      //return;
-      //}
+    //if (error) {
+    //setError("root", { type: "server", message: error });
+    //setIsPending(false);
+    //return;
+    //}
 
-      setIsPending(false);
+    setIsPending(false);
 
-      // Redirect to confirm password reset
-    },
-    [setError]
-  );
+    // Redirect to confirm password reset
+  }, []);
 
   return (
     <Stack spacing={4}>
