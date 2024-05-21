@@ -40,7 +40,6 @@ export function AccountDetailsForm({
 }: {
   client: Company;
 }): React.JSX.Element {
-  const user = getUser() as UserToken;
   const [isPending, setIsPending] = React.useState<boolean>(false);
   const router = useRouter();
 
@@ -74,7 +73,7 @@ export function AccountDetailsForm({
       return;
     }
 
-    window.location.reload();
+    router.refresh();
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
   }, []);
 
@@ -92,11 +91,7 @@ export function AccountDetailsForm({
                 render={({ field }) => (
                   <FormControl fullWidth>
                     <InputLabel>Nombre</InputLabel>
-                    <OutlinedInput
-                      {...field}
-                      defaultValue={user.name}
-                      label="Nombre"
-                    />
+                    <OutlinedInput {...field} label="Nombre" />
                   </FormControl>
                 )}
               />
@@ -108,11 +103,7 @@ export function AccountDetailsForm({
                 render={({ field }) => (
                   <FormControl fullWidth>
                     <InputLabel>Apellido</InputLabel>
-                    <OutlinedInput
-                      {...field}
-                      defaultValue={user.surname}
-                      label="Apellido"
-                    />
+                    <OutlinedInput {...field} label="Apellido" />
                   </FormControl>
                 )}
               />

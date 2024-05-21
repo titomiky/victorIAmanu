@@ -183,8 +183,6 @@ class AuthClient {
         },
       });
 
-      console.log(res);
-
       if (typeof res.data === "string") {
         localStorage.setItem("stoical-auth-token", res.data);
       }
