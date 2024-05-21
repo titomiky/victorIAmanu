@@ -59,6 +59,7 @@ export function MobileNav({
         <Box
           component={RouterLink}
           href={paths.home}
+          onClick={onClose}
           sx={{ display: "inline-flex" }}
         >
           <Logo color="light" height={32} width={122} />
@@ -66,7 +67,7 @@ export function MobileNav({
       </Stack>
       <Divider sx={{ borderColor: "var(--mui-palette-neutral-700)" }} />
       <Box component="nav" sx={{ flex: "1 1 auto", p: "12px" }}>
-        {renderNavItems({ pathname, items: navItems })}
+        {renderNavItems({ pathname, items: navItems, onClick: onClose })}
       </Box>
       <Divider sx={{ borderColor: "var(--mui-palette-neutral-700)" }} />
     </Drawer>
@@ -76,15 +77,19 @@ export function MobileNav({
 function renderNavItems({
   items = [],
   pathname,
+  onClick,
 }: {
   items?: NavItemConfig[];
   pathname: string;
+  onClick?: () => void;
 }): React.JSX.Element {
   const children = items.reduce(
     (acc: React.ReactNode[], curr: NavItemConfig): React.ReactNode[] => {
       const { key, ...item } = curr;
 
-      acc.push(<NavItem key={key} pathname={pathname} {...item} />);
+      acc.push(
+        <NavItem key={key} pathname={pathname} {...item} onClick={onClick} />
+      );
 
       return acc;
     },
@@ -100,6 +105,7 @@ function renderNavItems({
 
 interface NavItemProps extends Omit<NavItemConfig, "items"> {
   pathname: string;
+  onClick?: () => void;
 }
 
 function NavItem({
@@ -110,6 +116,7 @@ function NavItem({
   matcher,
   pathname,
   title,
+  onClick,
 }: NavItemProps): React.JSX.Element {
   const active = isNavItemActive({
     disabled,
@@ -153,6 +160,7 @@ function NavItem({
             color: "var(--NavItem-active-color)",
           }),
         }}
+        onClick={onClick ?? undefined}
       >
         <Box
           sx={{

@@ -32,7 +32,7 @@ const AccountInfo = () => {
       </CardContent>
       <Divider />
       <CardActions>
-        <Button fullWidth variant="text">
+        <Button sx={{ width: "fit-content", margin: "auto" }} variant="text">
           Editar avatar
         </Button>
       </CardActions>

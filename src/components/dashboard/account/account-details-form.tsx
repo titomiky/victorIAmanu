@@ -10,8 +10,8 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import Grid from "@mui/material/Unstable_Grid2";
-import { authClient, getUser } from "@/lib/auth/client";
-import { Company, UserToken } from "@/types/user";
+import { authClient } from "@/lib/auth/client";
+import { Company } from "@/types/user";
 import { z as zod } from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -62,7 +62,6 @@ export function AccountDetailsForm({
   } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
 
   const onSubmit = React.useCallback(async (values: Values): Promise<void> => {
-    console.log(values);
     setIsPending(true);
 
     const { error } = await authClient.editClientDetails(values);
@@ -73,6 +72,7 @@ export function AccountDetailsForm({
       return;
     }
 
+    setIsPending(false);
     router.refresh();
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
   }, []);
@@ -80,7 +80,7 @@ export function AccountDetailsForm({
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Card>
-        <CardHeader subheader="" title="Datos editables de la cuenta" />
+        <CardHeader subheader="" title="Tus datos" />
         <Divider />
         <CardContent>
           <Grid container spacing={3}>
