@@ -125,7 +125,7 @@ function NavItem({
           : { role: "button" })}
         sx={{
           alignItems: "center",
-          borderRadius: 1,
+          borderRadius: "8px",
           color: "var(--NavItem-color)",
           cursor: "pointer",
           display: "flex",
