@@ -64,7 +64,7 @@ const NavBar = () => {
           <Box sx={{ flexGrow: 0, marginLeft: "10px" }}>
             <Tooltip title="Ajustes">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar src="/assets/avatar.png" />
+                <Avatar />
               </IconButton>
             </Tooltip>
             <Menu

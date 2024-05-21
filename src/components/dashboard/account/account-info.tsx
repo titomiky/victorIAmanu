@@ -19,10 +19,7 @@ const AccountInfo = () => {
       <CardContent>
         <Stack spacing={2} sx={{ alignItems: "center" }}>
           <div>
-            <Avatar
-              src={"/assets/avatar.png"}
-              sx={{ height: "80px", width: "80px" }}
-            />
+            <Avatar sx={{ height: "80px", width: "80px" }} />
           </div>
           <Stack spacing={1} sx={{ textAlign: "center" }}>
             <Typography component="h2" variant="h5">

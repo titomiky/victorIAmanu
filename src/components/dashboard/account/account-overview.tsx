@@ -6,6 +6,8 @@ import AccountInfo from "./account-info";
 import { AccountDetailsForm } from "./account-details-form";
 import { authClient, getUser } from "@/lib/auth/client";
 import { Company, UserToken } from "@/types/user";
+import Loading from "@/components/core/loading";
+import { Box } from "@mui/material";
 
 const AccountOverview = () => {
   const user = getUser() as UserToken;
@@ -15,12 +17,13 @@ const AccountOverview = () => {
   React.useEffect(() => {
     const getData = async () => {
       const res = (await authClient.getClientDetails(user.userId)) as Company;
-      console.log(res);
       setData(res);
       setIsDataPending(false);
     };
 
     getData();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
   }, []);
 
   return (
@@ -30,7 +33,13 @@ const AccountOverview = () => {
           <AccountInfo />
         </Grid>
         <Grid sx={{ width: "100%" }}>
-          {data && <AccountDetailsForm client={data} />}
+          {isDataPending ? (
+            <Box sx={{ display: "flex", margin: "auto" }}>
+              <Loading variable={isDataPending} />
+            </Box>
+          ) : (
+            data && <AccountDetailsForm client={data} />
+          )}
         </Grid>
       </Grid>
     </Stack>

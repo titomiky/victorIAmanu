@@ -1,14 +1,7 @@
 "use client";
-
 import type { Candidate, Company, User, UserToken } from "@/types/user";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-
-function generateToken(): string {
-  const arr = new Uint8Array(12);
-  window.crypto.getRandomValues(arr);
-  return Array.from(arr, (v) => v.toString(16).padStart(2, "0")).join("");
-}
 
 export function getToken(): string {
   const token = localStorage.getItem("stoical-auth-token") as string;
