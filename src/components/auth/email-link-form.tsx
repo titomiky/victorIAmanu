@@ -12,6 +12,7 @@ import Typography from "@mui/material/Typography";
 import { Controller, useForm } from "react-hook-form";
 import { z as zod } from "zod";
 import { authClient } from "@/lib/auth/client";
+import Image from "next/image";
 
 const schema = zod.object({
   email: zod.string().min(1, { message: "Email requerido" }).email(),
@@ -23,6 +24,7 @@ const defaultValues = { email: "" } satisfies Values;
 
 export function EmailLinkForm(): React.JSX.Element {
   const [isPending, setIsPending] = React.useState<boolean>(false);
+  const [success, setSuccess] = React.useState<boolean>(false);
 
   const {
     control,
@@ -35,14 +37,15 @@ export function EmailLinkForm(): React.JSX.Element {
     async (values: Values): Promise<void> => {
       setIsPending(true);
 
-      const { error } = await authClient.resetPassword(values);
+      //const { error } = await authClient.resetPassword(values);
 
-      if (error) {
-        setError("root", { type: "server", message: error });
-        setIsPending(false);
-        return;
-      }
+      //if (error) {
+      //setError("root", { type: "server", message: error });
+      //setIsPending(false);
+      //return;
+      //}
 
+      setSuccess(true);
       setIsPending(false);
 
       // Redirect to confirm password reset
@@ -52,41 +55,59 @@ export function EmailLinkForm(): React.JSX.Element {
 
   return (
     <Stack spacing={4}>
-      <Typography variant="h5">Cambiar contraseña</Typography>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Stack spacing={4}>
-          <Controller
-            control={control}
-            name="email"
-            render={({ field }) => (
-              <FormControl error={Boolean(errors.email)}>
-                <InputLabel>Email de tu cuenta</InputLabel>
-                <OutlinedInput
-                  {...field}
-                  label="Email de tu cuenta"
-                  type="email"
-                />
-                {errors.email ? (
-                  <FormHelperText>{errors.email.message}</FormHelperText>
-                ) : null}
-              </FormControl>
-            )}
+      {success ? (
+        <>
+          <Image
+            src="/assets/email.svg"
+            alt="Mail Image"
+            width={250}
+            height={400}
+            style={{ margin: "auto", height: "auto", maxWidth: "100%" }}
           />
-          {errors.root ? (
-            <Alert color="error" severity="error">
-              {errors.root.message}
-            </Alert>
-          ) : null}
-          <Button
-            disabled={isPending}
-            type="submit"
-            variant="contained"
-            sx={{ width: "fit-content", margin: "auto" }}
-          >
-            Enviar link de recuperación
-          </Button>
-        </Stack>
-      </form>
+
+          <Alert severity="success" sx={{ placeContent: "center" }}>
+            Enviamos el link de recuperación a tu correo electrónico
+          </Alert>
+        </>
+      ) : (
+        <>
+          <Typography variant="h5">Cambiar contraseña</Typography>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Stack spacing={4}>
+              <Controller
+                control={control}
+                name="email"
+                render={({ field }) => (
+                  <FormControl error={Boolean(errors.email)}>
+                    <InputLabel>Email de tu cuenta</InputLabel>
+                    <OutlinedInput
+                      {...field}
+                      label="Email de tu cuenta"
+                      type="email"
+                    />
+                    {errors.email ? (
+                      <FormHelperText>{errors.email.message}</FormHelperText>
+                    ) : null}
+                  </FormControl>
+                )}
+              />
+              {errors.root ? (
+                <Alert color="error" severity="error">
+                  {errors.root.message}
+                </Alert>
+              ) : null}
+              <Button
+                disabled={isPending}
+                type="submit"
+                variant="contained"
+                sx={{ width: "fit-content", margin: "auto" }}
+              >
+                Enviar link de recuperación
+              </Button>
+            </Stack>
+          </form>
+        </>
+      )}
     </Stack>
   );
 }

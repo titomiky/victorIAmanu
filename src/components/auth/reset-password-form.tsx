@@ -14,6 +14,9 @@ import { z as zod } from "zod";
 import { authClient } from "@/lib/auth/client";
 import { Eye as EyeIcon } from "@phosphor-icons/react/dist/ssr/Eye";
 import { EyeSlash as EyeSlashIcon } from "@phosphor-icons/react/dist/ssr/EyeSlash";
+import Image from "next/image";
+import RouterLink from "next/link";
+import { paths } from "@/paths";
 
 const schema = zod.object({
   password: zod
@@ -33,9 +36,9 @@ export function ResetPasswordForm({
 }: {
   userId: string;
 }): React.JSX.Element {
-  console.log(userId);
   const [isPending, setIsPending] = React.useState<boolean>(false);
   const [showPassword, setShowPassword] = React.useState<boolean>();
+  const [success, setSuccess] = React.useState<boolean>(false);
 
   const {
     control,
@@ -47,6 +50,13 @@ export function ResetPasswordForm({
   const onSubmit = React.useCallback(async (values: Values): Promise<void> => {
     setIsPending(true);
 
+    if (values.password !== values.confirmPassword) {
+      setError("root", {
+        type: "client",
+        message: "Las contraseñas deben ser iguales",
+      });
+    }
+
     //const { error } = await authClient.resetPassword(values);
 
     //if (error) {
@@ -55,6 +65,7 @@ export function ResetPasswordForm({
     //return;
     //}
 
+    setSuccess(true);
     setIsPending(false);
 
     // Redirect to confirm password reset
@@ -62,95 +73,116 @@ export function ResetPasswordForm({
 
   return (
     <Stack spacing={4}>
-      <Typography variant="h5">Nueva contraseña</Typography>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Stack spacing={2}>
-          <Controller
-            control={control}
-            name="password"
-            render={({ field }) => (
-              <FormControl error={Boolean(errors.password)}>
-                <InputLabel>Contraseña</InputLabel>
-                <OutlinedInput
-                  {...field}
-                  endAdornment={
-                    showPassword ? (
-                      <EyeIcon
-                        cursor="pointer"
-                        fontSize="var(--icon-fontSize-md)"
-                        onClick={(): void => {
-                          setShowPassword(false);
-                        }}
-                      />
-                    ) : (
-                      <EyeSlashIcon
-                        cursor="pointer"
-                        fontSize="var(--icon-fontSize-md)"
-                        onClick={(): void => {
-                          setShowPassword(true);
-                        }}
-                      />
-                    )
-                  }
-                  label="Contraseña"
-                  type={showPassword ? "text" : "password"}
-                />
-                {errors.password ? (
-                  <FormHelperText>{errors.password.message}</FormHelperText>
-                ) : null}
-              </FormControl>
-            )}
+      {success ? (
+        <>
+          <Image
+            src="/assets/done.svg"
+            alt="Success Image"
+            width={250}
+            height={400}
+            style={{ margin: "auto", height: "auto", maxWidth: "100%" }}
           />
 
-          <Controller
-            control={control}
-            name="confirmPassword"
-            render={({ field }) => (
-              <FormControl error={Boolean(errors.confirmPassword)}>
-                <InputLabel>Repetir la Contraseña</InputLabel>
-                <OutlinedInput
-                  {...field}
-                  endAdornment={
-                    showPassword ? (
-                      <EyeIcon
-                        cursor="pointer"
-                        fontSize="var(--icon-fontSize-md)"
-                        onClick={(): void => {
-                          setShowPassword(false);
-                        }}
-                      />
-                    ) : (
-                      <EyeSlashIcon
-                        cursor="pointer"
-                        fontSize="var(--icon-fontSize-md)"
-                        onClick={(): void => {
-                          setShowPassword(true);
-                        }}
-                      />
-                    )
-                  }
-                  label="Repetir la Contraseña"
-                  type={showPassword ? "text" : "password"}
-                />
-                {errors.confirmPassword ? (
-                  <FormHelperText>
-                    {errors.confirmPassword.message}
-                  </FormHelperText>
-                ) : null}
-              </FormControl>
-            )}
-          />
-
-          {errors.root ? (
-            <Alert color="error" severity="error">
-              {errors.root.message}
-            </Alert>
-          ) : null}
-          <Button disabled={isPending} type="submit" variant="contained">
-            Send recovery link
+          <Alert severity="success" sx={{ placeContent: "center" }}>
+            Cambiaste tu contraseña con éxito
+          </Alert>
+          <Button LinkComponent={RouterLink} href={paths.auth.signIn}>
+            Ir al inicio
           </Button>
-        </Stack>
-      </form>
+        </>
+      ) : (
+        <>
+          <Typography variant="h5">Nueva contraseña</Typography>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Stack spacing={2}>
+              <Controller
+                control={control}
+                name="password"
+                render={({ field }) => (
+                  <FormControl error={Boolean(errors.password)}>
+                    <InputLabel>Contraseña</InputLabel>
+                    <OutlinedInput
+                      {...field}
+                      endAdornment={
+                        showPassword ? (
+                          <EyeIcon
+                            cursor="pointer"
+                            fontSize="var(--icon-fontSize-md)"
+                            onClick={(): void => {
+                              setShowPassword(false);
+                            }}
+                          />
+                        ) : (
+                          <EyeSlashIcon
+                            cursor="pointer"
+                            fontSize="var(--icon-fontSize-md)"
+                            onClick={(): void => {
+                              setShowPassword(true);
+                            }}
+                          />
+                        )
+                      }
+                      label="Contraseña"
+                      type={showPassword ? "text" : "password"}
+                    />
+                    {errors.password ? (
+                      <FormHelperText>{errors.password.message}</FormHelperText>
+                    ) : null}
+                  </FormControl>
+                )}
+              />
+
+              <Controller
+                control={control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormControl error={Boolean(errors.confirmPassword)}>
+                    <InputLabel>Repetir la Contraseña</InputLabel>
+                    <OutlinedInput
+                      {...field}
+                      endAdornment={
+                        showPassword ? (
+                          <EyeIcon
+                            cursor="pointer"
+                            fontSize="var(--icon-fontSize-md)"
+                            onClick={(): void => {
+                              setShowPassword(false);
+                            }}
+                          />
+                        ) : (
+                          <EyeSlashIcon
+                            cursor="pointer"
+                            fontSize="var(--icon-fontSize-md)"
+                            onClick={(): void => {
+                              setShowPassword(true);
+                            }}
+                          />
+                        )
+                      }
+                      label="Repetir la Contraseña"
+                      type={showPassword ? "text" : "password"}
+                    />
+                    {errors.confirmPassword ? (
+                      <FormHelperText>
+                        {errors.confirmPassword.message}
+                      </FormHelperText>
+                    ) : null}
+                  </FormControl>
+                )}
+              />
+
+              {errors.root ? (
+                <Alert color="error" severity="error">
+                  {errors.root.message}
+                </Alert>
+              ) : null}
+              <Button disabled={isPending} type="submit" variant="contained">
+                Continuar
+              </Button>
+            </Stack>
+          </form>
+        </>
+      )}
     </Stack>
   );
 }
