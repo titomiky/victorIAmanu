@@ -25,12 +25,12 @@ const CandidaturesTable = () => {
     const getData = async () => {
       const res = await candidatureClient.getCandidaturesList();
 
+      setIsDataPending(false);
       if (Array.isArray(res)) {
         return setData(res);
       }
 
       setError(res);
-      setIsDataPending(false);
     };
     getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
@@ -110,11 +110,19 @@ const CandidaturesTable = () => {
         sx={data.length ? {} : { height: "400px" }}
         slots={{
           noRowsOverlay: () => (
-            <Box sx={{ display: "flex", margin: "auto" }}>
-              {error?.error ? (
-                <NoResults text={error.error} />
-              ) : (
+            <Box
+              sx={{
+                display: "flex",
+                margin: "auto",
+                justifyContent: "center",
+                alignContent: "center",
+                height: "100%",
+              }}
+            >
+              {isDataPending ? (
                 <Loading variable={isDataPending} />
+              ) : (
+                <NoResults text={error?.error ?? "No hay candidaturas ... "} />
               )}
             </Box>
           ),

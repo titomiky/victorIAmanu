@@ -23,6 +23,7 @@ const CandidateOverview = () => {
       }
       setErrorMessage(res);
     };
+
     getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
   }, []);
@@ -115,7 +116,7 @@ const CandidateOverview = () => {
               </Typography>
 
               <Image
-                src={"/assets/undraw_empty.svg"}
+                src={"/assets/empty-graph.svg"}
                 alt="Image"
                 width={500}
                 height={500}

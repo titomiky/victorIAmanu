@@ -13,6 +13,7 @@ const CandidateHome = () => {
   React.useEffect(() => {
     const getData = async () => {
       const res = await candidateClient.getCandidateOffers();
+      console.log(res);
 
       if (Array.isArray(res)) {
         setData(res);

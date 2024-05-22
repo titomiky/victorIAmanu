@@ -64,11 +64,19 @@ const CandidatesTable = () => {
         sx={data.length ? {} : { height: "400px" }}
         slots={{
           noRowsOverlay: () => (
-            <Box sx={{ display: "flex", margin: "auto" }}>
-              {error?.error ? (
-                <NoResults text={error.error} />
-              ) : (
+            <Box
+              sx={{
+                display: "flex",
+                margin: "auto",
+                justifyContent: "center",
+                alignContent: "center",
+                height: "100%",
+              }}
+            >
+              {isDataPending ? (
                 <Loading variable={isDataPending} />
+              ) : (
+                <NoResults text={error?.error ?? "No hay candidaturas ... "} />
               )}
             </Box>
           ),
