@@ -36,7 +36,7 @@ const OnBoarding = () => {
       spacing={5}
       sx={{ margin: "auto", alignItems: "center", textAlign: "center" }}
     >
-      <Typography variant="h4">Bienvenido al Onboarding</Typography>
+      <Typography variant="h2">Bienvenido al Onboarding</Typography>
 
       <Typography variant="h5">¿Que tipo de usuario quieres ser?</Typography>
 

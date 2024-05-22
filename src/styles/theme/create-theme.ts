@@ -1,10 +1,10 @@
 import { experimental_extendTheme as extendTheme } from "@mui/material/styles";
-
 import { colorSchemes } from "./color-schemes";
 import { components } from "./components/components";
 import { shadows } from "./shadows";
 import type { Theme } from "./types";
 import { typography } from "./typography";
+import { responsiveFontSizes } from "@mui/material/styles";
 
 declare module "@mui/material/styles/createPalette" {
   interface PaletteRange {
@@ -45,6 +45,5 @@ export function createTheme(): Theme {
     shape: { borderRadius: 8 },
     typography,
   });
-
-  return theme;
+  return responsiveFontSizes(theme);
 }
