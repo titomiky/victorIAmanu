@@ -4,7 +4,6 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import { config } from "@/config";
 import {
   Avatar,
@@ -17,8 +16,15 @@ import {
 } from "@mui/material";
 import RouterLink from "next/link";
 import { paths } from "@/paths";
+import { authClient, getUser } from "@/lib/auth/client";
+import { UserToken } from "@/types/user";
+import { useUser } from "@/hooks/use-user";
+import { useRouter } from "next/navigation";
 
 const NavBar = () => {
+  const router = useRouter();
+  const user = getUser() as UserToken;
+  const { checkSession } = useUser();
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
@@ -30,6 +36,24 @@ const NavBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleSignOut = React.useCallback(async (): Promise<void> => {
+    try {
+      const { error } = await authClient.signOut();
+
+      if (error) {
+        console.log("Sign out error", error);
+        return;
+      }
+
+      await checkSession?.();
+
+      router.replace(paths.auth.signIn);
+    } catch (err) {
+      console.log("Sign out error", err);
+    }
+  }, [checkSession, router]);
+
   return (
     <Box component={"header"}>
       <AppBar
@@ -83,17 +107,19 @@ const NavBar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              <MenuItem
-                onClick={handleCloseUserMenu}
-                component={RouterLink}
-                href={paths.candidate.overview}
-              >
-                <Typography textAlign="center">Estadísticas</Typography>
-              </MenuItem>
+              <Box sx={{ p: "16px 20px " }}>
+                <Typography variant="subtitle1">
+                  {user?.name && user?.name + " " + user?.surname}
+                </Typography>
+                <Typography color="text.secondary" variant="body2">
+                  {user?.email && user?.email}
+                </Typography>
+              </Box>
+              <Divider />
 
               <Divider />
 
-              <MenuItem onClick={handleCloseUserMenu}>
+              <MenuItem onClick={handleSignOut}>
                 <Typography textAlign="center">Cerrar sesión</Typography>
               </MenuItem>
             </Menu>

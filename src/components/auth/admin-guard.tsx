@@ -1,18 +1,17 @@
-"use client";
-import * as React from "react";
-import { useRouter } from "next/navigation";
-import Alert from "@mui/material/Alert";
-import { paths } from "@/paths";
 import { useUser } from "@/hooks/use-user";
+import { paths } from "@/paths";
+import { Alert } from "@mui/material";
 import { jwtDecode } from "jwt-decode";
+import { useRouter } from "next/navigation";
+import * as React from "react";
 
-export interface CandidateGuardProps {
+export interface AdminGuardProps {
   children: React.ReactNode;
 }
 
-export function CandidateGuard({
+export function AdminGuard({
   children,
-}: CandidateGuardProps): React.JSX.Element | null {
+}: AdminGuardProps): React.JSX.Element | null {
   const router = useRouter();
   const { user, error, isLoading } = useUser();
   const [isChecking, setIsChecking] = React.useState<boolean>(true);
@@ -58,8 +57,8 @@ export function CandidateGuard({
       return;
     }
 
-    if (user.role !== "candidate") {
-      console.log("[AuthGuard]: User is not candidate, redirecting to auth");
+    if (user.role !== "admin") {
+      console.log("[AuthGuard]: User is not admin, redirecting to auth");
       router.replace(paths.auth.signIn);
       return;
     }

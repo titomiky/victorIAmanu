@@ -43,6 +43,12 @@ export function AuthGuard({
           return;
         }
 
+        if (user.role === "admin") {
+          console.log("[AuthGuard]: Redirecting user to admin home");
+          router.replace(paths.admin.home);
+          return;
+        }
+
         console.log("[AuthGuard]: Redirecting user to candidates dashboard");
         router.replace(paths.dashboard.overview);
         return;
@@ -105,5 +111,5 @@ export function AuthGuard({
     return <Alert color="error">{error}</Alert>;
   }
 
-  return <React.Fragment>{children}</React.Fragment>;
+  return <>{children}</>;
 }
