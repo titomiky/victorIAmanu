@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
-import { Box, Link } from "@mui/material";
+import { Box, Link, Stack } from "@mui/material";
 import { jwtDecode } from "jwt-decode";
 import { User, UserToken } from "@/types/user";
 import { getUser } from "@/lib/auth/client";
@@ -30,12 +30,12 @@ const Completed = () => {
   }, []);
 
   return (
-    <Box
+    <Stack
+      spacing={5}
       sx={{
-        display: "grid",
-        gap: "12px",
-        justifyItems: "center",
         textAlign: "center",
+        alignItems: "center",
+        margin: "auto",
       }}
     >
       <Box
@@ -69,7 +69,7 @@ const Completed = () => {
       >
         Ir al dashboard
       </Button>
-    </Box>
+    </Stack>
   );
 };
 

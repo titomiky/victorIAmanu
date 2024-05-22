@@ -7,8 +7,9 @@ import {
   InputLabel,
   OutlinedInput,
   Stack,
+  Typography,
 } from "@mui/material";
-import React, { useEffect } from "react";
+import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z as zod } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -76,7 +77,16 @@ const CreateCandidateForm = () => {
   }, []);
 
   return (
-    <Stack spacing={3}>
+    <Stack
+      spacing={5}
+      sx={{
+        textAlign: "center",
+        maxWidth: "1000px",
+        width: "100%",
+        margin: "auto",
+      }}
+    >
+      <Typography variant="h4">Registro de candidato</Typography>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack
           spacing={2}
@@ -185,7 +195,11 @@ const CreateCandidateForm = () => {
             control={control}
             name="cvPdf"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.cvPdf)} required>
+              <FormControl
+                sx={{ gridColumn: "1/3" }}
+                error={Boolean(errors.cvPdf)}
+                required
+              >
                 <InputLabel shrink={true}>Curriculum</InputLabel>
                 <OutlinedInput
                   label="Curriculum"
@@ -213,7 +227,12 @@ const CreateCandidateForm = () => {
             disabled={isPending}
             type="submit"
             variant="contained"
-            sx={{ placeSelf: "center", gridColumn: "1/3", width: "200px" }}
+            sx={{
+              placeSelf: "center",
+              gridColumn: "1/3",
+              width: "200px",
+              marginTop: "30px",
+            }}
           >
             Continuar
           </Button>

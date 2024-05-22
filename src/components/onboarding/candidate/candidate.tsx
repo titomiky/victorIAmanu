@@ -1,7 +1,5 @@
 "use client";
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import { useRouter, useSearchParams } from "next/navigation";
 import CreateCandidateForm from "@/components/forms/create-candidate";
 
@@ -19,14 +17,7 @@ const Candidate = () => {
 
   return (
     <React.Suspense fallback={<div>Loading...</div>}>
-      {" "}
-      <Box sx={{ display: "grid", gap: "12px", justifyItems: "center" }}>
-        <Typography variant="h4">Registro de candidato</Typography>
-
-        <Box sx={{ display: "flex", gap: "12px" }}>
-          <CreateCandidateForm />
-        </Box>
-      </Box>
+      <CreateCandidateForm />
     </React.Suspense>
   );
 };

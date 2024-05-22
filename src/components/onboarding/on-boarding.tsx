@@ -2,7 +2,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { Button, Checkbox, FormControlLabel } from "@mui/material";
+import { Button, Checkbox, FormControlLabel, Stack } from "@mui/material";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useNextStep } from "@/hooks/use-nextstep";
 
@@ -32,19 +32,22 @@ const OnBoarding = () => {
   };
 
   return (
-    <Box
-      sx={{
-        display: "grid",
-        gap: "12px",
-        justifyItems: "center",
-        textAlign: "center",
-      }}
+    <Stack
+      spacing={5}
+      sx={{ margin: "auto", alignItems: "center", textAlign: "center" }}
     >
       <Typography variant="h4">Bienvenido al Onboarding</Typography>
 
       <Typography variant="h5">¿Que tipo de usuario quieres ser?</Typography>
 
-      <Box sx={{ display: "flex", gap: "12px" }}>
+      <Box
+        sx={{
+          display: "flex",
+          gap: "12px",
+          justifyContent: "center",
+          width: "100%",
+        }}
+      >
         <FormControlLabel
           control={
             <Checkbox
@@ -74,7 +77,7 @@ const OnBoarding = () => {
       >
         Continuar
       </Button>
-    </Box>
+    </Stack>
   );
 };
 

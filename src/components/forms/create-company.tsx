@@ -12,6 +12,7 @@ import { Controller, useForm } from "react-hook-form";
 import { z as zod } from "zod";
 import { authClient } from "@/lib/auth/client";
 import { useNextStep } from "@/hooks/use-nextstep";
+import { Typography } from "@mui/material";
 
 const schema = zod.object({
   name: zod.string().min(1, { message: "El nombre es requerido" }),
@@ -71,7 +72,16 @@ const CreateCompanyForm = () => {
   }, []);
 
   return (
-    <Stack spacing={3}>
+    <Stack
+      spacing={5}
+      sx={{
+        textAlign: "center",
+        maxWidth: "1000px",
+        width: "100%",
+        margin: "auto",
+      }}
+    >
+      <Typography variant="h4">Registro de empresa</Typography>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack
           spacing={2}
@@ -164,25 +174,6 @@ const CreateCompanyForm = () => {
           />
           <Controller
             control={control}
-            name="companyAddress"
-            render={({ field }) => (
-              <FormControl error={Boolean(errors.companyAddress)} required>
-                <InputLabel>Dirección de la empresa</InputLabel>
-                <OutlinedInput
-                  {...field}
-                  label="Dirección de la empresa"
-                  type="text"
-                />
-                {errors.companyAddress ? (
-                  <FormHelperText>
-                    {errors.companyAddress.message}
-                  </FormHelperText>
-                ) : null}
-              </FormControl>
-            )}
-          />
-          <Controller
-            control={control}
             name="companyNIF"
             render={({ field }) => (
               <FormControl error={Boolean(errors.companyNIF)} required>
@@ -213,6 +204,31 @@ const CreateCompanyForm = () => {
               </FormControl>
             )}
           />
+
+          <Controller
+            control={control}
+            name="companyAddress"
+            render={({ field }) => (
+              <FormControl
+                sx={{ gridColumn: "1/3" }}
+                error={Boolean(errors.companyAddress)}
+                required
+              >
+                <InputLabel>Dirección de la empresa</InputLabel>
+                <OutlinedInput
+                  {...field}
+                  label="Dirección de la empresa"
+                  type="text"
+                />
+                {errors.companyAddress ? (
+                  <FormHelperText>
+                    {errors.companyAddress.message}
+                  </FormHelperText>
+                ) : null}
+              </FormControl>
+            )}
+          />
+
           {errors.root ? (
             <Alert color="error" severity="error">
               {errors.root.message}
@@ -222,7 +238,12 @@ const CreateCompanyForm = () => {
             disabled={isPending}
             type="submit"
             variant="contained"
-            sx={{ placeSelf: "center", gridColumn: "1/3", width: "200px" }}
+            sx={{
+              placeSelf: "center",
+              gridColumn: "1/3",
+              width: "200px",
+              marginTop: "30px",
+            }}
           >
             Continuar
           </Button>
