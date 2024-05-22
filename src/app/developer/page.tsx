@@ -9,7 +9,7 @@ import { Metadata } from "next";
 import { config } from "@/config";
 
 export const metadata = {
-  title: `About | ${config.site.name}`,
+  title: `Desarrolladores | ${config.site.name}`,
 } satisfies Metadata;
 
 const Page = () => {

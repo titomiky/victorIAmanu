@@ -112,6 +112,33 @@ class AuthClient {
     return {};
   }
 
+  async createCandidateFromDashboard(
+    params: Candidate
+  ): Promise<{ error?: string }> {
+    try {
+      params.currentSalary = Number(params.currentSalary);
+      params.desiredSalary = Number(params.desiredSalary);
+
+      const token = getToken();
+      const res = await axios.put(`${url}/users/candidate`, params, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (res.status === 200) {
+        console.log(res);
+        return {};
+      }
+
+      return { error: "Ocurrió un error !!" };
+    } catch (error) {
+      console.log(error);
+      return { error: "Ocurrió un error !!" };
+    }
+  }
+
   async createCandidate(params: Candidate): Promise<{ error?: string }> {
     try {
       params.currentSalary = Number(params.currentSalary);

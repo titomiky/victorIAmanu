@@ -8,7 +8,7 @@ import { TestsProgress } from "@/components/dashboard/overview/tests-progress";
 import StackedBar from "@/components/dashboard/overview/stacked-bar";
 
 export const metadata = {
-  title: `Overview | Dashboard | ${config.site.name}`,
+  title: `General | Dashboard | ${config.site.name}`,
 } satisfies Metadata;
 
 export default function Page(): React.JSX.Element {

@@ -11,7 +11,7 @@ import { config } from "@/config";
 import { paths } from "@/paths";
 
 export const metadata = {
-  title: `Not found | ${config.site.name}`,
+  title: `Error | ${config.site.name}`,
 } satisfies Metadata;
 
 export default function NotFound(): React.JSX.Element {
@@ -52,7 +52,7 @@ export default function NotFound(): React.JSX.Element {
         </Typography>
         <Button
           component={Link}
-          href={paths.home}
+          href={paths.auth.signIn}
           startIcon={<ArrowLeftIcon fontSize="var(--icon-fontSize-md)" />}
           variant="contained"
         >

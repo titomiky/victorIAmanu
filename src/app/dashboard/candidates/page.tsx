@@ -8,7 +8,7 @@ import CandidatesTable from "@/components/dashboard/candidates/candidates-table"
 import RouterLink from "next/link";
 
 export const metadata = {
-  title: `Customers | Dashboard | ${config.site.name}`,
+  title: `Candidatos | Dashboard | ${config.site.name}`,
 } satisfies Metadata;
 
 const Page = () => {

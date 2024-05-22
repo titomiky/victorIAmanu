@@ -48,7 +48,7 @@ const defaultValues = {
 const CreateCandidateDashboard = () => {
   const router = useRouter();
   const [isPending, setIsPending] = React.useState<boolean>(false);
-  const [file, setFile] = React.useState({ file: {} }) as any;
+  let file = "";
 
   const {
     control,
@@ -61,7 +61,7 @@ const CreateCandidateDashboard = () => {
     values.cvPdf = file;
     setIsPending(true);
 
-    const { error } = await authClient.createCandidate(values);
+    const { error } = await authClient.createCandidateFromDashboard(values);
 
     if (error) {
       setError("root", { type: "server", message: error });
@@ -91,7 +91,7 @@ const CreateCandidateDashboard = () => {
             control={control}
             name="name"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.name)}>
+              <FormControl error={Boolean(errors.name)} required>
                 <InputLabel>Nombre</InputLabel>
                 <OutlinedInput {...field} label="Nombre" />
                 {errors.name ? (
@@ -104,7 +104,7 @@ const CreateCandidateDashboard = () => {
             control={control}
             name="surname"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.surname)}>
+              <FormControl error={Boolean(errors.surname)} required>
                 <InputLabel>Apellido/s</InputLabel>
                 <OutlinedInput {...field} label="Apellido/s" />
                 {errors.surname ? (
@@ -117,7 +117,7 @@ const CreateCandidateDashboard = () => {
             control={control}
             name="phoneNumber"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.phoneNumber)}>
+              <FormControl error={Boolean(errors.phoneNumber)} required>
                 <InputLabel>Teléfono</InputLabel>
                 <OutlinedInput {...field} label="Teléfono" />
                 {errors.phoneNumber ? (
@@ -131,7 +131,7 @@ const CreateCandidateDashboard = () => {
             control={control}
             name="currentSalary"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.currentSalary)}>
+              <FormControl error={Boolean(errors.currentSalary)} required>
                 <InputLabel>Salario actual</InputLabel>
                 <OutlinedInput
                   {...field}
@@ -150,7 +150,7 @@ const CreateCandidateDashboard = () => {
             control={control}
             name="desiredSalary"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.desiredSalary)}>
+              <FormControl error={Boolean(errors.desiredSalary)} required>
                 <InputLabel>Salario deseado</InputLabel>
                 <OutlinedInput
                   {...field}
@@ -169,7 +169,7 @@ const CreateCandidateDashboard = () => {
             control={control}
             name="birthDate"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.birthDate)}>
+              <FormControl error={Boolean(errors.birthDate)} required>
                 <InputLabel shrink={true}>Fecha de nacimiento</InputLabel>
                 <OutlinedInput
                   {...field}
@@ -187,14 +187,18 @@ const CreateCandidateDashboard = () => {
             control={control}
             name="cvPdf"
             render={({ field }) => (
-              <FormControl error={Boolean(errors.cvPdf)}>
+              <FormControl
+                sx={{ gridColumn: "1/3" }}
+                error={Boolean(errors.cvPdf)}
+                required
+              >
                 <InputLabel shrink={true}>Curriculum</InputLabel>
                 <OutlinedInput
                   label="Curriculum"
                   inputProps={{ accept: ".xlsx, .xls, .pdf" }}
                   {...field}
                   onChange={(e: any) => {
-                    setFile(e.target.files[0]);
+                    file = e.target.files[0];
                     field.onChange(e);
                   }}
                   type="file"
@@ -207,7 +211,7 @@ const CreateCandidateDashboard = () => {
             )}
           />
           {errors.root ? (
-            <Alert color="error" severity="error">
+            <Alert severity="error" color="error">
               {errors.root.message}
             </Alert>
           ) : null}
@@ -215,7 +219,12 @@ const CreateCandidateDashboard = () => {
             disabled={isPending}
             type="submit"
             variant="contained"
-            sx={{ placeSelf: "center", gridColumn: "1/3", width: "200px" }}
+            sx={{
+              placeSelf: "center",
+              gridColumn: "1/3",
+              width: "200px",
+              marginTop: "30px",
+            }}
           >
             Continuar
           </Button>
