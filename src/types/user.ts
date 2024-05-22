@@ -39,4 +39,5 @@ export interface UserToken {
   role: string;
   onBoarding: boolean;
   clientId: string;
+  candidateId: string;
 }

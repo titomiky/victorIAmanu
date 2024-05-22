@@ -27,6 +27,7 @@ const CandidatureItem = ({ candidature }: { candidature: CandidateOffer }) => {
   const handleToggleInfo = (): void => {
     setToggleInfo(!toggleInfo);
   };
+
   return (
     <article>
       <ListItem sx={{ display: "grid", gap: "10px" }} alignItems="flex-start">
@@ -52,10 +53,10 @@ const CandidatureItem = ({ candidature }: { candidature: CandidateOffer }) => {
           </Typography>
         </Box>
         <Stack direction="row" spacing={1}>
-          {/*
-         {candidature.techStack.map((item: string, index: number) => (
-            <Chip label={item} size="small" key={index + item} />
-          ))} */}
+          {candidature.competencesNames.length > 0 &&
+            candidature.competencesNames.map((item: string, index: number) => (
+              <Chip label={item} size="small" key={index + item} />
+            ))}
         </Stack>
         <Button
           sx={{ width: "fit-content", margin: "auto" }}

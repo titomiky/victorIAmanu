@@ -24,10 +24,12 @@ const schema = zod.object({
   email: zod.string().min(1, { message: "El email es requerido" }).email(),
   password: zod
     .string()
-    .min(6, { message: "La contraseña debe contener al menos 6 caracteres" }),
+    .min(6, { message: "La contraseña debe contener al menos 6 caracteres" })
+    .max(300, { message: "Excediste el máximo de caracteres permitidos" }),
   confirmPassword: zod
     .string()
-    .min(6, { message: "La contraseña debe contener al menos 6 caracteres" }),
+    .min(6, { message: "La contraseña debe contener al menos 6 caracteres" })
+    .max(300, { message: "Excediste el máximo de caracteres permitidos" }),
 });
 
 type Values = zod.infer<typeof schema>;

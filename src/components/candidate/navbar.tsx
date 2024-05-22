@@ -16,11 +16,13 @@ import {
 } from "@mui/material";
 import RouterLink from "next/link";
 import { paths } from "@/paths";
-import { authClient } from "@/lib/auth/client";
+import { authClient, getUser } from "@/lib/auth/client";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/hooks/use-user";
+import { UserToken } from "@/types/user";
 
 const NavBar = () => {
+  const user = getUser() as UserToken;
   const { checkSession } = useUser();
   const router = useRouter();
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
@@ -113,6 +115,16 @@ const NavBar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
+              <Box sx={{ p: "16px 20px " }}>
+                <Typography variant="subtitle1">
+                  {user?.name && user?.name + " " + user?.surname}
+                </Typography>
+                <Typography color="text.secondary" variant="body2">
+                  {user?.email && user?.email}
+                </Typography>
+              </Box>
+              <Divider />
+
               <MenuItem
                 onClick={handleCloseUserMenu}
                 component={RouterLink}

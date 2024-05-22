@@ -18,6 +18,9 @@ export interface CandidateOffer {
   description: string;
   numCandidates: number;
   clientUser: string;
+  clientUserName: string;
+  competencesNames: string[];
+  linkToSession?: string;
 }
 
 class CandidatesClient {
@@ -47,8 +50,9 @@ class CandidatesClient {
     try {
       const token = getToken();
       const user = jwtDecode(token) as UserToken;
+      console.log(user);
       const res = await axios.get(
-        `${this.url}/users/jobOffersByCandidate/${user.userId}`,
+        `${this.url}/users/jobOffersByCandidate/${user.candidateId}`,
         {
           headers: {
             "Content-Type": "application/json",
