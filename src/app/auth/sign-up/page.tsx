@@ -7,7 +7,7 @@ import { OnboardingGuard } from "@/components/auth/onboarding-guard";
 import Layout from "@/components/auth/card-layout";
 
 export const metadata = {
-  title: `Sign up | Auth | ${config.site.name}`,
+  title: `Registro | ${config.site.name}`,
 } satisfies Metadata;
 
 export default function Page(): React.JSX.Element {

@@ -5,7 +5,7 @@ import { config } from "@/config";
 import { ResetPasswordForm } from "@/components/auth/reset-password-form";
 
 export const metadata = {
-  title: `Reset password | Auth | ${config.site.name}`,
+  title: `Cambiar contraseña | ${config.site.name}`,
 } satisfies Metadata;
 
 export default function Page({

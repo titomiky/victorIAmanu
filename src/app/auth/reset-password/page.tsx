@@ -5,7 +5,7 @@ import Layout from "@/components/auth/card-layout";
 import { EmailLinkForm } from "@/components/auth/email-link-form";
 
 export const metadata = {
-  title: `Reset password | Auth | ${config.site.name}`,
+  title: `Recuperar contraseña | ${config.site.name}`,
 } satisfies Metadata;
 
 const page = () => {

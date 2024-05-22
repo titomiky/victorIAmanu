@@ -18,6 +18,8 @@ import Image from "next/image";
 import RouterLink from "next/link";
 import { paths } from "@/paths";
 
+/* Add search for user id first and then execute code */
+
 const schema = zod.object({
   password: zod
     .string()

@@ -69,7 +69,7 @@ export function EmailLinkForm(): React.JSX.Element {
         </>
       ) : (
         <>
-          <Typography variant="h5">Cambiar contraseña</Typography>
+          <Typography variant="h5">Recuperar tu contraseña</Typography>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack spacing={4}>
               <Controller
@@ -77,7 +77,7 @@ export function EmailLinkForm(): React.JSX.Element {
                 name="email"
                 render={({ field }) => (
                   <FormControl error={Boolean(errors.email)}>
-                    <InputLabel>Email de tu cuenta</InputLabel>
+                    <InputLabel>Email de la cuenta</InputLabel>
                     <OutlinedInput
                       {...field}
                       label="Email de tu cuenta"

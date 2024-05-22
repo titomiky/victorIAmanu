@@ -7,7 +7,7 @@ import { AuthGuard } from "@/components/auth/auth-guard";
 import Layout from "@/components/auth/card-layout";
 
 export const metadata = {
-  title: `Sign in | Auth | ${config.site.name}`,
+  title: `Iniciar sesión | ${config.site.name}`,
 } satisfies Metadata;
 
 export default function Page(): React.JSX.Element {

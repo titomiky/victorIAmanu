@@ -1,9 +1,7 @@
 "use client";
-
 import * as React from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Alert from "@mui/material/Alert";
-
 import { paths } from "@/paths";
 import { useUser } from "@/hooks/use-user";
 
