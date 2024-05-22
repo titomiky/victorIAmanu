@@ -37,6 +37,8 @@ const CandidateHome = () => {
             sx={{
               width: "100%",
               bgcolor: "background.paper",
+              display: "grid",
+              gap: "30px",
             }}
           >
             {data.map((candidature: CandidateOffer, index: number) => (

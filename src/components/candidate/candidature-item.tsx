@@ -1,11 +1,13 @@
 "use client";
 import { CandidateOffer } from "@/lib/candidates/client";
 import {
+  Alert,
   Avatar,
   Box,
   Button,
   Chip,
   Divider,
+  Link,
   ListItem,
   ListItemAvatar,
   Stack,
@@ -22,7 +24,7 @@ const text_hidden_style = {
 };
 
 const CandidatureItem = ({ candidature }: { candidature: CandidateOffer }) => {
-  const [toggleInfo, setToggleInfo] = React.useState<boolean>(false);
+  const [toggleInfo, setToggleInfo] = React.useState<boolean>(true);
 
   const handleToggleInfo = (): void => {
     setToggleInfo(!toggleInfo);
@@ -30,41 +32,60 @@ const CandidatureItem = ({ candidature }: { candidature: CandidateOffer }) => {
 
   return (
     <article>
-      <ListItem sx={{ display: "grid", gap: "10px" }} alignItems="flex-start">
+      <ListItem sx={{ display: "grid", gap: "26px" }} alignItems="flex-start">
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          <ListItemAvatar>
-            <Avatar alt={candidature.name} src="/static/images/avatar/1.jpg" />
+          <ListItemAvatar sx={{ margin: "auto 0" }}>
+            <Avatar
+              alt={candidature.clientUserName}
+              src="/static/images/avatar/1.jpg"
+              sx={{ bgcolor: "var(--mui-palette-primary-main)" }}
+            />
           </ListItemAvatar>
 
           <Typography component="h4" variant="h5">
-            {candidature.name}
+            {candidature.clientUserName + " - " + candidature.name}
           </Typography>
         </Box>
         <Box sx={{ display: "grid" }}>
-          <Typography
-            component="p"
-            variant="body2"
-            sx={toggleInfo ? {} : text_hidden_style}
-          >
-            <Typography component="span" variant="body2" color="text.primary">
-              {candidature.clientUser} {" - "}
-            </Typography>
+          <Typography component="p" lineHeight={1.8}>
             {candidature.description}
           </Typography>
         </Box>
         <Stack direction="row" spacing={1}>
           {candidature.competencesNames.length > 0 &&
             candidature.competencesNames.map((item: string, index: number) => (
-              <Chip label={item} size="small" key={index + item} />
+              <Chip label={item} key={index + item} />
             ))}
         </Stack>
+
+        {candidature.linkToSession ? (
+          <Alert
+            severity="info"
+            sx={{ width: "fit-content" }}
+            variant="outlined"
+          >
+            Link de la prueba :{" "}
+            <Link component={"a"} href="#">
+              http://localhost:3000/candidate/home
+            </Link>{" "}
+            ( Con este link podrás rendir la prueba que la empresa género para
+            ti )
+          </Alert>
+        ) : (
+          <Alert
+            severity="info"
+            sx={{ width: "fit-content" }}
+            variant="outlined"
+          >
+            Todavía no cuentas con un link de prueba
+          </Alert>
+        )}
+
         <Button
           sx={{ width: "fit-content", margin: "auto" }}
           color="inherit"
           onClick={handleToggleInfo}
-        >
-          {toggleInfo ? "Ver menos" : "Ver más"}
-        </Button>
+        ></Button>
       </ListItem>
       <Divider variant="inset" component="li" sx={{ margin: "0px" }} />
     </article>
