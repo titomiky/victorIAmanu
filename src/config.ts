@@ -1,7 +1,5 @@
-import { getSiteURL } from "@/lib/get-site-url";
-
 export interface Config {
-  site: { name: string; description: string; themeColor: string; url: string };
+  site: { name: string; description: string; themeColor: string };
 }
 
 export const config: Config = {
@@ -9,6 +7,5 @@ export const config: Config = {
     name: "Stoical",
     description: "",
     themeColor: "#090a0b",
-    url: getSiteURL(),
   },
 };

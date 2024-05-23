@@ -9,18 +9,16 @@ import {
   Typography,
 } from "@mui/material";
 import * as React from "react";
-import { ArrowClockwise as ArrowClockwiseIcon } from "@phosphor-icons/react/dist/ssr/ArrowClockwise";
 import { Chart } from "@/components/core/chart";
 import type { SxProps } from "@mui/material/styles";
 import { ApexOptions } from "apexcharts";
 import { YearClientReport, reportsClient } from "@/lib/reports/client";
 
 export interface StackedBarProps {
-  chartSeries?: { name: string; data: number[] }[];
   sx?: SxProps;
 }
 
-const StackedBar = ({ chartSeries, sx }: StackedBarProps) => {
+const StackedBar = ({ sx }: StackedBarProps) => {
   const [data, setData] = React.useState<YearClientReport[]>();
   const [error, setError] = React.useState<{ error?: string }>();
   const [year, setYear] = React.useState<number>(2024);

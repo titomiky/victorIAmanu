@@ -1,6 +1,5 @@
 import * as React from "react";
 import type { Metadata } from "next";
-
 import { config } from "@/config";
 import { SignInForm } from "@/components/auth/sign-in-form";
 import { AuthGuard } from "@/components/auth/auth-guard";

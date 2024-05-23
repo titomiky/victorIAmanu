@@ -1,13 +1,6 @@
 "use client";
-import {
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  Typography,
-} from "@mui/material";
+import { Card, CardContent, CardHeader, Typography } from "@mui/material";
 import * as React from "react";
-import { ArrowClockwise as ArrowClockwiseIcon } from "@phosphor-icons/react/dist/ssr/ArrowClockwise";
 import { Chart } from "@/components/core/chart";
 import type { SxProps } from "@mui/material/styles";
 import { ApexOptions } from "apexcharts";
