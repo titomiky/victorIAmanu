@@ -4,7 +4,13 @@ import { candidatureClient } from "@/lib/canidature/client";
 import { Box, Button, Modal, Typography } from "@mui/material";
 import { Trash } from "@phosphor-icons/react";
 
-const DeleteCandidature = ({ candidatureId }: { candidatureId: string }) => {
+const DeleteCandidature = ({
+  candidatureId,
+  candidatureName,
+}: {
+  candidatureId: string;
+  candidatureName: string;
+}) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -48,13 +54,14 @@ const DeleteCandidature = ({ candidatureId }: { candidatureId: string }) => {
             boxShadow: 24,
             outline: "none",
             p: 4,
+            borderRadius: "8px",
           }}
         >
           <Typography id="modal-modal-title" variant="h6" component="h2">
             ¿Estás seguro de que quieres eliminar esta candidatura?
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            id: {candidatureId}
+            {candidatureName}
           </Typography>
 
           <Box

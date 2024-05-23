@@ -27,7 +27,6 @@ const CandidatesTable = () => {
   }, []);
 
   const columns: GridColDef<(typeof data)[number]>[] = [
-    { field: "candidateUserId", headerName: "ID", width: 90 },
     {
       field: "name",
       headerName: "Nombre",

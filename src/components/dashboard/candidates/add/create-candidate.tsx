@@ -16,8 +16,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { authClient } from "@/lib/auth/client";
 import { useRouter } from "next/navigation";
 import { paths } from "@/paths";
+import { Eye as EyeIcon } from "@phosphor-icons/react/dist/ssr/Eye";
+import { EyeSlash as EyeSlashIcon } from "@phosphor-icons/react/dist/ssr/EyeSlash";
 
 const schema = zod.object({
+  email: zod.string().min(1, { message: "El email es requerido" }).email(),
+  password: zod.string().min(1, { message: "La contraseña es requerida" }),
   name: zod.string().min(1, { message: "El nombre es requerido" }),
   surname: zod.string().min(1, { message: "El apellido es requerido" }),
   phoneNumber: zod.string().min(1, { message: "El teléfono es requerido" }),
@@ -36,6 +40,8 @@ const schema = zod.object({
 type Values = zod.infer<typeof schema>;
 
 const defaultValues = {
+  email: "",
+  password: "",
   name: "",
   surname: "",
   phoneNumber: "",
@@ -49,6 +55,7 @@ const CreateCandidateDashboard = () => {
   const router = useRouter();
   const [isPending, setIsPending] = React.useState<boolean>(false);
   let file = "";
+  const [showPassword, setShowPassword] = React.useState<boolean>();
 
   const {
     control,
@@ -87,6 +94,56 @@ const CreateCandidateDashboard = () => {
             gridTemplateColumns: "1fr 1fr",
           }}
         >
+          <Controller
+            control={control}
+            name="email"
+            render={({ field }) => (
+              <FormControl error={Boolean(errors.email)} required>
+                <InputLabel>Email</InputLabel>
+                <OutlinedInput {...field} label="Email" type="email" />
+                {errors.email ? (
+                  <FormHelperText>{errors.email.message}</FormHelperText>
+                ) : null}
+              </FormControl>
+            )}
+          />
+          <Controller
+            control={control}
+            name="password"
+            render={({ field }) => (
+              <FormControl error={Boolean(errors.password)} required>
+                <InputLabel>Contraseña</InputLabel>
+                <OutlinedInput
+                  {...field}
+                  endAdornment={
+                    showPassword ? (
+                      <EyeIcon
+                        cursor="pointer"
+                        fontSize="var(--icon-fontSize-md)"
+                        onClick={(): void => {
+                          setShowPassword(false);
+                        }}
+                      />
+                    ) : (
+                      <EyeSlashIcon
+                        cursor="pointer"
+                        fontSize="var(--icon-fontSize-md)"
+                        onClick={(): void => {
+                          setShowPassword(true);
+                        }}
+                      />
+                    )
+                  }
+                  label="Contraseña"
+                  type={showPassword ? "text" : "password"}
+                />
+                {errors.password ? (
+                  <FormHelperText>{errors.password.message}</FormHelperText>
+                ) : null}
+              </FormControl>
+            )}
+          />
+
           <Controller
             control={control}
             name="name"

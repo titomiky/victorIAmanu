@@ -38,6 +38,18 @@ export interface ResetPasswordParams {
   email: string;
 }
 
+interface CreateCandidate {
+  email: string;
+  password: string;
+  name: string;
+  surname: string;
+  phoneNumber: string;
+  currentSalary: number | string;
+  desiredSalary: number | string;
+  birthDate: string;
+  cvPdf: Object;
+}
+
 const url = "https://api.holaqueai.com";
 
 class AuthClient {
@@ -113,14 +125,28 @@ class AuthClient {
   }
 
   async createCandidateFromDashboard(
-    params: Candidate
+    params: CreateCandidate
   ): Promise<{ error?: string }> {
     try {
-      params.currentSalary = Number(params.currentSalary);
-      params.desiredSalary = Number(params.desiredSalary);
+      const data = {
+        user: {
+          email: params.email,
+          password: params.password,
+        },
+        candidateUser: {
+          name: params.name,
+          surname: params.surname,
+          phoneNumber: params.phoneNumber,
+          currentSalary: Number(params.currentSalary),
+          desiredSalary: Number(params.desiredSalary),
+          birthDate: params.birthDate,
+          cvText: "",
+          cvPdf: params.cvPdf,
+        },
+      };
 
       const token = getToken();
-      const res = await axios.put(`${url}/users/candidate`, params, {
+      const res = await axios.post(`${url}/users/candidateByClient`, data, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,

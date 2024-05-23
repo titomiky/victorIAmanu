@@ -54,28 +54,27 @@ const StackedBar = ({ sx }: StackedBarProps) => {
       },
       plotOptions: {
         bar: {
-          horizontal: true,
+          borderRadius: 4,
+          horizontal: true, // Ensure bars are horizontal
           dataLabels: {
             total: {
-              enabled: false,
-              offsetX: 0,
+              enabled: true,
+              offsetX: 10,
               style: {
-                fontSize: "13px",
-                fontWeight: 900,
+                fontSize: "14px",
+                fontWeight: 300,
               },
             },
           },
         },
       },
-
       stroke: {
         width: 1,
         colors: ["#fff"],
       },
-
       xaxis: {
-        categories:
-          Array.isArray(data) && data[0].competences.map((item) => item.name), //[2008, 2009, 2010, 2011, 2012, 2013, 2014],
+        categories: Array.isArray(data) && data.map((item) => item.name), // Candidate names on x-axis
+
         labels: {
           formatter: function (val) {
             return "";
@@ -100,7 +99,7 @@ const StackedBar = ({ sx }: StackedBarProps) => {
       legend: {
         position: "top",
         horizontalAlign: "left",
-        offsetX: 0,
+        offsetX: 10,
       },
     };
   }
@@ -115,12 +114,10 @@ const StackedBar = ({ sx }: StackedBarProps) => {
           <Chart
             height={350}
             options={chartOptions}
-            series={data.map((item) => {
-              return {
-                name: item.name,
-                data: item.competences.map((res) => res.value),
-              };
-            })}
+            series={data[0].competences.map((competence, index) => ({
+              name: competence.name,
+              data: data.map((candidate) => candidate.competences[index].value),
+            }))}
             type="bar"
             width="100%"
           />

@@ -16,12 +16,12 @@ const CandidateOverview = ({
   const [errorMessage, setErrorMessage] = React.useState<{ error?: string }>();
 
   React.useEffect(() => {
-    console.log(candidateId, candidatureId);
     const getData = async () => {
       const res = await reportsClient.candidateCandidatureReport(
         candidatureId,
         candidateId
       );
+      console.log(res);
       if (Array.isArray(res)) {
         setData(res);
         return;
@@ -74,7 +74,7 @@ const CandidateOverview = ({
   return (
     <Stack spacing={2} sx={{ padding: "16px" }}>
       <Typography variant="h6" sx={{ marginBottom: "16px" }}>
-        Competencias del candidato:{" "}
+        Competencias del candidato:
       </Typography>
       {data.length > 0 && (
         <Chart

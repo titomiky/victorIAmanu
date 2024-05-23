@@ -14,6 +14,8 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import NoResults from "@/components/core/no-results";
 import { CheckCircle } from "@phosphor-icons/react";
 import Loading from "@/components/core/loading";
+import RouterLink from "next/link";
+import { paths } from "@/paths";
 
 const CandidatesByOffer = ({ candidatureId }: { candidatureId: string }) => {
   const [open, setOpen] = React.useState(false);
@@ -71,7 +73,6 @@ const CandidatesByOffer = ({ candidatureId }: { candidatureId: string }) => {
   };
 
   const columns: GridColDef<(typeof data)[number]>[] = [
-    { field: "candidateUserId", headerName: "ID", width: 90 },
     {
       field: "name",
       headerName: "Nombre",
@@ -93,14 +94,21 @@ const CandidatesByOffer = ({ candidatureId }: { candidatureId: string }) => {
     {
       field: "actions",
       headerName: "Acciones",
-      width: 150,
+      width: 270,
       sortable: false,
       renderCell: (params) => {
         return (
           <Box sx={{ display: "flex", gap: "10px", height: "100%" }}>
             <Button
+              LinkComponent={RouterLink}
+              href={`${paths.dashboard.candidatures}/${candidatureId}/${params.row.candidateUserId}`}
               sx={{ width: "fit-content", margin: "auto 0", padding: "4px" }}
-              variant="outlined"
+            >
+              Ver aptitudes
+            </Button>
+            <Button
+              sx={{ width: "fit-content", margin: "auto 0", padding: "4px" }}
+              variant="contained"
               onClick={() => {
                 setCandidate(params.row);
                 handleOpen();
@@ -173,6 +181,7 @@ const CandidatesByOffer = ({ candidatureId }: { candidatureId: string }) => {
             boxShadow: 24,
             outline: "none",
             p: 4,
+            borderRadius: "8px",
           }}
         >
           <Stack spacing={5}>

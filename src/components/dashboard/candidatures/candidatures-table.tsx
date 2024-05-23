@@ -37,7 +37,6 @@ const CandidaturesTable = () => {
   }, []);
 
   const columns: GridColDef<(typeof data)[number]>[] = [
-    { field: "_id", headerName: "ID", width: 90 },
     {
       field: "name",
       headerName: "Título",
@@ -87,7 +86,10 @@ const CandidaturesTable = () => {
             >
               Editar
             </Button>
-            <DeleteCandidature candidatureId={params.row._id} />
+            <DeleteCandidature
+              candidatureId={params.row._id}
+              candidatureName={params.row.name}
+            />
           </Box>
         );
       },
