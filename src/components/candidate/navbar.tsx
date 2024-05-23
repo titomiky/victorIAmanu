@@ -72,6 +72,7 @@ const NavBar = () => {
           "--NavItem-icon-disabled-color": "var(--mui-palette-neutral-600)",
           bgcolor: "var(--SideNav-background)",
           color: "var(--SideNav-color)",
+          padding: "0 !important",
         }}
       >
         <Toolbar>

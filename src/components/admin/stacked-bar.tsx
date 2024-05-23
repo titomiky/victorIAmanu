@@ -47,6 +47,19 @@ const StackedBar = ({ chartSeries, sx }: StackedBarProps) => {
         type: "bar",
         height: 350,
         stacked: true,
+        defaultLocale: "es",
+        locales: [
+          {
+            name: "es",
+            options: {
+              toolbar: {
+                exportToPNG: "Descargar PNG",
+                exportToCSV: "Descargar CSV",
+                exportToSVG: "Descargar SVG",
+              },
+            },
+          },
+        ],
       },
       plotOptions: {
         bar: {
@@ -118,20 +131,7 @@ const StackedBar = ({ chartSeries, sx }: StackedBarProps) => {
 
   return (
     <Card sx={sx}>
-      <CardHeader
-        action={
-          <Button
-            color="inherit"
-            size="small"
-            startIcon={
-              <ArrowClockwiseIcon fontSize="var(--icon-fontSize-md)" />
-            }
-          >
-            Sync
-          </Button>
-        }
-        title="Aptitudes "
-      />
+      <CardHeader title="Aptitudes " />
 
       <CardContent>
         <Box

@@ -17,11 +17,10 @@ import {
 } from "@/lib/reports/client";
 
 export interface StackedBarProps {
-  chartSeries?: { name: string; data: number[] }[];
   sx?: SxProps;
 }
 
-const StackedBar = ({ chartSeries, sx }: StackedBarProps) => {
+const StackedBar = ({ sx }: StackedBarProps) => {
   const [data, setData] = React.useState<CandidateCompetencesReport[]>();
   const [error, setError] = React.useState<{ error?: string }>();
   React.useEffect(() => {
@@ -46,6 +45,19 @@ const StackedBar = ({ chartSeries, sx }: StackedBarProps) => {
         type: "bar",
         height: 350,
         stacked: true,
+        defaultLocale: "es",
+        locales: [
+          {
+            name: "es",
+            options: {
+              toolbar: {
+                exportToPNG: "Descargar PNG",
+                exportToCSV: "Descargar CSV",
+                exportToSVG: "Descargar SVG",
+              },
+            },
+          },
+        ],
       },
       plotOptions: {
         bar: {
@@ -62,13 +74,12 @@ const StackedBar = ({ chartSeries, sx }: StackedBarProps) => {
           },
         },
       },
+
       stroke: {
         width: 1,
         colors: ["#fff"],
       },
-      title: {
-        text: "Competencias",
-      },
+
       xaxis: {
         categories:
           Array.isArray(data) && data[0].competences.map((item) => item.name), //[2008, 2009, 2010, 2011, 2012, 2013, 2014],
@@ -105,20 +116,7 @@ const StackedBar = ({ chartSeries, sx }: StackedBarProps) => {
 
   return (
     <Card sx={sx}>
-      <CardHeader
-        action={
-          <Button
-            color="inherit"
-            size="small"
-            startIcon={
-              <ArrowClockwiseIcon fontSize="var(--icon-fontSize-md)" />
-            }
-          >
-            Sync
-          </Button>
-        }
-        title="Aptitudes "
-      />
+      <CardHeader title="Competencias de los candidatos" />
       <CardContent>
         {Array.isArray(data) ? (
           <Chart
