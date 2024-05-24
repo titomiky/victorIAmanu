@@ -12,7 +12,7 @@ const CandidateOverview = ({
   candidatureId: string;
   candidateId: string;
 }) => {
-  const [data, setData] = React.useState<UserCompetenceReport[]>([]);
+  const [data, setData] = React.useState<UserCompetenceReport>();
   const [errorMessage, setErrorMessage] = React.useState<{ error?: string }>();
 
   React.useEffect(() => {
@@ -21,19 +21,23 @@ const CandidateOverview = ({
         candidatureId,
         candidateId
       );
-      console.log(res);
-      if (Array.isArray(res)) {
+
+      if ("error" in res) {
+        setErrorMessage(res);
+      } else {
         setData(res);
-        return;
       }
-      setErrorMessage(res);
     };
     getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
   }, []);
 
-  const names = data.length ? data.map((item) => item.name) : [];
-  const values = data.length ? data.map((item) => item.value) : [];
+  const names = data?.competences.length
+    ? data.competences.map((item) => item.name)
+    : [];
+  const values = data?.competences.length
+    ? data.competences.map((item) => item.value)
+    : [];
   const options = useChartOptions(names);
 
   function useChartOptions(labels: string[]): ApexOptions {
@@ -72,11 +76,12 @@ const CandidateOverview = ({
   }
 
   return (
-    <Stack spacing={2} sx={{ padding: "16px" }}>
-      <Typography variant="h6" sx={{ marginBottom: "16px" }}>
-        Competencias del candidato:
+    <Stack spacing={10}>
+      <Typography variant="h5">
+        Competencias del candidato {data?.candidateName} para{" "}
+        {data?.jobOfferName}
       </Typography>
-      {data.length > 0 && (
+      {data && (
         <Chart
           height={500}
           options={options}

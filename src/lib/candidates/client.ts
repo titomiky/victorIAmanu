@@ -36,6 +36,8 @@ class CandidatesClient {
         },
       });
 
+      console.log(res.data);
+
       if (Array.isArray(res.data)) {
         return res.data;
       }
@@ -60,6 +62,8 @@ class CandidatesClient {
           },
         }
       );
+
+      console.log(res.data);
 
       if (Array.isArray(res.data)) {
         return res.data;
@@ -97,11 +101,11 @@ class CandidatesClient {
 
   async getCandidatesByOffer(
     id: string
-  ): Promise<{ error: string } | CandidatesList[]> {
+  ): Promise<{ error: string } | CandidatesList> {
     try {
       const token = getToken();
 
-      const res = await axios.get<CandidatesList[]>(
+      const res = await axios.get<CandidatesList>(
         `${this.url}/users/candidatesByJobOffer/${id}`,
         {
           headers: {
@@ -111,11 +115,13 @@ class CandidatesClient {
         }
       );
 
-      if (Array.isArray(res.data)) {
+      console.log(res.data);
+
+      if (res.data) {
         return res.data;
       }
 
-      return [];
+      return { error: "Error en nuestros servidores" };
     } catch (error) {
       console.log(error);
       return { error: "Error en nuestros servidores" };

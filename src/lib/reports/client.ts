@@ -11,8 +11,12 @@ export interface CandidateCompetencesReport {
 }
 
 export interface UserCompetenceReport {
-  name: string;
-  value: number;
+  jobOfferName: string;
+  candidateName: string;
+  competences: {
+    name: string;
+    value: number;
+  }[];
 }
 
 export interface YearClientReport {
@@ -74,7 +78,7 @@ class ReportsClient {
   async candidateCandidatureReport(
     jobOfferId: string,
     candidateId: string
-  ): Promise<UserCompetenceReport[] | { error?: string }> {
+  ): Promise<UserCompetenceReport | { error: string }> {
     try {
       const token = getToken();
 
@@ -88,7 +92,9 @@ class ReportsClient {
         }
       );
 
-      if (Array.isArray(res.data)) {
+      console.log(res.data);
+
+      if (res.data) {
         return res.data;
       }
 
