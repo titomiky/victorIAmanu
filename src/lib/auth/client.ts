@@ -154,7 +154,6 @@ class AuthClient {
       });
 
       if (res.status === 200) {
-        console.log(res);
         return {};
       }
 
@@ -178,7 +177,6 @@ class AuthClient {
       });
 
       if (res.status === 200) {
-        console.log(jwtDecode(res.data));
         localStorage.setItem("stoical-auth-token", res.data);
         return {};
       }
@@ -202,8 +200,6 @@ class AuthClient {
           Authorization: `Bearer ${token}`,
         },
       });
-
-      console.log(res);
 
       if (res.status === 200) {
         localStorage.setItem("stoical-auth-token", res.data);

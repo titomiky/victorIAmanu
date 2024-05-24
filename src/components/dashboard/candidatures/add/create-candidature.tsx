@@ -44,14 +44,15 @@ const CreateCandidature = () => {
   }, []);
 
   const schema = zod.object({
-    name: zod
-      .string()
-      .min(1, { message: "El título es requerido" })
-      .max(120, { message: "Excediste el máximo de caracteres permitidos" }),
+    name: zod.string().min(1, { message: "El título es requerido" }).max(120, {
+      message: "Excediste el máximo de caracteres permitidos ( 120 ) ",
+    }),
     description: zod
       .string()
       .min(1, { message: "La descripción es requerida" })
-      .max(3000, { message: "Excediste el máximo de caracteres permitidos" }),
+      .max(3000, {
+        message: "Excediste el máximo de caracteres permitidos ( 3000 )",
+      }),
     competenceIds: zod.custom<string[]>(
       () => selectedSkills.length >= 3,
       "Debes seleccionar al menos tres competencias"
@@ -82,8 +83,6 @@ const CreateCandidature = () => {
 
     values.competenceIds = selectedSkills as string[];
     values.candidateIds = selectCandidates;
-    console.log(values);
-    console.log("asd");
     const { error } = await candidatureClient.createCandidature(values);
 
     if (error) {

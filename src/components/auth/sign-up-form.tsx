@@ -25,11 +25,15 @@ const schema = zod.object({
   password: zod
     .string()
     .min(6, { message: "La contraseña debe contener al menos 6 caracteres" })
-    .max(300, { message: "Excediste el máximo de caracteres permitidos" }),
+    .max(300, {
+      message: "Excediste el máximo de caracteres permitidos ( 300 )",
+    }),
   confirmPassword: zod
     .string()
     .min(6, { message: "La contraseña debe contener al menos 6 caracteres" })
-    .max(300, { message: "Excediste el máximo de caracteres permitidos" }),
+    .max(300, {
+      message: "Excediste el máximo de caracteres permitidos ( 300 )",
+    }),
 });
 
 type Values = zod.infer<typeof schema>;

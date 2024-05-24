@@ -60,8 +60,6 @@ const CandidatesByOffer = ({ candidatureId }: { candidatureId: string }) => {
         candidatureId
       );
 
-      console.log(res);
-
       if (typeof res !== "string" && res?.error) {
         setUrlError(res);
       }
@@ -236,7 +234,7 @@ const CandidatesByOffer = ({ candidatureId }: { candidatureId: string }) => {
                 justifyContent: "space-between",
               }}
             >
-              <Button sx={{ p: 0 }} onClick={() => console.log(sessionUrl)}>
+              <Button sx={{ p: 0 }} onClick={handleClose}>
                 Cancelar
               </Button>
               {sessionUrl ? (

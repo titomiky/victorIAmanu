@@ -3,12 +3,12 @@ import { Stack, Typography } from "@mui/material";
 import { ApexOptions } from "apexcharts";
 import React from "react";
 import { Chart } from "../core/chart";
-import { UserCompetenceReport, reportsClient } from "@/lib/reports/client";
+import { CandidateUserReport, reportsClient } from "@/lib/reports/client";
 import Image from "next/image";
 import Loading from "../core/loading";
 
 const CandidateOverview = () => {
-  const [data, setData] = React.useState<UserCompetenceReport[]>([]);
+  const [data, setData] = React.useState<CandidateUserReport[]>([]);
   const [errorMessage, setErrorMessage] = React.useState<{ error?: string }>();
   const [isDataPending, setIsDataPending] = React.useState<boolean>(true);
 
@@ -17,6 +17,7 @@ const CandidateOverview = () => {
       const res = await reportsClient.candidateReport();
 
       setIsDataPending(false);
+
       if (Array.isArray(res)) {
         setData(res);
         return;
@@ -76,6 +77,9 @@ const CandidateOverview = () => {
         display: "flex",
       }}
     >
+      <Typography component={"h2"} variant="h4">
+        Tus aptitudes:{" "}
+      </Typography>
       {data.length > 0 ? (
         <Chart
           height={600}

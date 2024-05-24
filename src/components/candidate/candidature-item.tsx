@@ -77,7 +77,7 @@ const CandidatureItem = ({ candidature }: { candidature: CandidateOffer }) => {
             sx={{ width: "fit-content" }}
             variant="outlined"
           >
-            Todavía no cuentas con un link de prueba
+            Por el momento la empresa no generó una prueba para ti
           </Alert>
         )}
 
