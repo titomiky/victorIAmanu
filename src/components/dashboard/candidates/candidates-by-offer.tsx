@@ -20,7 +20,7 @@ import { paths } from "@/paths";
 const CandidatesByOffer = ({ candidatureId }: { candidatureId: string }) => {
   const [open, setOpen] = React.useState(false);
   const [data, setData] = React.useState<CandidatesList[]>([]);
-  const [error, setError] = React.useState<{ error?: string }>({});
+  const [error, setError] = React.useState<{ error?: string }>();
   const [urlError, setUrlError] = React.useState<{ error?: string }>({});
   const [candidate, setCandidate] = React.useState<CandidatesList>();
   const [isPending, setIsPending] = React.useState<boolean>(false);
@@ -40,9 +40,11 @@ const CandidatesByOffer = ({ candidatureId }: { candidatureId: string }) => {
       const res = await candidateClient.getCandidatesByOffer(candidatureId);
 
       setIsDataPending(false);
+
       if (Array.isArray(res)) {
         return setData(res);
       }
+
       setError(res);
     };
     getData();
@@ -91,6 +93,25 @@ const CandidatesByOffer = ({ candidatureId }: { candidatureId: string }) => {
       minWidth: 160,
       flex: 1,
     },
+    {
+      field: "age",
+      headerName: "Edad",
+      minWidth: 100,
+      flex: 1,
+    },
+    {
+      field: "currentSalary",
+      headerName: "Salario actual",
+      minWidth: 150,
+      flex: 1,
+    },
+    {
+      field: "desiredSalary",
+      headerName: "Salario deseado",
+      minWidth: 150,
+      flex: 1,
+    },
+
     {
       field: "actions",
       headerName: "Acciones",

@@ -30,19 +30,39 @@ const CandidatesTable = () => {
     {
       field: "name",
       headerName: "Nombre",
-      width: 150,
+      minWidth: 150,
+      flex: 1,
       editable: true,
     },
     {
       field: "surname",
       headerName: "Apellido",
-      width: 150,
+      minWidth: 150,
+      flex: 1,
       editable: true,
     },
     {
       field: "email",
       headerName: "Email",
-      minWidth: 160,
+      minWidth: 250,
+      flex: 1,
+    },
+    {
+      field: "age",
+      headerName: "Edad",
+      minWidth: 100,
+      flex: 1,
+    },
+    {
+      field: "currentSalary",
+      headerName: "Salario actual",
+      minWidth: 150,
+      flex: 1,
+    },
+    {
+      field: "desiredSalary",
+      headerName: "Salario deseado",
+      minWidth: 150,
       flex: 1,
     },
   ];

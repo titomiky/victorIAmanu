@@ -40,14 +40,15 @@ const CandidaturesTable = () => {
     {
       field: "name",
       headerName: "Título",
-      width: 150,
+      minWidth: 100,
       flex: 1,
       editable: true,
     },
     {
       field: "description",
       headerName: "Descripción",
-      width: 200,
+      minWidth: 100,
+      flex: 1,
       editable: true,
     },
     {
@@ -55,7 +56,7 @@ const CandidaturesTable = () => {
       headerName: "Candidatos",
       description: "This column has a value getter and is not sortable.",
       sortable: false,
-      minWidth: 180,
+      minWidth: 160,
       flex: 1,
 
       renderCell: (params) => {
@@ -74,7 +75,8 @@ const CandidaturesTable = () => {
       field: "actions",
       headerName: "Acciones",
       sortable: false,
-      width: 200,
+      minWidth: 200,
+      flex: 1,
       renderCell: (params) => {
         return (
           <Box sx={{ display: "flex", gap: "10px", height: "100%" }}>

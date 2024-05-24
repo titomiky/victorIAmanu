@@ -74,8 +74,6 @@ class CandidatureClient {
         }
       );
 
-      console.log(res.data);
-
       if (res.data) {
         return res.data;
       }
@@ -144,7 +142,6 @@ class CandidatureClient {
         }
       );
 
-      console.log(res.data);
       return res.data;
     } catch (error) {
       console.log(error);

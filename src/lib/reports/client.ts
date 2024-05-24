@@ -92,8 +92,6 @@ class ReportsClient {
         }
       );
 
-      console.log(res.data);
-
       if (res.data) {
         return res.data;
       }

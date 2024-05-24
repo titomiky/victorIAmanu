@@ -10,6 +10,9 @@ export interface CandidatesList {
   surname: string;
   email: string;
   phoneNumber?: string;
+  currentSalary?: number;
+  desiredSalary?: number;
+  age?: number;
 }
 
 export interface CandidateOffer {
@@ -36,8 +39,6 @@ class CandidatesClient {
         },
       });
 
-      console.log(res.data);
-
       if (Array.isArray(res.data)) {
         return res.data;
       }
@@ -62,8 +63,6 @@ class CandidatesClient {
           },
         }
       );
-
-      console.log(res.data);
 
       if (Array.isArray(res.data)) {
         return res.data;
@@ -101,7 +100,7 @@ class CandidatesClient {
 
   async getCandidatesByOffer(
     id: string
-  ): Promise<{ error: string } | CandidatesList> {
+  ): Promise<{ error?: string } | CandidatesList[]> {
     try {
       const token = getToken();
 
@@ -115,9 +114,7 @@ class CandidatesClient {
         }
       );
 
-      console.log(res.data);
-
-      if (res.data) {
+      if (Array.isArray(res.data)) {
         return res.data;
       }
 
