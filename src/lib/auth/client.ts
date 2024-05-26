@@ -47,7 +47,7 @@ interface CreateCandidate {
   currentSalary: number | string;
   desiredSalary: number | string;
   birthDate: string;
-  cvPdf: Object;
+  file: Object;
 }
 
 const url = "https://api.holaqueai.com";
@@ -141,7 +141,7 @@ class AuthClient {
           desiredSalary: Number(params.desiredSalary),
           birthDate: params.birthDate,
           cvText: "",
-          cvPdf: params.cvPdf,
+          file: params.file,
         },
       };
 
@@ -153,11 +153,26 @@ class AuthClient {
         },
       });
 
-      if (res.status === 200) {
-        return {};
+      if (res.data) {
+        console.log(res);
+        const candidate = jwtDecode(res.data) as UserToken;
+
+        const secondRes = await axios.post(
+          `${url}/users/uploadCVpdf`,
+          {
+            file: params.file,
+            candidateId: candidate.candidateId,
+          },
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${res.data}`,
+            },
+          }
+        );
       }
 
-      return { error: "Ocurrió un error !!" };
+      return {};
     } catch (error) {
       console.log(error);
       return { error: "Ocurrió un error !!" };
@@ -168,16 +183,44 @@ class AuthClient {
     try {
       params.currentSalary = Number(params.currentSalary);
       params.desiredSalary = Number(params.desiredSalary);
+
       const token = getToken();
-      const res = await axios.put(`${url}/users/candidate`, params, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+
+      const res = await axios.put(
+        `${url}/users/candidate`,
+        {
+          user: {
+            email: "probandofile@gmail.com",
+            password: "Secret123",
+          },
+          candidateUser: params,
         },
-      });
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (res.status === 200) {
         localStorage.setItem("stoical-auth-token", res.data);
+        const user = jwtDecode(token) as UserToken;
+
+        const secondRes = await axios.post(
+          `${url}/users/uploadCVpdf`,
+          {
+            file: params.file,
+            candidateId: user.candidateId,
+          },
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${res.data}`,
+            },
+          }
+        );
+
         return {};
       }
 

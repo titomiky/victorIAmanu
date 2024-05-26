@@ -17,7 +17,7 @@ export interface Candidate {
   currentSalary: number | string;
   desiredSalary: number | string;
   birthDate: string;
-  cvPdf: Object;
+  file: Object;
 }
 
 export interface Company {

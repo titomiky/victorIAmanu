@@ -23,7 +23,7 @@ const schema = zod.object({
   currentSalary: zod.string().min(1, { message: "Salario requerido" }),
   desiredSalary: zod.string().min(1, { message: "Salario requerido" }),
   birthDate: zod.string().min(1, { message: "Fecha de nacimiento requerido" }),
-  cvPdf: zod
+  file: zod
     .object({
       file: zod
         .any()
@@ -41,7 +41,7 @@ const defaultValues = {
   currentSalary: "",
   desiredSalary: "",
   birthDate: "",
-  cvPdf: "",
+  file: "",
 } satisfies Values;
 
 const CreateCandidateForm = () => {
@@ -57,10 +57,10 @@ const CreateCandidateForm = () => {
   } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
 
   const onSubmit = React.useCallback(async (values: Values) => {
-    if (!values.cvPdf) {
+    if (!values.file) {
       return setError("root", { type: "client", message: "Debes subir tu cv" });
     }
-    values.cvPdf = file;
+    values.file = file;
     setIsPending(true);
 
     const { error } = await authClient.createCandidate(values);
@@ -193,11 +193,11 @@ const CreateCandidateForm = () => {
           />
           <Controller
             control={control}
-            name="cvPdf"
+            name="file"
             render={({ field }) => (
               <FormControl
                 sx={{ gridColumn: "1/3" }}
-                error={Boolean(errors.cvPdf)}
+                error={Boolean(errors.file)}
                 required
               >
                 <InputLabel shrink={true}>Curriculum</InputLabel>
@@ -212,8 +212,8 @@ const CreateCandidateForm = () => {
                   type="file"
                   notched={true}
                 />
-                {errors.cvPdf ? (
-                  <FormHelperText>{errors.cvPdf.message}</FormHelperText>
+                {errors.file ? (
+                  <FormHelperText>{errors.file.message}</FormHelperText>
                 ) : null}
               </FormControl>
             )}
