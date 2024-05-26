@@ -5,14 +5,16 @@ import {
   Box,
   Button,
   CircularProgress,
+  Link,
   Modal,
   Stack,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { CandidatesList, candidateClient } from "@/lib/candidates/client";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import NoResults from "@/components/core/no-results";
-import { CheckCircle } from "@phosphor-icons/react";
+import { CheckCircle, Copy } from "@phosphor-icons/react";
 import Loading from "@/components/core/loading";
 import RouterLink from "next/link";
 import { paths } from "@/paths";
@@ -221,7 +223,25 @@ const CandidatesByOffer = ({ candidatureId }: { candidatureId: string }) => {
                 >
                   Link generado con exito ! 
                 </Alert>
-                <Typography>{sessionUrl}</Typography>
+                <Typography
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    margin: "auto",
+                    gap: "16px",
+                  }}
+                >
+                  <Link component={"a"} href={sessionUrl} color={"black"}>
+                    {sessionUrl}
+                  </Link>
+                  <Tooltip title="Copiar">
+                    <Button
+                      sx={{ padding: 0, margin: 0, width: "fit-content" }}
+                    >
+                      <Copy size={24} />
+                    </Button>
+                  </Tooltip>
+                </Typography>
               </Box>
             ) : (
               urlError?.error
