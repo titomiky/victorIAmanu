@@ -31,15 +31,13 @@ export interface YearClientReport {
 }
 
 class ReportsClient {
-  private url = ApiPath;
-
   async competenciesReport(): Promise<
     CandidateCompetencesReport[] | { error?: string }
   > {
     try {
       const token = getToken();
 
-      const res = await axios.get(`${this.url}/reports/jobOffers/${456}`, {
+      const res = await axios.get(`${ApiPath}/reports/jobOffers/${456}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -61,7 +59,7 @@ class ReportsClient {
     try {
       const token = getToken();
 
-      const res = await axios.get(`${this.url}/reports/competences/${54}`, {
+      const res = await axios.get(`${ApiPath}/reports/competences/${54}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -87,7 +85,7 @@ class ReportsClient {
       const token = getToken();
 
       const res = await axios.get(
-        `${this.url}/reports/candidates/${jobOfferId}/${candidateId}`,
+        `${ApiPath}/reports/candidates/${jobOfferId}/${candidateId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -113,15 +111,12 @@ class ReportsClient {
     try {
       const token = getToken();
 
-      const res = await axios.get(
-        `${this.url}/reports/clientActivity/${year}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const res = await axios.get(`${ApiPath}/reports/clientActivity/${year}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (Array.isArray(res.data)) {
         return res.data;

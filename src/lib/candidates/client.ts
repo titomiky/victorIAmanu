@@ -28,12 +28,10 @@ export interface CandidateOffer {
 }
 
 class CandidatesClient {
-  private url = ApiPath;
-
   async getCandidatesList(): Promise<CandidatesList[] | { error?: string }> {
     try {
       const token = getToken();
-      const res = await axios.get(`${this.url}/users/candidates`, {
+      const res = await axios.get(`${ApiPath}/users/candidates`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -56,7 +54,7 @@ class CandidatesClient {
       const user = jwtDecode(token) as UserToken;
       console.log(user);
       const res = await axios.get(
-        `${this.url}/users/jobOffersByCandidate/${user.candidateId}`,
+        `${ApiPath}/users/jobOffersByCandidate/${user.candidateId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -83,7 +81,7 @@ class CandidatesClient {
       const token = getToken();
 
       const res = await axios.get<string>(
-        `${this.url}/users/linktosession/${candidateId}/${jobOfferId}`,
+        `${ApiPath}/users/linktosession/${candidateId}/${jobOfferId}`,
         {
           headers: {
             "content-type": "application/json",
@@ -106,7 +104,7 @@ class CandidatesClient {
       const token = getToken();
 
       const res = await axios.get<CandidatesList>(
-        `${this.url}/users/candidatesByJobOffer/${id}`,
+        `${ApiPath}/users/candidatesByJobOffer/${id}`,
         {
           headers: {
             "Content-Type": "application/json",

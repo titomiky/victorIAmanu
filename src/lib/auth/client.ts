@@ -52,11 +52,9 @@ interface CreateCandidate {
 }
 
 class AuthClient {
-  private url = ApiPath;
-
   async signUp(params: SignUpParams): Promise<{ error?: string }> {
     try {
-      const res = await axios.post(`${this.url}/users`, params, {
+      const res = await axios.post(`${ApiPath}/users`, params, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -85,7 +83,7 @@ class AuthClient {
     params: SignInWithPasswordParams
   ): Promise<{ error?: string }> {
     try {
-      const res = await axios.post(`${this.url}/auth/login`, params, {
+      const res = await axios.post(`${ApiPath}/auth/login`, params, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -147,16 +145,12 @@ class AuthClient {
       };
 
       const token = getToken();
-      const res = await axios.post(
-        `${this.url}/users/candidateByClient`,
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const res = await axios.post(`${ApiPath}/users/candidateByClient`, data, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (res.data) {
         this.uploadCandidateCv(res.data, "cvDashboard");
@@ -175,7 +169,7 @@ class AuthClient {
     const user = jwtDecode(token) as UserToken;
 
     await axios.post(
-      `${this.url}/users/uploadCVpdf`,
+      `${ApiPath}/users/uploadCVpdf`,
       {
         file: file,
         candidateId: user.candidateId,
@@ -196,7 +190,7 @@ class AuthClient {
 
       const token = getToken();
 
-      const res = await axios.put(`${this.url}/users/candidate`, params, {
+      const res = await axios.put(`${ApiPath}/users/candidate`, params, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -221,7 +215,7 @@ class AuthClient {
 
       const token = getToken();
 
-      const res = await axios.put(`${this.url}/users/client`, params, {
+      const res = await axios.put(`${ApiPath}/users/client`, params, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -245,7 +239,7 @@ class AuthClient {
       params.numberOfEmployees = Number(params.numberOfEmployees);
       const token = getToken();
 
-      const res = await axios.put(`${this.url}/users/client`, params, {
+      const res = await axios.put(`${ApiPath}/users/client`, params, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -265,7 +259,7 @@ class AuthClient {
   async sendRecoveryLink(email: string): Promise<{ error?: string }> {
     try {
       const res = await axios.post(
-        `${this.url}/users/sendEmailToChangePassword`,
+        `${ApiPath}/users/sendEmailToChangePassword`,
         {
           email: email,
         },
@@ -288,7 +282,7 @@ class AuthClient {
   ): Promise<{ error?: string }> {
     try {
       const res = await axios.put(
-        `${this.url}/users/changePasswordFromEmail`,
+        `${ApiPath}/users/changePasswordFromEmail`,
         {
           password: password,
           userId: userId,
@@ -312,7 +306,7 @@ class AuthClient {
     try {
       const token = getToken();
 
-      const res = await axios.get(`${this.url}/users/${userId}`, {
+      const res = await axios.get(`${ApiPath}/users/${userId}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,

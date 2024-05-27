@@ -37,14 +37,12 @@ interface CreateCandidatureProps {
 }
 
 class CandidatureClient {
-  private url = ApiPath;
-
   async createCandidature(
     params: CreateCandidatureProps
   ): Promise<{ error?: string }> {
     try {
       const token = getToken();
-      const res = await axios.post(`${this.url}/users/jobOffer`, params, {
+      const res = await axios.post(`${ApiPath}/users/jobOffer`, params, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -64,7 +62,7 @@ class CandidatureClient {
       const decodedToken = jwtDecode(token) as UserToken;
 
       const res = await axios.get(
-        `${this.url}/users/jobOffersByClient/${decodedToken.clientId}`,
+        `${ApiPath}/users/jobOffersByClient/${decodedToken.clientId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -88,7 +86,7 @@ class CandidatureClient {
     try {
       const token = getToken();
 
-      const res = await axios.get(`${this.url}/competencies/list`, {
+      const res = await axios.get(`${ApiPath}/competencies/list`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -113,7 +111,7 @@ class CandidatureClient {
     try {
       const token = getToken();
 
-      const res = await axios.put(`${this.url}/users/jobOffer/${id}`, params, {
+      const res = await axios.put(`${ApiPath}/users/jobOffer/${id}`, params, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -132,7 +130,7 @@ class CandidatureClient {
       const token = getToken();
 
       const res = await axios.get<Candidature>(
-        `${this.url}/users/jobOffer/${id}`,
+        `${ApiPath}/users/jobOffer/${id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -158,7 +156,7 @@ class CandidatureClient {
       const token = getToken();
 
       const res = await axios.delete<Candidature>(
-        `${this.url}/users/jobOffer/${id}`,
+        `${ApiPath}/users/jobOffer/${id}`,
         {
           headers: {
             "Content-Type": "application/json",
