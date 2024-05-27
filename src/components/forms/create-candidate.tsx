@@ -77,6 +77,8 @@ const CreateCandidateForm = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
   }, []);
 
+  React.useEffect(() => {});
+
   return (
     <Stack
       spacing={5}
@@ -210,6 +212,7 @@ const CreateCandidateForm = () => {
                     file = e.target.files[0];
                     field.onChange(e);
                   }}
+                  id="cv"
                   type="file"
                   notched={true}
                 />

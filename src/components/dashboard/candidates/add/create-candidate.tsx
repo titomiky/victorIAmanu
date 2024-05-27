@@ -65,7 +65,7 @@ const CreateCandidateDashboard = () => {
   } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
 
   const onSubmit = React.useCallback(async (values: Values) => {
-    values.file = file;
+    values.file = await file;
     setIsPending(true);
 
     const { error } = await authClient.createCandidateFromDashboard(values);
@@ -260,6 +260,7 @@ const CreateCandidateDashboard = () => {
                   }}
                   type="file"
                   notched={true}
+                  id="cvDashboard"
                 />
                 {errors.file ? (
                   <FormHelperText>{errors.file.message}</FormHelperText>

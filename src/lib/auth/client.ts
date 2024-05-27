@@ -159,7 +159,7 @@ class AuthClient {
       );
 
       if (res.data) {
-        this.uploadCandidateCv(params.file, res.data);
+        this.uploadCandidateCv(res.data, "cvDashboard");
       }
 
       return {};
@@ -169,9 +169,10 @@ class AuthClient {
     }
   }
 
-  async uploadCandidateCv(file: any, token: string) {
+  async uploadCandidateCv(token: string, inputId: string) {
+    const inputFile = document.getElementById(inputId) as any;
+    const file = inputFile.files[0];
     const user = jwtDecode(token) as UserToken;
-    console.log(file);
 
     await axios.post(
       `${this.url}/users/uploadCVpdf`,
@@ -193,7 +194,7 @@ class AuthClient {
       params.currentSalary = Number(params.currentSalary);
       params.desiredSalary = Number(params.desiredSalary);
 
-      const token = await getToken();
+      const token = getToken();
 
       const res = await axios.put(`${this.url}/users/candidate`, params, {
         headers: {
@@ -204,7 +205,7 @@ class AuthClient {
 
       if (res.data) {
         localStorage.setItem("stoical-auth-token", res.data);
-        this.uploadCandidateCv(params.file, res.data);
+        this.uploadCandidateCv(res.data, "cv");
       }
 
       return {};
