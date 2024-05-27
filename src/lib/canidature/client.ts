@@ -3,6 +3,7 @@ import axios from "axios";
 import { getToken } from "../auth/client";
 import { jwtDecode } from "jwt-decode";
 import { UserToken } from "@/types/user";
+import { ApiPath } from "@/config";
 
 export interface Candidature {
   name: string;
@@ -36,7 +37,7 @@ interface CreateCandidatureProps {
 }
 
 class CandidatureClient {
-  private url = "https://api.holaqueai.com";
+  private url = ApiPath;
 
   async createCandidature(
     params: CreateCandidatureProps

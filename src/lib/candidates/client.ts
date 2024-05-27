@@ -3,6 +3,7 @@ import axios from "axios";
 import { getToken } from "../auth/client";
 import { jwtDecode } from "jwt-decode";
 import { UserToken } from "@/types/user";
+import { ApiPath } from "@/config";
 
 export interface CandidatesList {
   candidateUserId: string;
@@ -27,7 +28,7 @@ export interface CandidateOffer {
 }
 
 class CandidatesClient {
-  private url = "https://api.holaqueai.com"; // users/candidates
+  private url = ApiPath;
 
   async getCandidatesList(): Promise<CandidatesList[] | { error?: string }> {
     try {

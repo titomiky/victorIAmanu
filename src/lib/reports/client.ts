@@ -1,6 +1,7 @@
 "use client";
 import axios from "axios";
 import { getToken } from "../auth/client";
+import { ApiPath } from "@/config";
 
 export interface CandidateCompetencesReport {
   name: string;
@@ -30,7 +31,7 @@ export interface YearClientReport {
 }
 
 class ReportsClient {
-  private url = "https://api.holaqueai.com";
+  private url = ApiPath;
 
   async competenciesReport(): Promise<
     CandidateCompetencesReport[] | { error?: string }

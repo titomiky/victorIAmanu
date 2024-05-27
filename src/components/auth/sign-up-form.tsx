@@ -203,11 +203,6 @@ export function SignUpForm(): React.JSX.Element {
           </Button>
         </Stack>
       </form>
-      <Alert color="warning">
-        <Typography component="span" sx={{ fontWeight: 700 }} variant="inherit">
-          Secret123
-        </Typography>
-      </Alert>
     </Stack>
   );
 }

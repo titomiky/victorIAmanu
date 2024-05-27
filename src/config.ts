@@ -9,3 +9,5 @@ export const config: Config = {
     themeColor: "#090a0b",
   },
 };
+
+export const ApiPath = "https://api.holaqueai.com" as string;

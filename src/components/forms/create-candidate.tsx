@@ -35,11 +35,11 @@ const schema = zod.object({
 type Values = zod.infer<typeof schema>;
 
 const defaultValues = {
-  name: "",
-  surname: "",
-  phoneNumber: "",
-  currentSalary: "",
-  desiredSalary: "",
+  name: "Safe",
+  surname: "Shore",
+  phoneNumber: "+454985",
+  currentSalary: "445",
+  desiredSalary: "500",
   birthDate: "",
   file: "",
 } satisfies Values;
@@ -60,7 +60,8 @@ const CreateCandidateForm = () => {
     if (!values.file) {
       return setError("root", { type: "client", message: "Debes subir tu cv" });
     }
-    values.file = file;
+
+    values.file = await file;
     setIsPending(true);
 
     const { error } = await authClient.createCandidate(values);

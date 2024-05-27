@@ -1,4 +1,5 @@
 "use client";
+import { ApiPath } from "@/config";
 import type { Candidate, Company, User, UserToken } from "@/types/user";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
@@ -50,12 +51,12 @@ interface CreateCandidate {
   file: Object;
 }
 
-const url = "https://api.holaqueai.com";
-
 class AuthClient {
+  private url = ApiPath;
+
   async signUp(params: SignUpParams): Promise<{ error?: string }> {
     try {
-      const res = await axios.post(`${url}/users`, params, {
+      const res = await axios.post(`${this.url}/users`, params, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -84,7 +85,7 @@ class AuthClient {
     params: SignInWithPasswordParams
   ): Promise<{ error?: string }> {
     try {
-      const res = await axios.post(`${url}/auth/login`, params, {
+      const res = await axios.post(`${this.url}/auth/login`, params, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -146,30 +147,19 @@ class AuthClient {
       };
 
       const token = getToken();
-      const res = await axios.post(`${url}/users/candidateByClient`, data, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await axios.post(
+        `${this.url}/users/candidateByClient`,
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (res.data) {
-        console.log(res);
-        const candidate = jwtDecode(res.data) as UserToken;
-
-        const secondRes = await axios.post(
-          `${url}/users/uploadCVpdf`,
-          {
-            file: params.file,
-            candidateId: candidate.candidateId,
-          },
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${res.data}`,
-            },
-          }
-        );
+        this.uploadCandidateCv(params.file, res.data);
       }
 
       return {};
@@ -179,52 +169,45 @@ class AuthClient {
     }
   }
 
+  async uploadCandidateCv(file: any, token: string) {
+    const user = jwtDecode(token) as UserToken;
+    console.log(file);
+
+    await axios.post(
+      `${this.url}/users/uploadCVpdf`,
+      {
+        file: file,
+        candidateId: user.candidateId,
+      },
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+  }
+
   async createCandidate(params: Candidate): Promise<{ error?: string }> {
     try {
       params.currentSalary = Number(params.currentSalary);
       params.desiredSalary = Number(params.desiredSalary);
 
-      const token = getToken();
+      const token = await getToken();
 
-      const res = await axios.put(
-        `${url}/users/candidate`,
-        {
-          user: {
-            email: "probandofile@gmail.com",
-            password: "Secret123",
-          },
-          candidateUser: params,
+      const res = await axios.put(`${this.url}/users/candidate`, params, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      });
 
-      if (res.status === 200) {
+      if (res.data) {
         localStorage.setItem("stoical-auth-token", res.data);
-        const user = jwtDecode(token) as UserToken;
-
-        const secondRes = await axios.post(
-          `${url}/users/uploadCVpdf`,
-          {
-            file: params.file,
-            candidateId: user.candidateId,
-          },
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${res.data}`,
-            },
-          }
-        );
-
-        return {};
+        this.uploadCandidateCv(params.file, res.data);
       }
 
-      return { error: "Ocurrió un error !!" };
+      return {};
     } catch (error) {
       console.log(error);
       return { error: "Ocurrió un error !!" };
@@ -237,7 +220,7 @@ class AuthClient {
 
       const token = getToken();
 
-      const res = await axios.put(`${url}/users/client`, params, {
+      const res = await axios.put(`${this.url}/users/client`, params, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -261,7 +244,7 @@ class AuthClient {
       params.numberOfEmployees = Number(params.numberOfEmployees);
       const token = getToken();
 
-      const res = await axios.put(`${url}/users/client`, params, {
+      const res = await axios.put(`${this.url}/users/client`, params, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -281,7 +264,7 @@ class AuthClient {
   async sendRecoveryLink(email: string): Promise<{ error?: string }> {
     try {
       const res = await axios.post(
-        `${url}/users/sendEmailToChangePassword`,
+        `${this.url}/users/sendEmailToChangePassword`,
         {
           email: email,
         },
@@ -304,7 +287,7 @@ class AuthClient {
   ): Promise<{ error?: string }> {
     try {
       const res = await axios.put(
-        `${url}/users/changePasswordFromEmail`,
+        `${this.url}/users/changePasswordFromEmail`,
         {
           password: password,
           userId: userId,
@@ -328,7 +311,7 @@ class AuthClient {
     try {
       const token = getToken();
 
-      const res = await axios.get(`${url}/users/${userId}`, {
+      const res = await axios.get(`${this.url}/users/${userId}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
