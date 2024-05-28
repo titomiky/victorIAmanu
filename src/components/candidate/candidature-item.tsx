@@ -66,7 +66,7 @@ const CandidatureItem = ({ candidature }: { candidature: CandidateOffer }) => {
           >
             Link de la prueba :{" "}
             <Link component={"a"} href="#">
-              http://localhost:3000/candidate/home
+              {candidature.linkToSession}
             </Link>{" "}
             ( Con este link podrás rendir la prueba que la empresa género para
             ti )
