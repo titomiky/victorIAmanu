@@ -35,11 +35,11 @@ const schema = zod.object({
 type Values = zod.infer<typeof schema>;
 
 const defaultValues = {
-  name: "Safe",
-  surname: "Shore",
-  phoneNumber: "+454985",
-  currentSalary: "445",
-  desiredSalary: "500",
+  name: "",
+  surname: "",
+  phoneNumber: "",
+  currentSalary: "",
+  desiredSalary: "",
   birthDate: "",
   file: "",
 } satisfies Values;
