@@ -39,8 +39,6 @@ class CandidatesClient {
         },
       });
 
-      console.log(res.data);
-
       if (Array.isArray(res.data)) {
         return res.data;
       }

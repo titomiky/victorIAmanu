@@ -71,7 +71,6 @@ const CandidatesTable = () => {
       minWidth: 150,
       flex: 1,
       renderCell: (params) => {
-        console.log(params);
         return (
           <Link
             component={"a"}
