@@ -3,7 +3,7 @@ import * as React from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { CandidatesList, candidateClient } from "@/lib/candidates/client";
 import NoResults from "@/components/core/no-results";
-import { Box } from "@mui/material";
+import { Box, Link } from "@mui/material";
 import Loading from "@/components/core/loading";
 
 const CandidatesTable = () => {
@@ -64,6 +64,24 @@ const CandidatesTable = () => {
       headerName: "Salario deseado",
       minWidth: 150,
       flex: 1,
+    },
+    {
+      field: "cVpdfUrl",
+      headerName: "CV",
+      minWidth: 150,
+      flex: 1,
+      renderCell: (params) => {
+        console.log(params);
+        return (
+          <Link
+            component={"a"}
+            target="_blank"
+            href={params.row.cVpdfUrl ?? ""}
+          >
+            Ver CV
+          </Link>
+        );
+      },
     },
   ];
 

@@ -14,6 +14,7 @@ export interface CandidatesList {
   currentSalary?: number;
   desiredSalary?: number;
   age?: number;
+  cVpdfUrl?: string;
 }
 
 export interface CandidateOffer {
@@ -37,6 +38,8 @@ class CandidatesClient {
           Authorization: `Bearer ${token}`,
         },
       });
+
+      console.log(res.data);
 
       if (Array.isArray(res.data)) {
         return res.data;
