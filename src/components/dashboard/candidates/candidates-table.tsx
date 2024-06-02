@@ -71,15 +71,15 @@ const CandidatesTable = () => {
       minWidth: 150,
       flex: 1,
       renderCell: (params) => {
-        return (
-          <Link
-            component={"a"}
-            target="_blank"
-            href={params.row.cVpdfUrl ?? ""}
-          >
-            Ver CV
-          </Link>
-        );
+        if (params.row.cVpdfUrl) {
+          return (
+            <Link component={"a"} target="_blank" href={params.row.cVpdfUrl ?? ""}>
+              Ver CV
+            </Link>
+          );
+        } else {
+          return <></>;
+        }
       },
     },
   ];
@@ -109,11 +109,7 @@ const CandidatesTable = () => {
                 height: "100%",
               }}
             >
-              {isDataPending ? (
-                <Loading variable={isDataPending} />
-              ) : (
-                <NoResults text={error?.error ?? "No hay candidaturas ... "} />
-              )}
+              {isDataPending ? <Loading variable={isDataPending} /> : <NoResults text={error?.error ?? "No hay candidaturas ... "} />}
             </Box>
           ),
         }}
