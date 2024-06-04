@@ -1,16 +1,6 @@
 "use client";
 import React from "react";
-import {
-  Alert,
-  Box,
-  Button,
-  CircularProgress,
-  Link,
-  Modal,
-  Stack,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { Alert, Box, Button, CircularProgress, Link, Modal, Stack, Tooltip, Typography } from "@mui/material";
 import { CandidatesList, candidateClient } from "@/lib/candidates/client";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import NoResults from "@/components/core/no-results";
@@ -57,10 +47,7 @@ const CandidatesByOffer = ({ candidatureId }: { candidatureId: string }) => {
     setIsPending(true);
 
     if (candidate?.candidateUserId) {
-      const res = await candidateClient.generateCandidateTest(
-        candidate?.candidateUserId,
-        candidatureId
-      );
+      const res = await candidateClient.generateCandidateTest(candidate?.candidateUserId, candidatureId);
 
       if (typeof res !== "string" && res?.error) {
         setUrlError(res);
@@ -169,13 +156,7 @@ const CandidatesByOffer = ({ candidatureId }: { candidatureId: string }) => {
                   height: "100%",
                 }}
               >
-                {isDataPending ? (
-                  <Loading variable={isDataPending} />
-                ) : (
-                  <NoResults
-                    text={error?.error ?? "No hay candidaturas ... "}
-                  />
-                )}
+                {isDataPending ? <Loading variable={isDataPending} /> : <NoResults text={error?.error ?? "No hay candidaturas ... "} />}
               </Box>
             ),
           }}
@@ -185,12 +166,7 @@ const CandidatesByOffer = ({ candidatureId }: { candidatureId: string }) => {
         />
       </div>
 
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+      <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
         <Box
           sx={{
             position: "absolute",
@@ -208,19 +184,14 @@ const CandidatesByOffer = ({ candidatureId }: { candidatureId: string }) => {
           <Stack spacing={5}>
             {!sessionUrl && (
               <Typography id="modal-modal-title" variant="h6" component="h2">
-                Desea crear un link para evaluar al candidato :{" "}
-                {candidate?.name + " " + candidate?.surname} ?
+                Desea crear un link para evaluar al candidato : {candidate?.name + " " + candidate?.surname} ?
               </Typography>
             )}
             {isPending ? (
               <CircularProgress sx={{ margin: "16px auto" }} />
             ) : sessionUrl ? (
               <Box sx={{ textAlign: "center", display: "grid", gap: "16px" }}>
-                <Alert
-                  icon={<CheckCircle fontSize="inherit" />}
-                  severity="success"
-                  sx={{ placeContent: "center" }}
-                >
+                <Alert icon={<CheckCircle fontSize="inherit" />} severity="success" sx={{ placeContent: "center" }}>
                   Link generado con exito ! 
                 </Alert>
                 <Typography
@@ -235,9 +206,7 @@ const CandidatesByOffer = ({ candidatureId }: { candidatureId: string }) => {
                     {sessionUrl}
                   </Link>
                   <Tooltip title="Copiar">
-                    <Button
-                      sx={{ padding: 0, margin: 0, width: "fit-content" }}
-                    >
+                    <Button sx={{ padding: 0, margin: 0, width: "fit-content" }} onClick={() => navigator.clipboard.writeText(sessionUrl)}>
                       <Copy size={24} />
                     </Button>
                   </Tooltip>
@@ -257,15 +226,7 @@ const CandidatesByOffer = ({ candidatureId }: { candidatureId: string }) => {
               <Button sx={{ p: 0 }} onClick={handleClose}>
                 Cancelar
               </Button>
-              {sessionUrl ? (
-                <Button onClick={handleClose}>Continuar</Button>
-              ) : (
-                <Button
-                  onClick={isPending ? () => {} : () => handleGenerateTest()}
-                >
-                  Continuar
-                </Button>
-              )}
+              {sessionUrl ? <Button onClick={handleClose}>Continuar</Button> : <Button onClick={isPending ? () => {} : () => handleGenerateTest()}>Continuar</Button>}
             </Box>
           </Stack>
         </Box>

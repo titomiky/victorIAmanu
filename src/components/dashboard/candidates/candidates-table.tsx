@@ -77,8 +77,6 @@ const CandidatesTable = () => {
               Ver CV
             </Link>
           );
-        } else {
-          return <></>;
         }
       },
     },
