@@ -47,7 +47,7 @@ const Completed = () => {
           flexWrap: "wrap",
         }}
       >
-        <Typography variant="h4">Onboarding completado con éxito !!</Typography>
+        <Typography variant="h4">¡Onboarding completado con éxito!</Typography>
 
         <Image
           src={"/assets/success.svg"}

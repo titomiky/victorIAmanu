@@ -25,9 +25,9 @@ const schema = zod.object({
   name: zod.string().min(1, { message: "El nombre es requerido" }),
   surname: zod.string().min(1, { message: "El apellido es requerido" }),
   phoneNumber: zod.string().min(1, { message: "El teléfono es requerido" }),
-  currentSalary: zod.string().min(1, { message: "Salario requerido" }),
-  desiredSalary: zod.string().min(1, { message: "Salario requerido" }),
-  birthDate: zod.string().min(1, { message: "Fecha de nacimiento requerido" }),
+  currentSalary: zod.string().min(1, { message: "Salario requerido (bruto año)" }),
+  desiredSalary: zod.string().min(1, { message: "Salario requerido (bruto año)" }),
+  birthDate: zod.string().min(1, { message: "Fecha de nacimiento requerida" }),
   file: zod
     .object({
       file: zod
@@ -192,7 +192,7 @@ const CreateCandidateDashboard = () => {
                 <InputLabel>Salario actual</InputLabel>
                 <OutlinedInput
                   {...field}
-                  label="Salario Actual"
+                  label="Salario actual (bruto año)"
                   type="number"
                 />
                 {errors.currentSalary ? (
@@ -208,10 +208,10 @@ const CreateCandidateDashboard = () => {
             name="desiredSalary"
             render={({ field }) => (
               <FormControl error={Boolean(errors.desiredSalary)} required>
-                <InputLabel>Salario deseado</InputLabel>
+                <InputLabel>Salario deseado (bruto año)</InputLabel>
                 <OutlinedInput
                   {...field}
-                  label="Salario deseado"
+                  label="Salario deseado (bruto año)"
                   type="number"
                 />
                 {errors.desiredSalary ? (

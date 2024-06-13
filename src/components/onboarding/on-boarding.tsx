@@ -36,9 +36,9 @@ const OnBoarding = () => {
       spacing={5}
       sx={{ margin: "auto", alignItems: "center", textAlign: "center" }}
     >
-      <Typography variant="h2">Bienvenido al Onboarding</Typography>
+      <Typography variant="h2">Bienvenid@ al Onboarding</Typography>
 
-      <Typography variant="h5">¿Que tipo de usuario quieres ser?</Typography>
+      <Typography variant="h5">¿Qué tipo de usuario quieres ser?</Typography>
 
       <Box
         sx={{

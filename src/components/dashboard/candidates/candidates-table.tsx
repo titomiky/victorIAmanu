@@ -55,13 +55,13 @@ const CandidatesTable = () => {
     },
     {
       field: "currentSalary",
-      headerName: "Salario actual",
+      headerName: "Salario actual (bruto año)",
       minWidth: 150,
       flex: 1,
     },
     {
       field: "desiredSalary",
-      headerName: "Salario deseado",
+      headerName: "Salario deseado (bruto año)",
       minWidth: 150,
       flex: 1,
     },
